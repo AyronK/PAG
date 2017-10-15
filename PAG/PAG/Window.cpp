@@ -11,6 +11,7 @@ Window::Window(int width, int height, char* name)
 	{
 		glfwTerminate();
 	}
+	glfwMakeContextCurrent(window);
 }
 
 GLFWwindow * Window::getWindow()

@@ -16,7 +16,6 @@ private:
 
 public:
 	void draw();
-	void load();
 	Mesh();
 	~Mesh();
 };

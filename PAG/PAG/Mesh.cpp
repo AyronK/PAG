@@ -4,10 +4,10 @@
 
 void Mesh::draw()
 {
-	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+	glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices));
 }
 
-void Mesh::load()
+Mesh::Mesh()
 {
 	glGenVertexArrays(1, &VertexArrayObject);
 	glGenBuffers(1, &VertexBufferObject);
@@ -23,10 +23,6 @@ void Mesh::load()
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
-}
-
-Mesh::Mesh()
-{
 }
 
 
