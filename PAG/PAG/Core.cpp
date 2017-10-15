@@ -8,6 +8,20 @@
 
 void Core::run()
 {
+	double nextGameTick = glfwGetTime();
+	int loops;
+
+	while (true)
+	{
+		//Update gry
+		glClearColor(BACKGROUND_COLOR);
+		glClear(GL_COLOR_BUFFER_BIT); //Czyszczenie sceny
+		//texture->selectActiveTexture(ACTIVE_TEXTURE_FOR_PROGRAM);
+		//mesh->drawContent();
+		//glfwSwapBuffers(window->getWindow()); //Swap front- i backbuffer
+		//glfwPollEvents(); //Poll dla eventów
+
+	}
 }
 
 Core::Core()
@@ -20,32 +34,31 @@ Core::Core()
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	window = new Window();
-
-	if (!gladLoadGL())
+	if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress))
 		throw std::runtime_error("Cannot initialize GLAD");
 
 	mesh = new Mesh();
-	shader = new Shader();
-	texture = new Texture();
+	//shader = new Shader();
+	//texture = new Texture();
 
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 Core::~Core()
 {
-	if(window)
+	if (window)
 	{
 		delete window;
 	}
-	if(mesh)
+	if (mesh)
 	{
 		delete mesh;
 	}
-	if(texture)
+	if (texture)
 	{
 		delete texture;
 	}
-	if(shader)
+	if (shader)
 	{
 		delete shader;
 	}

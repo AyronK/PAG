@@ -2,12 +2,10 @@
 #define Core_hpp
 #define GLFW_INCLUDE_NONE
 
-#define SCREEN_WIDTH 1920
-#define SCREEN_HEIGHT 1080
-
 #include <stdio.h>
 #include <glad/glad.h> //Do pobierania funkcji
 #include <GLFW/glfw3.h> //G³ówna pêtla i inicjalizacja
+#include "const.hpp"
 
 class Window;
 class Mesh;
