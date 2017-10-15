@@ -27,12 +27,8 @@ void Core::run()
 Core::Core()
 {
 	if (!glfwInit())
-		throw std::exception("Cannot initialize GLFW");
-
-	/*glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);*/
-
+		throw std::runtime_error("Cannot initialize GLFW");
+	
 	window = new Window();
 	if (!gladLoadGL())
 		throw std::runtime_error("Cannot initialize GLAD");
