@@ -14,7 +14,8 @@ Window::Window(int width, int height, char* name)
 	window = glfwCreateWindow(width, height, name, NULL, NULL);
 	if (!window)
 	{
-		glfwTerminate();
+		glfwTerminate(); 
+		throw std::runtime_error("Cannot init window");
 	}
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);

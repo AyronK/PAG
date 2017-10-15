@@ -1,4 +1,4 @@
-#pragma once
+#ifndef Texture_hpp
 class Texture
 {
 public:
@@ -6,3 +6,5 @@ public:
 	~Texture();
 };
 
+
+#endif /* Texture_hpp */

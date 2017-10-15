@@ -6,56 +6,43 @@
 #include <exception>
 #include <stdexcept>
 
+using namespace std;
+
 void Core::run()
 {
-	double nextGameTick = glfwGetTime();
-	int loops;
-
 	while (!glfwWindowShouldClose(window->getWindow()))
 	{
-		//Update gry
+		// clear scene
 		glClearColor(BACKGROUND_COLOR);
-		glClear(GL_COLOR_BUFFER_BIT); //Czyszczenie sceny
-		//texture->selectActiveTexture(ACTIVE_TEXTURE_FOR_PROGRAM);
+		glClear(GL_COLOR_BUFFER_BIT);
 		mesh->draw();
-		glfwSwapBuffers(window->getWindow()); //Swap front- i backbuffer
-		glfwPollEvents(); //Poll dla eventów
+
+		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
+		glfwSwapBuffers(window->getWindow()); 
+		glfwPollEvents(); 
 
 	}
 }
 
 Core::Core()
 {
+	// glfw: initialize and configure
 	if (!glfwInit())
-		throw std::runtime_error("Cannot initialize GLFW");
+		throw runtime_error("Cannot initialize GLFW");
 	
-	window = new Window();
-	if (!gladLoadGL())
-		throw std::runtime_error("Cannot initialize GLAD");
+	window = unique_ptr<Window>(new Window());
 
-	mesh = new Mesh();
-	//shader = new Shader();
-	//texture = new Texture();
+	// glad: load all OpenGL function pointers
+	if (!gladLoadGL())
+		throw runtime_error("Cannot initialize GLAD");
+
+	mesh = unique_ptr<Mesh>(new Mesh());
+	//shader = unique_ptr<Shader>(new Shader());
+	//texture = unique_ptr<Texture>(new Texture());
 
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 Core::~Core()
 {
-	if (window)
-	{
-		delete window;
-	}
-	if (mesh)
-	{
-		delete mesh;
-	}
-	if (texture)
-	{
-		delete texture;
-	}
-	if (shader)
-	{
-		delete shader;
-	}
 }

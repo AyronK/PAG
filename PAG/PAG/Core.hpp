@@ -3,9 +3,10 @@
 #define GLFW_INCLUDE_NONE
 
 #include <stdio.h>
-#include <glad/glad.h> //Do pobierania funkcji
-#include <GLFW/glfw3.h> //G³ówna pêtla i inicjalizacja
+#include <glad/glad.h> 
+#include <GLFW/glfw3.h>
 #include "const.hpp"
+#include <memory>
 
 class Window;
 class Mesh;
@@ -15,10 +16,10 @@ class Texture;
 class Core
 {
 private:
-	Window* window;
-	Mesh* mesh;
-	Shader* shader;
-	Texture* texture;
+	std::unique_ptr<Window> window;
+	std::unique_ptr<Mesh> mesh;
+	std::unique_ptr<Shader> shader;
+	std::unique_ptr<Texture> texture;
 public:
 	void run();
 	Core();
