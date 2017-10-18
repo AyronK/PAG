@@ -1,9 +1,11 @@
+#include <stdio.h>
+#include <glad/glad.h> 
+#include <GLFW/glfw3.h>
 #include "Core.hpp"
 #include "Window.hpp"
 #include "Mesh.hpp"
 #include "Shader.hpp"
 #include "Texture.hpp"
-#include <exception>
 #include <stdexcept>
 
 using namespace std;
@@ -30,14 +32,14 @@ Core::Core()
 	if (!glfwInit())
 		throw runtime_error("Cannot initialize GLFW");
 	
-	window = unique_ptr<Window>(new Window());
+	window = std::make_unique<Window>();
 
 	// glad: load all OpenGL function pointers
 	if (!gladLoadGL())
 		throw runtime_error("Cannot initialize GLAD");
 
-	mesh = unique_ptr<Mesh>(new Mesh());
-	shader = unique_ptr<Shader>(new Shader());
+	mesh = std::make_unique<Mesh>();
+	shader = std::make_unique<Shader>();
 	glUseProgram(shader->getProgram());
 	//texture = unique_ptr<Texture>(new Texture());
 

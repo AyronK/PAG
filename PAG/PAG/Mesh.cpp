@@ -1,7 +1,4 @@
 #include "Mesh.hpp"
-
-
-
 void Mesh::draw()
 {
 	//glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
@@ -26,12 +23,11 @@ Mesh::Mesh()
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ElementObjectBuffer);
 	//glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
 	//configure vertex attributes(s).
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (GLvoid*)0);
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (GLvoid*)(3*sizeof(GLfloat)));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), nullptr);
+	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(Vertex), reinterpret_cast<GLvoid*>(sizeof(glm::vec3)));
 	glEnableVertexAttribArray(0);
 	glEnableVertexAttribArray(1);
 }
-
 
 Mesh::~Mesh()
 {

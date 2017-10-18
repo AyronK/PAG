@@ -2,10 +2,6 @@
 #define Core_hpp
 #define GLFW_INCLUDE_NONE
 
-#include <stdio.h>
-#include <glad/glad.h> 
-#include <GLFW/glfw3.h>
-#include "const.hpp"
 #include <memory>
 
 class Window;

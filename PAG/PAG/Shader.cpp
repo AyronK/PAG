@@ -1,14 +1,12 @@
 #include "Shader.hpp"
 
-
-
 Shader::Shader()
 {
 	program = glCreateProgram();
 
-	if(program == 0)
+	if(!program)
 	{
-		throw new std::runtime_error("Error while creating shader");		
+		throw std::runtime_error("Error while creating shader");		
 	}
 	
 	loadShader(GL_VERTEX_SHADER, "basic.vert", program);
@@ -19,22 +17,22 @@ Shader::Shader()
 	GLint status;
 	glGetProgramiv(program, GL_LINK_STATUS, &status);
 
-	if(status == GL_FALSE)
-	{
-		//throw new std::runtime_error("Failed to link shader program");
-		fprintf(stderr, "Failed to link shader program");
-		
+	if(!status)
+	{		
+		std::string errorMessage = "Failed to link shader program";
 		GLint logLen;
 		glGetProgramiv(program, GL_INFO_LOG_LENGTH, &logLen);
 
-		if(logLen > 0)
+		if (logLen > 0)
 		{
-			char* log = (char*)malloc(logLen);
+			const auto log = static_cast<char*>(malloc(logLen));
 			GLsizei written;
 			glGetProgramInfoLog(program, logLen, &written, log);
-			fprintf(stderr, "Program log: \n%s", log);
+			errorMessage += ". ";
+			errorMessage += log;
 			free(log);
 		}
+		throw std::runtime_error(errorMessage);
 	}
 }
 
@@ -47,24 +45,25 @@ std::string Shader::readShader(std::string fileName)
 {
 	std::string filetext;
 	std::string line;
-	std::ifstream inFile(fileName);
+	std::ifstream file(fileName);
 
-	if (!inFile)
+	if (!file)
 	{
+		file.close();
 		fprintf(stderr, "Could not open file %s", fileName.c_str());
-		inFile.close();
-
-		return NULL;
+		std::string errorMessage = "Could not open file";
+		errorMessage+=fileName.c_str();
+		throw std::runtime_error(errorMessage);
 	}
 	else
 	{
-		while (inFile.good())
+		while (file.good())
 		{
-			getline(inFile, line);
+			getline(file, line);
 			filetext.append(line + "\n");
 		}
 
-		inFile.close();
+		file.close();
 
 		return filetext;
 	}
