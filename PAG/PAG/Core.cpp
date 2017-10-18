@@ -22,9 +22,10 @@ void Core::run()
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
 		glfwSwapBuffers(window->getWindow());
 		glfwPollEvents();
-
 	}	
 }
+
+
 
 Core::Core()
 {

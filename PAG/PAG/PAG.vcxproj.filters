@@ -16,6 +16,18 @@
     <Filter Include="Shaders">
       <UniqueIdentifier>{fb40ceaa-4f96-4cd4-86ae-4b26343e87ff}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GL">
+      <UniqueIdentifier>{f1f132ff-31d5-4ce7-9e5d-00e5d3cafc5a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GL">
+      <UniqueIdentifier>{a826493f-d08b-43ad-84bd-c87db9550e80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DataAccess">
+      <UniqueIdentifier>{cd29cc8f-adfb-4b42-b81d-57401a96cfe5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\DataAccess">
+      <UniqueIdentifier>{dd8a4be2-11af-44bc-a5c5-58b80d6efb90}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="glad.c">
@@ -25,44 +37,44 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Core.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\GL</Filter>
     </ClCompile>
     <ClCompile Include="Mesh.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\GL</Filter>
     </ClCompile>
     <ClCompile Include="Shader.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\GL</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files\GL</Filter>
     </ClCompile>
     <ClCompile Include="Window.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\GL</Filter>
     </ClCompile>
     <ClCompile Include="FileReader.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\DataAccess</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\GL</Filter>
     </ClInclude>
     <ClInclude Include="Mesh.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\GL</Filter>
     </ClInclude>
     <ClInclude Include="Shader.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\GL</Filter>
     </ClInclude>
     <ClInclude Include="Texture.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\GL</Filter>
     </ClInclude>
     <ClInclude Include="Window.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="const.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\GL</Filter>
     </ClInclude>
     <ClInclude Include="FileReader.hpp">
+      <Filter>Header Files\DataAccess</Filter>
+    </ClInclude>
+    <ClInclude Include="config.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

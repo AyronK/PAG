@@ -7,7 +7,7 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 	glViewport(0, 0, width, height);
 }
 
-Window::Window() : Window(SCREEN_WIDTH, SCREEN_HEIGHT, "Window") {}
+Window::Window() : Window(SCREEN_WIDTH, SCREEN_HEIGHT, WINDOWS_NAME) {}
 
 Window::~Window()
 {
@@ -20,7 +20,7 @@ Window::Window(int width, int height, char* name)
 	if (!window)
 	{
 		glfwTerminate(); 
-		throw std::runtime_error("Cannot init window");
+		throw std::runtime_error("Cannot initialize window");
 	}
 	glfwMakeContextCurrent(window);
 	glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);

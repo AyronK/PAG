@@ -9,8 +9,8 @@ Shader::Shader()
 		throw std::runtime_error("Error while creating shader");		
 	}
 	
-	loadShader(GL_VERTEX_SHADER, "../Shaders/basic.vert", program);
-	loadShader(GL_FRAGMENT_SHADER, "../Shaders/basic.frag", program);
+	loadShader(GL_VERTEX_SHADER, GL_VERTEX_SHADER_PATH);
+	loadShader(GL_FRAGMENT_SHADER, GL_FRAGMENT_SHADER_PATH);
 
 	glLinkProgram(program);
 
@@ -41,25 +41,23 @@ Shader::~Shader()
 {
 }
 
-void Shader::loadShader(GLint type, std::string fileName, GLuint & shaderProgram)
+void Shader::loadShader(GLint type, std::string fileName)
 {
 	GLuint shaderObject = glCreateShader(type);
 
-	if (shaderObject == 0)
+	if (!shaderObject)
 	{
-		fprintf(stderr, "Error creating %s.\n", fileName.c_str());
-		return;
+		throw std::runtime_error(std::string("Error creating %s.\n", fileName.c_str()));
 	}
 
 	std::string shaderCodeString = FileReader::readFile(fileName);
 
 	if (shaderCodeString.empty())
 	{
-		printf("Shader code is empty! Shader name %s\n", fileName.c_str());
-		return;
+		throw std::runtime_error(std::string("Shader code is empty! Shader name %s\n", fileName.c_str()));
 	}
 
-	const char * shaderCode = shaderCodeString.c_str();
+	const char* shaderCode = shaderCodeString.c_str();
 	const GLint codeSize = shaderCodeString.size();
 
 	glShaderSource(shaderObject, 1, &shaderCode, &codeSize);
@@ -68,9 +66,9 @@ void Shader::loadShader(GLint type, std::string fileName, GLuint & shaderProgram
 	GLint result;
 	glGetShaderiv(shaderObject, GL_COMPILE_STATUS, &result);
 
-	if (result == GL_FALSE)
+	if (!result)
 	{
-		fprintf(stderr, "%s compilation failed!\n", fileName.c_str());
+		std::string errorMessage = std::string("%s compilation failed!\n", fileName.c_str());
 
 		GLint logLen;
 		glGetShaderiv(shaderObject, GL_INFO_LOG_LENGTH, &logLen);
@@ -82,14 +80,15 @@ void Shader::loadShader(GLint type, std::string fileName, GLuint & shaderProgram
 			GLsizei written;
 			glGetShaderInfoLog(shaderObject, logLen, &written, log);
 
-			fprintf(stderr, "Shader log: \n%s", log);
+			errorMessage += std::string("Shader log: \n");
+			errorMessage.append(log);
+
 			free(log);
 		}
-
-		return;
+		throw std::runtime_error(errorMessage);
 	}
 
-	glAttachShader(shaderProgram, shaderObject);
+	glAttachShader(program, shaderObject);
 	glDeleteShader(shaderObject);
 }
 
