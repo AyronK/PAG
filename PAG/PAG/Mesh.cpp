@@ -1,8 +1,8 @@
 #include "Mesh.hpp"
 void Mesh::draw()
 {
-	//glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
-	glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices));
+	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0);
+	//glDrawArrays(GL_TRIANGLES, 0, sizeof(vertices));
 }
 
 Mesh::Mesh()
