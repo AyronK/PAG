@@ -9,6 +9,11 @@ void framebuffer_size_callback(GLFWwindow* window, int width, int height)
 
 Window::Window() : Window(SCREEN_WIDTH, SCREEN_HEIGHT, "Window") {}
 
+Window::~Window()
+{
+	free(window);
+}
+
 Window::Window(int width, int height, char* name)
 {
 	window = glfwCreateWindow(width, height, name, NULL, NULL);

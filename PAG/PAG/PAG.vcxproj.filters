@@ -14,7 +14,7 @@
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
     <Filter Include="Shaders">
-      <UniqueIdentifier>{b255fa76-5972-4f9f-9699-ca1db1e702c2}</UniqueIdentifier>
+      <UniqueIdentifier>{fb40ceaa-4f96-4cd4-86ae-4b26343e87ff}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -61,10 +61,10 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="basic.frag">
+    <None Include="..\Shaders\basic.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="basic.vert">
+    <None Include="..\Shaders\basic.frag">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

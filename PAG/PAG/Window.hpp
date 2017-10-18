@@ -13,6 +13,7 @@ private:
 	GLFWwindow *window;	
 public:
 	Window();
+	~Window();
 	Window(int width, int height, char*);	
 	GLFWwindow* getWindow();
 };

@@ -20,10 +20,10 @@ void Core::run()
 		mesh->draw();
 
 		// glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
-		glfwSwapBuffers(window->getWindow()); 
-		glfwPollEvents(); 
+		glfwSwapBuffers(window->getWindow());
+		glfwPollEvents();
 
-	}
+	}	
 }
 
 Core::Core()

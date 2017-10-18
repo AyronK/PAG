@@ -9,8 +9,8 @@ Shader::Shader()
 		throw std::runtime_error("Error while creating shader");		
 	}
 	
-	loadShader(GL_VERTEX_SHADER, "basic.vert", program);
-	loadShader(GL_FRAGMENT_SHADER, "basic.frag", program);
+	loadShader(GL_VERTEX_SHADER, "../Shaders/basic.vert", program);
+	loadShader(GL_FRAGMENT_SHADER, "../Shaders/basic.frag", program);
 
 	glLinkProgram(program);
 
