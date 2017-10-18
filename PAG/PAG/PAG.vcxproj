@@ -153,6 +153,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Core.cpp" />
+    <ClCompile Include="FileReader.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Mesh.cpp" />
@@ -163,6 +164,7 @@
   <ItemGroup>
     <ClInclude Include="const.hpp" />
     <ClInclude Include="Core.hpp" />
+    <ClInclude Include="FileReader.hpp" />
     <ClInclude Include="Mesh.hpp" />
     <ClInclude Include="Shader.hpp" />
     <ClInclude Include="Texture.hpp" />

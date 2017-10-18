@@ -41,34 +41,6 @@ Shader::~Shader()
 {
 }
 
-std::string Shader::readShader(std::string fileName)
-{
-	std::string filetext;
-	std::string line;
-	std::ifstream file(fileName);
-
-	if (!file)
-	{
-		file.close();
-		fprintf(stderr, "Could not open file %s", fileName.c_str());
-		std::string errorMessage = "Could not open file";
-		errorMessage+=fileName.c_str();
-		throw std::runtime_error(errorMessage);
-	}
-	else
-	{
-		while (file.good())
-		{
-			getline(file, line);
-			filetext.append(line + "\n");
-		}
-
-		file.close();
-
-		return filetext;
-	}
-}
-
 void Shader::loadShader(GLint type, std::string fileName, GLuint & shaderProgram)
 {
 	GLuint shaderObject = glCreateShader(type);
@@ -79,7 +51,7 @@ void Shader::loadShader(GLint type, std::string fileName, GLuint & shaderProgram
 		return;
 	}
 
-	std::string shaderCodeString = readShader(fileName);
+	std::string shaderCodeString = FileReader::readFile(fileName);
 
 	if (shaderCodeString.empty())
 	{
