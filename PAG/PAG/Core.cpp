@@ -42,7 +42,7 @@ Core::Core()
 	mesh = std::make_unique<Mesh>();
 	shader = std::make_unique<Shader>();
 	glUseProgram(shader->getProgram());
-	//texture = unique_ptr<Texture>(new Texture());
+	texture = std::make_unique<Texture>();
 
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
