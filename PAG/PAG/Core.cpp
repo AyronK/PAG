@@ -37,7 +37,8 @@ Core::Core()
 		throw runtime_error("Cannot initialize GLAD");
 
 	mesh = unique_ptr<Mesh>(new Mesh());
-	//shader = unique_ptr<Shader>(new Shader());
+	shader = unique_ptr<Shader>(new Shader());
+	glUseProgram(shader->getProgram());
 	//texture = unique_ptr<Texture>(new Texture());
 
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
