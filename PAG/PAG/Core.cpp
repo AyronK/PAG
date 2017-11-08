@@ -43,9 +43,10 @@ void Core::run()
 		{
 			float angle = 60.0f;
 			glm::mat4 model = glm::mat4(1);
-			model = glm::rotate(model, (float)glfwGetTime() * glm::radians(angle), glm::vec3(1.0f, 0.0f, 0.0f));
-			//model = glm::rotate(model, (float)glfwGetTime() * glm::radians(angle), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+			model = glm::rotate(model, (float)glfwGetTime() * glm::radians(100.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 			model = glm::translate(model, glm::vec3(3.0f, 0.0f, 0.0f));
+			model = glm::rotate(model, (float)glfwGetTime() * glm::radians(angle), glm::vec3(0.0f, 1.0f, 0.0f));
+
 			shader->setMat4("model", model);
 			mesh->draw();
 		}
