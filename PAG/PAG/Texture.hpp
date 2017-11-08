@@ -7,6 +7,7 @@
 class Texture
 {
 public:
+	void loadTexture();
 	Texture();
 	~Texture();
 };

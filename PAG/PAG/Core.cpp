@@ -12,6 +12,8 @@ using namespace std;
 
 void Core::run()
 {
+	glUniform1i(glGetUniformLocation(shader->getProgram(), "ourTexture1"), 0);
+	glUniform1i(glGetUniformLocation(shader->getProgram(), "ourTexture2"), 1);
 	while (!glfwWindowShouldClose(window->getWindow()))
 	{
 		// clear scene
@@ -42,7 +44,7 @@ Core::Core()
 	mesh = std::make_unique<Mesh>();
 	shader = std::make_unique<Shader>();
 	glUseProgram(shader->getProgram());
-	
+
 	texture = std::make_unique<Texture>();
 
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
