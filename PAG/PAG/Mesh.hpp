@@ -1,8 +1,6 @@
 #pragma once
 #include <glad/glad.h>
 #include <glm/glm.hpp>
-#define GLM_ENABLE_EXPERIMENTAL
-#include <glm\gtx/transform.hpp>
 #include "config.hpp"
 #include "Transform.hpp"
 class Mesh
