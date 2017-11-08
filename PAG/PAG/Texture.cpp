@@ -1,8 +1,12 @@
 #include "Texture.hpp"
 
+unsigned int Texture::getTexture(int id) {
+	return texture[id];
+}
+
 Texture::Texture()
 {
-	unsigned int texture[2];
+	
 	glGenTextures(2, texture);
 	glBindTexture(GL_TEXTURE_2D, texture[0]);
 	
