@@ -48,11 +48,11 @@ class Mesh
 		Vertex(Vertex(glm::vec3(0.0f, -0.5f, 0.0f), Vertex(glm::vec3(0.0f, 0.0f, 1.0f), glm::vec2(0.5f, 0.0f))	
 	};*/
 
+
+public:
 	GLuint VertexBufferObject = NULL;
 	GLuint VertexArrayObject = NULL;
 	GLuint ElementObjectBuffer = NULL;
-
-public:
 	void loadContent();
 	void draw();
 	Mesh();
