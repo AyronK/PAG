@@ -7,11 +7,12 @@
 class Texture
 {
 private:
-	unsigned int texture[2];
+	unsigned int textures[24];
 public:
-	void loadTexture();
+	void setActiveTexture(int id);
 	unsigned int getTexture(int id);
 	Texture();
+	void loadTexture(std::string name, int id);
 	~Texture();
 };
 
