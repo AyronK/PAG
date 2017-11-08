@@ -6,6 +6,7 @@
 class Transform
 {
 public:
+	glm::quat rotation;
 	glm::mat4 transform;
 	//std::vector<Transform> children;
 	Transform();

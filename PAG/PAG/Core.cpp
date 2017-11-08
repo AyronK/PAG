@@ -7,6 +7,7 @@
 #include "Shader.hpp"
 #include "Texture.hpp""
 #include "Transform.hpp"
+#include "Camera.hpp"
 #include "Scene.hpp"
 #include <stdexcept>
 #include <glm/glm.hpp>
@@ -17,14 +18,22 @@ using namespace std;
 
 void Core::run()
 {
-	glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 0.0f, -15.0f),  // camera position in world space
-		glm::vec3(0.0f, 0.0f, 0.0f),  // at this point camera is looking
-		glm::vec3(0.0f, 1.0f, 0.0f)); // head is up
-
+	glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	
 	glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
 	
 	while (!glfwWindowShouldClose(window->getWindow()))
 	{
+		//get time values
+		GLfloat currentFrame = glfwGetTime();
+		deltaTime = currentFrame - lastFrame;
+		lastFrame = currentFrame;
+
+		processInput();
+		processMouse();
+
+		glm::mat4 view = glm::lookAt(camera->cameraPos, camera->cameraPos + camera->cameraFront, camera->cameraUp);
+
 		// clear scene
 		glClearColor(BACKGROUND_COLOR);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -99,9 +108,55 @@ Core::Core()
 	shader->use();
 	shader->setInt("texture", 0);
 
+	camera = std::make_unique<Camera>();
+	glfwGetCursorPos(window->getWindow(), &camera->lastX, &camera->lastY);
+
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 }
 
 Core::~Core()
 {
+}
+
+void Core::processInput()
+{
+	if (glfwGetKey(window->getWindow(), GLFW_KEY_ESCAPE) == GLFW_PRESS)
+		glfwSetWindowShouldClose(window->getWindow(), true);
+
+	GLfloat cameraSpeed = 2.5f * deltaTime;
+	if (glfwGetKey(window->getWindow(), GLFW_KEY_W) == GLFW_PRESS)
+		camera->cameraPos += cameraSpeed * camera->cameraFront;
+	if (glfwGetKey(window->getWindow(), GLFW_KEY_S) == GLFW_PRESS)
+		camera->cameraPos -= cameraSpeed * camera->cameraFront;
+	if (glfwGetKey(window->getWindow(), GLFW_KEY_A) == GLFW_PRESS)
+		camera->cameraPos -= glm::normalize(glm::cross(camera->cameraFront, camera->cameraUp)) * cameraSpeed;
+	if (glfwGetKey(window->getWindow(), GLFW_KEY_D) == GLFW_PRESS)
+		camera->cameraPos += glm::normalize(glm::cross(camera->cameraFront, camera->cameraUp)) * cameraSpeed;
+
+	/* Jeœli chcemy poruszaæ siê do przodu lub do ty³u, dodajemy lub odejmujemy
+	wektor kierunku od wektora po³o¿enia.Jeœli chcemy przesuwaæ siê na boki,
+	wykonujemy iloczyn wektorowy, aby utworzyæ prawy wektor i odpowiednio
+	poruszaæ siê wzd³u¿ tego wektora w prawo. */
+}
+
+void Core::processMouse()
+{
+
+	double mousePosX, mousePosY;
+	glfwGetCursorPos(window->getWindow(), &mousePosX, &mousePosY);
+
+	if (camera->firstMouse)
+	{
+		camera->lastX = mousePosX;
+		camera->lastY = mousePosY;
+		camera->firstMouse = false;
+	}
+
+	float offsetX = (mousePosX - camera->lastX) * mouseSensivity;
+	float offsetY = (camera->lastY - mousePosY) * mouseSensivity; // Odwrócone, poniewa¿ wspó³rzêdne y zmieniaj¹ siê od do³u do góry
+
+	camera->lastX = mousePosX;
+	camera->lastY = mousePosY;
+
+	camera->rotateByOffset(offsetX, offsetY);
 }
