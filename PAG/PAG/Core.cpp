@@ -12,10 +12,9 @@ using namespace std;
 
 void Core::run()
 {
-	glm::mat4 view = glm::lookAt(glm::vec3(0.5f, 0.0f, 2.5f),  // camera position in world space
+	glm::mat4 view = glm::lookAt(glm::vec3(0.0f, 0.0f, 10.0f),  // camera position in world space
 		glm::vec3(0.0f, 0.0f, 0.0f),  // at this point camera is looking
 		glm::vec3(0.0f, 1.0f, 0.0f)); // head is up
-	glm::mat4 model = glm::mat4(1);
 
 	glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
 	while (!glfwWindowShouldClose(window->getWindow()))
@@ -34,13 +33,22 @@ void Core::run()
 
 		shader->setMat4("projection", projection);
 		shader->setMat4("view", view);
-
-		model = glm::rotate(model, (float)glfwGetTime(), glm::vec3(0.0f, 1.0f, 0.0f));
-		
-
-		shader->setMat4("model", model);
-
-		mesh->draw();
+		{
+			float angle = 60.0f;
+			glm::mat4 model = glm::mat4(1);
+			model = glm::rotate(model, (float)glfwGetTime() * glm::radians(angle), glm::vec3(0.0f, 1.0f, 0.0f));
+			shader->setMat4("model", model);
+			mesh->draw();
+		} 
+		{
+			float angle = 60.0f;
+			glm::mat4 model = glm::mat4(1);
+			model = glm::rotate(model, (float)glfwGetTime() * glm::radians(angle), glm::vec3(1.0f, 0.0f, 0.0f));
+			//model = glm::rotate(model, (float)glfwGetTime() * glm::radians(angle), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f));
+			model = glm::translate(model, glm::vec3(3.0f, 0.0f, 0.0f));
+			shader->setMat4("model", model);
+			mesh->draw();
+		}
 
 		glfwSwapBuffers(window->getWindow());
 		glfwPollEvents();
