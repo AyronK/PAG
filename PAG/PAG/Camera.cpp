@@ -9,7 +9,7 @@ Camera::Camera()
 	lastY = SCREEN_HEIGHT / 2.0f;
 	fov = 45.0f;
 
-	cameraPos = glm::vec3(0.0f, 0.0f, 25.0f);  // camera position in world space
+	cameraPos = glm::vec3(0.0f, 0.0f, 50.0f);  // camera position in world space
 	cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);  // vector "up
 	updateCameraVectors();
 }

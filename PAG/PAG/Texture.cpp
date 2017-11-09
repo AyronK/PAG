@@ -16,6 +16,7 @@ Texture::Texture()
 
 	loadTexture("../Textures/beata.jpg", 0);
 	loadTexture("../Textures/owoc.jpg", 1);
+	loadTexture("../Textures/ja.jpg", 2);
 }
 
 void Texture::loadTexture(std::string name, int id) {
