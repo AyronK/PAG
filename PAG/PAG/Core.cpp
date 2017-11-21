@@ -13,25 +13,21 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <vector>
+#include "Model.hpp"
+#include <filesystem>
 
 using namespace std;
 
 void Core::run()
 {
-	glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	
-	Transform center = Transform();
-	Transform planet1 = Transform();
-	Transform planet1Moon = Transform();
-	Transform planet1Moon2 = Transform();
-	Transform planet1Moon3 = Transform();
+	Model ourModel("F:/Studia/Sem V/PAG/PAG/Objects/nanosuit.obj");
+	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); wireframe
 
 	while (!glfwWindowShouldClose(window->getWindow()))
 	{
-		glClearColor(BACKGROUND_COLOR);
-		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		glBindVertexArray(mesh->VertexArrayObject);
-
 		GLfloat currentTime = glfwGetTime();
 		deltaTime = currentTime - lastTime;
 		lastTime = currentTime;
@@ -39,39 +35,24 @@ void Core::run()
 		processInput();
 		processMouse();
 
-		scene->updateViewSpace(*camera);
-		shader->updateScene(*scene);
-
+		glClearColor(BACKGROUND_COLOR);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+		
 		shader->use();
 
-		planet1.setParent(center);
-		planet1.setTransform(center.getTransform());
-		planet1.translate(glm::vec3(2.0f, 0.0f, 0.0f));
-		planet1.rotate(glm::radians(180.0f) * currentTime, glm::vec3(0.0f, 1.0f, 0.0f));
-		shader->setMat4("model", planet1.getTransform());
-		texture->setActiveTexture(1);
-		mesh->draw();
+		/*scene->updateViewSpace(*camera);
+		shader->updateScene(*scene);*/
 
-		planet1Moon.setParent(planet1);
-		planet1Moon.setTransform(planet1.getTransform());
-		planet1Moon.translate(glm::vec3(1.5f, 0.0f, 0.0f));
-		shader->setMat4("model", planet1Moon.getTransform());
-		texture->setActiveTexture(2);
-		mesh->draw();
+		glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
+		glm::mat4 view = glm::lookAt(camera->cameraPos, camera->cameraPos + camera->cameraFront, camera->cameraUp);
+		shader->setMat4("projection", projection);
+		shader->setMat4("view", view);
 
-		planet1Moon2.setParent(planet1Moon);
-		planet1Moon2.setTransform(planet1Moon.getTransform());
-		planet1Moon2.translate(glm::vec3(1.0f, 0.0f, 0.0f));
-		shader->setMat4("model", planet1Moon2.getTransform());
-		texture->setActiveTexture(1);
-		mesh->draw();
-
-		planet1Moon3.setParent(planet1);
-		planet1Moon3.setTransform(planet1.getTransform());
-		planet1Moon3.translate(glm::vec3(3.5f, 0.0f, 2.0f));
-		shader->setMat4("model", planet1Moon3.getTransform());
-		texture->setActiveTexture(1);
-		mesh->draw();
+		glm::mat4 model;
+		model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
+		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
+		shader->setMat4("model", model);
+		ourModel.Draw(*shader);
 
 		glfwSwapBuffers(window->getWindow());
 		glfwPollEvents();
@@ -94,15 +75,11 @@ Core::Core()
 
 	glEnable(GL_DEPTH_TEST);
 
-	mesh = std::make_unique<Mesh>();
-	mesh->loadContent();
-
-	texture = std::make_unique<Texture>();
+	texture = std::make_unique<TextureLoader>();
 
 	shader = std::make_unique<Shader>();
 
 	shader->use();
-	shader->setInt("texture", 0);
 
 	camera = std::make_unique<Camera>();
 	glfwGetCursorPos(window->getWindow(), &camera->lastX, &camera->lastY);

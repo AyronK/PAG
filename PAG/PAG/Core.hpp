@@ -7,7 +7,7 @@
 class Window;
 class Mesh;
 class Shader;
-class Texture;
+class TextureLoader;
 class Camera;
 class Scene;
 
@@ -23,9 +23,8 @@ private:
 	void processMouse();
 
 	std::unique_ptr<Window> window;
-	std::unique_ptr<Mesh> mesh;
 	std::unique_ptr<Shader> shader;
-	std::unique_ptr<Texture> texture;
+	std::unique_ptr<TextureLoader> texture;
 	std::unique_ptr<Camera> camera;
 	std::unique_ptr<Scene> scene;
 public:

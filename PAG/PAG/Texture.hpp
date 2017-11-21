@@ -3,17 +3,21 @@
 #include <glm/glm.hpp>
 #include <stb_image.h>
 #include <stdexcept>
+#include <vector>
 
-class Texture
+class TextureLoader
 {
 private:
-	unsigned int textures[24];
+	static unsigned int textures[24];
 public:
-	void setActiveTexture(int id);
+	/*void setActiveTexture(int id);
 	unsigned int getTexture(int id);
-	Texture();
-	void loadTexture(std::string name, int id);
-	~Texture();
+	TextureLoader();*/
+
+	static unsigned int TextureFromFile(const char * path, const std::string & directory, bool gamma = false);
+	static void loadTexture(std::string name, int id);
+
+	~TextureLoader();
 };
 
 
