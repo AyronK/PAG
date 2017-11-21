@@ -4,6 +4,8 @@
 #include "config.hpp"
 #include <glm/glm.hpp>
 
+class Scene;
+
 class Shader
 {
 private:
@@ -11,6 +13,7 @@ private:
 	void loadShader(GLint type, std::string fileName);
 public:
 	GLuint getProgram();
+	void updateScene(Scene scene);
 	void use();
 	void setBool(const std::string & name, bool value) const;
 	void setInt(const std::string & name, int value) const;

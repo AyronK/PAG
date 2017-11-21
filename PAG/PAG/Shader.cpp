@@ -1,4 +1,5 @@
 #include "Shader.hpp"
+#include "Scene.hpp"
 
 Shader::Shader()
 {
@@ -95,6 +96,12 @@ void Shader::loadShader(GLint type, std::string fileName)
 GLuint Shader::getProgram()
 {
 	return program;
+}
+
+void Shader::updateScene(Scene scene)
+{
+	setMat4("projection", scene.getProjectionSpace());
+	setMat4("view", scene.getViewSpace());
 }
 
 void Shader::use()

@@ -9,12 +9,13 @@ class Mesh;
 class Shader;
 class Texture;
 class Camera;
+class Scene;
 
 class Core
 {
 private:
 	GLfloat deltaTime = 0.0f;		// Czas pomiêdzy obecn¹ i poprzedni¹ klatk¹
-	GLfloat lastFrame = 0.0f;		// Czas ostatniej ramki
+	GLfloat lastTime = 0.0f;		// Czas ostatniej ramki
 	float cameraSpeed = 20.0f; 
 	float mouseSensivity = 0.05f;
 
@@ -26,6 +27,7 @@ private:
 	std::unique_ptr<Shader> shader;
 	std::unique_ptr<Texture> texture;
 	std::unique_ptr<Camera> camera;
+	std::unique_ptr<Scene> scene;
 public:
 	void run();
 	Core();

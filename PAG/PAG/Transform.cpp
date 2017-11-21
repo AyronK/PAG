@@ -53,7 +53,7 @@ Transform& Transform::getParent()
 
 void Transform::setParent(Transform& parent)
 {
-	_parent = std::make_shared<Transform>(parent);
+	_parent.reset(&parent);
 	parent.getChildren().push_back(std::make_unique<Transform>(*this));
 }
 #pragma endregion
