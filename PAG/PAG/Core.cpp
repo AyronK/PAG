@@ -75,62 +75,48 @@ void Core::run()
 		//mesh->draw();
 
 		Transform planet1 = Transform();
-		planet1.transform = center.transform;
-
-		glm::vec3 front = camera->cameraPos - planet1.getPosition();
-		front = glm::normalize(front);
-		glm::vec3 right = glm::cross(front, glm::vec3(0, 1, 0));
-		glm::vec3 up = glm::cross(front, right);
-
-
-		glm::mat4 x = glm::mat4(glm::vec4(front, 0), glm::vec4(right,0), glm::vec4(up,0), glm::vec4(planet1.getPosition(),1));
-
-
-		//auto rotY = glm::atan(planet1.getPosition().x - camera->cameraPos.x, planet1.getPosition().z - camera->cameraPos.z);
-		//auto rotX = glm::atan(planet1.getPosition().y - camera->cameraPos.y, sqrt(planet1.getPosition().z - camera->cameraPos.z) * sqrt(planet1.getPosition().x - camera->cameraPos.x));
-		planet1.transform = x;
-		//planet1.rotate(rotY, glm::vec3(0.0f, 1.0f, 0.0f));
-		//planet1.rotate(rotX, glm::vec3(1.0f, 0.0f, 0.0f));
-		// planet1.translate(glm::vec3(2.0f, 0.0f, 0.0f));
-		//planet1.rotate(glm::radians(60.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		//planet1.scale(glm::vec3(0.5, 0.5, 0.5));
-		shader->setMat4("model", planet1.transform);
+		planet1.setParent(center);
+		planet1.setTransform(center.getTransform());		
+		planet1.translate(glm::vec3(2.0f, 0.0f, 0.0f));
+		planet1.rotate(glm::radians(60.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		planet1.scale(glm::vec3(0.5, 0.5, 0.5));
+		shader->setMat4("model", planet1.getTransform());
 		texture->setActiveTexture(1);
 		mesh->draw();
 
 		Transform planet1Moon = Transform();
-		planet1Moon.transform = planet1.transform;
-		//planet1Moon.rotate(glm::radians(-500.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		planet1Moon.setParent(planet1);
+		planet1Moon.setTransform(planet1.getTransform());
+		planet1Moon.rotate(glm::radians(-500.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		planet1Moon.translate(glm::vec3(1.5f, 0.0f, 0.0f));
-		//planet1Moon.rotate(glm::radians(-60.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		planet1Moon.rotate(glm::radians(-60.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		planet1Moon.scale(glm::vec3(0.25f, 0.25f, 0.25f));
-		shader->setMat4("model", planet1Moon.transform);
+		shader->setMat4("model", planet1Moon.getTransform());
 		texture->setActiveTexture(2);
 		mesh->draw();
 
 		Transform planet1Moon2 = Transform();
-		planet1Moon2.transform = planet1.transform;
-		//planet1Moon2.rotate(glm::radians(-115.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		planet1Moon2.setParent(planet1);
+		planet1Moon2.setTransform(planet1.getTransform());
+		planet1Moon2.rotate(glm::radians(-115.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		planet1Moon2.translate(glm::vec3(1.0f, 0.0f, 0.0f));
-		//planet1Moon2.rotate(glm::radians(-300.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		planet1Moon2.rotate(glm::radians(-300.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		planet1Moon2.scale(glm::vec3(0.15f, 0.15f, 0.15f));
-		shader->setMat4("model", planet1Moon2.transform);
+		shader->setMat4("model", planet1Moon2.getTransform());
 		texture->setActiveTexture(1);
 		mesh->draw();
 
 		Transform planet1Moon3 = Transform();
-		planet1Moon3.transform = planet1.transform;
-		//planet1Moon3.rotate(glm::radians(250.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		planet1Moon3.setParent(planet1);
+		planet1Moon3.setTransform(planet1.getTransform());
+		planet1Moon3.rotate(glm::radians(250.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		planet1Moon3.translate(glm::vec3(1.5f, 0.0f, 2.0f));
-		//planet1Moon3.rotate(glm::radians(-35.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		planet1Moon3.rotate(glm::radians(-35.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 		planet1Moon3.scale(glm::vec3(0.2f, 0.2f, 0.2f));
-		shader->setMat4("model", planet1Moon3.transform);
+		shader->setMat4("model", planet1Moon3.getTransform());
 		texture->setActiveTexture(1);
 		mesh->draw();
-
-		//zatrzymac animacje +
-		//pulsowanie +
-		//kostki patrza w kamere 
+		
 		//Transform planet2 = Transform();
 		//planet2.transform = center.transform;
 		//planet2.rotate(glm::radians(200.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -141,15 +127,15 @@ void Core::run()
 		//texture->setActiveTexture(0);
 		//mesh->draw();
 
-		Transform planet3= Transform();
-		planet3.transform = center.transform;
-		planet3.rotate(glm::radians(-150.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		planet3.translate(glm::vec3(2.5f, 0.0f, 0.0f));
-		//planet3.rotate(glm::radians(700.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-		planet3.scale(glm::vec3(0.75f, 0.75f, 0.75f));
-		shader->setMat4("model", planet3.transform);
-		texture->setActiveTexture(0);
-		mesh->draw();
+		//Transform planet3= Transform();
+		//planet3.transform = center.transform;
+		//planet3.rotate(glm::radians(-150.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		//planet3.translate(glm::vec3(2.5f, 0.0f, 0.0f));
+		////planet3.rotate(glm::radians(700.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+		//planet3.scale(glm::vec3(0.75f, 0.75f, 0.75f));
+		//shader->setMat4("model", planet3.transform);
+		//texture->setActiveTexture(0);
+		//mesh->draw();
 
 		//Transform planet3Moon = Transform();
 		//planet3Moon.transform = planet3.transform;
@@ -164,16 +150,16 @@ void Core::run()
 
 
 		
-		Transform planet3Moon2 = Transform();
-		planet3Moon2.transform = planet3.transform;
-		planet3Moon2.rotate(glm::radians(250.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		planet3Moon2.translate(glm::vec3(1.5f, 0.0f, 0.0f));
-		//planet3Moon2.rotate(glm::radians(-35.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		
-		planet3Moon2.scale((float)glm::cos(glfwGetTime()) * glm::vec3(1.0, 1.0, 1.0));
-		shader->setMat4("model", planet3Moon2.transform);
-		texture->setActiveTexture(1);
-		mesh->draw();
+		//Transform planet3Moon2 = Transform();
+		//planet3Moon2.transform = planet3.transform;
+		//planet3Moon2.rotate(glm::radians(250.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		//planet3Moon2.translate(glm::vec3(1.5f, 0.0f, 0.0f));
+		////planet3Moon2.rotate(glm::radians(-35.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		//
+		//planet3Moon2.scale((float)glm::cos(glfwGetTime()) * glm::vec3(1.0, 1.0, 1.0));
+		//shader->setMat4("model", planet3Moon2.transform);
+		//texture->setActiveTexture(1);
+		//mesh->draw();
 		
 		glfwSwapBuffers(window->getWindow());
 		glfwPollEvents();
