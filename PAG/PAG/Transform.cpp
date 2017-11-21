@@ -4,13 +4,15 @@
 #pragma region Constructors/Destructors
 Transform::Transform()
 {
-	_transform = glm::mat4(1);
+	setTransform(glm::mat4(1));
 	_parent = std::shared_ptr<Transform>();
 }
 
-Transform::Transform(const Transform &) { Transform(); }
-
-Transform::~Transform() {}
+Transform::Transform(const Transform & value)
+{
+	setTransform(value._transform);
+	_parent = value._parent;
+}
 #pragma endregion
 
 #pragma region Getters/Setters
@@ -39,7 +41,7 @@ glm::quat Transform::getRotation()
 	return _rotation;
 }
 
-std::vector<std::shared_ptr<Transform>>& Transform::getChildren()
+std::vector<std::unique_ptr<Transform>>& Transform::getChildren()
 {
 	return _children;
 }
@@ -51,8 +53,8 @@ Transform& Transform::getParent()
 
 void Transform::setParent(Transform& parent)
 {
-	_parent = std::shared_ptr<Transform>(&parent);
-	parent.getChildren().push_back(std::shared_ptr<Transform>(this));
+	_parent = std::make_shared<Transform>(parent);
+	parent.getChildren().push_back(std::make_unique<Transform>(parent));
 }
 #pragma endregion
 

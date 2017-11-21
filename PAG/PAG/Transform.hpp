@@ -6,7 +6,7 @@
 #include <vector>
 #include <memory>
 
-class Transform
+class Transform : std::enable_shared_from_this<Transform>
 {
 private:
 	glm::mat4 _transform;
@@ -17,12 +17,11 @@ private:
 	glm::vec3 _skew;
 	glm::vec4 _perspective;
 
-	std::vector<std::shared_ptr<Transform>> _children;
+	std::vector<std::unique_ptr<Transform>> _children;
 	std::shared_ptr<Transform> _parent;
 public:
 	Transform();
-	Transform(const Transform &);
-	~Transform();
+	Transform(const Transform & value);
 
 	glm::mat4 getTransform();
 	void setTransform(glm::mat4 transform);
@@ -31,7 +30,7 @@ public:
 	glm::vec3 getScale();
 	glm::quat getRotation();
 
-	std::vector<std::shared_ptr<Transform>>& getChildren();
+	std::vector<std::unique_ptr<Transform>>& getChildren();
 	Transform& getParent();
 	void setParent(Transform& parent);
 
