@@ -17,8 +17,9 @@ private:
 	glm::vec3 _skew;
 	glm::vec4 _perspective;
 
-	std::vector<std::unique_ptr<Transform>> _children;
+	std::vector<std::shared_ptr<Transform>> _children;
 	std::shared_ptr<Transform> _parent;
+	std::shared_ptr<Transform> sharedPtrOfThis;
 public:
 	Transform();
 	Transform(const Transform & value);
@@ -30,7 +31,7 @@ public:
 	glm::vec3 getScale();
 	glm::quat getRotation();
 
-	std::vector<std::unique_ptr<Transform>>& getChildren();
+	std::vector<std::shared_ptr<Transform>>& getChildren();
 	Transform& getParent();
 	void setParent(Transform& parent);
 

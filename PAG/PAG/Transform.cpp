@@ -6,6 +6,7 @@ Transform::Transform()
 {
 	setTransform(glm::mat4(1));
 	_parent = std::shared_ptr<Transform>();
+	sharedPtrOfThis = std::make_shared<Transform>(*this);
 }
 
 Transform::Transform(const Transform & value)
@@ -41,7 +42,7 @@ glm::quat Transform::getRotation()
 	return _rotation;
 }
 
-std::vector<std::unique_ptr<Transform>>& Transform::getChildren()
+std::vector<std::shared_ptr<Transform>>& Transform::getChildren()
 {
 	return _children;
 }
@@ -54,14 +55,14 @@ Transform& Transform::getParent()
 void Transform::setParent(Transform& parent)
 {
 	_parent.reset(&parent);
-	parent.getChildren().push_back(std::make_unique<Transform>(*this));
+	parent.getChildren().push_back(std::make_shared<Transform>(*this));
 }
 #pragma endregion
 
 void Transform::rotate(float rad, glm::vec3 axis)
 {
 	setTransform(glm::rotate(_transform, rad, axis));
-	for each (auto& child in _children)
+	for each (auto child in _children)
 	{
 		child->rotate(rad, axis);
 	}
@@ -70,7 +71,7 @@ void Transform::rotate(float rad, glm::vec3 axis)
 void Transform::translate(glm::vec3 translation)
 {
 	setTransform(glm::translate(_transform, translation));
-	for each (auto& child in _children)
+	for each (auto child in _children)
 	{
 		child->translate(translation);
 	}
@@ -79,7 +80,7 @@ void Transform::translate(glm::vec3 translation)
 void Transform::scale(glm::vec3 scale)
 {
 	setTransform(glm::scale(_transform, scale));
-	for each (auto& child in _children)
+	for each (auto child in _children)
 	{
 		child->scale(scale);
 	}
