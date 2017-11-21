@@ -23,7 +23,7 @@ void Core::run()
 {
 	glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	
-	Model ourModel("F:/Studia/Sem V/PAG/PAG/Objects/nanosuit.obj");
+	Model robocopModel("F:/Studia/Sem V/PAG/PAG/Objects/nano/nanosuit.obj");
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); wireframe
 
 	while (!glfwWindowShouldClose(window->getWindow()))
@@ -40,19 +40,14 @@ void Core::run()
 		
 		shader->use();
 
-		/*scene->updateViewSpace(*camera);
-		shader->updateScene(*scene);*/
+		scene->updateViewSpace(*camera);
+		shader->updateScene(*scene);		
 
-		glm::mat4 projection = glm::perspective(glm::radians(45.0f), (float)SCREEN_WIDTH / (float)SCREEN_HEIGHT, 0.1f, 100.0f);
-		glm::mat4 view = glm::lookAt(camera->cameraPos, camera->cameraPos + camera->cameraFront, camera->cameraUp);
-		shader->setMat4("projection", projection);
-		shader->setMat4("view", view);
-
-		glm::mat4 model = glm::mat4(1);
-		model = glm::translate(model, glm::vec3(0.0f, -1.75f, 0.0f)); // translate it down so it's at the center of the scene
-		model = glm::scale(model, glm::vec3(0.2f, 0.2f, 0.2f));	// it's a bit too big for our scene, so scale it down
-		shader->setMat4("model", model);
-		ourModel.Draw(*shader);
+		Transform robocop = Transform();
+		robocop.translate(glm::vec3(0.0f, -1.75f, 0.0f));
+		robocop.scale(glm::vec3(0.2f, 0.2f, 0.2f));
+		shader->setMat4("model", robocop.getTransform());
+		robocopModel.Draw(*shader);
 
 		glfwSwapBuffers(window->getWindow());
 		glfwPollEvents();
