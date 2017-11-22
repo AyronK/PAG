@@ -15,6 +15,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <vector>
 #include "Model.hpp"
+#include "MousePicker.hpp"
 #include <iostream>
 using namespace std;
 
@@ -90,6 +91,7 @@ Core::Core()
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	scene = std::make_unique<Scene>();
+	mousePicker = std::make_unique<MousePicker>(*camera, scene->getProjectionSpace());
 }
 
 Core::~Core()
@@ -118,23 +120,6 @@ void Core::processMouse(Scene scene)
 	double mousePosX, mousePosY;
 	glfwGetCursorPos(window->getWindow(), &mousePosX, &mousePosY);
 
-
-	float x = (2.0f * mousePosX) / SCREEN_WIDTH - 1.0f;
-	float y = 1.0f - (2.0f * mousePosY) / SCREEN_HEIGHT;
-	float z = 1.0f;
-	glm::vec3 ray_position = glm::vec3(x, y, z);
-	
-	glm::vec4 ray_front = glm::vec4(ray_position.x, ray_position.y, -1.0, 1.0);
-	
-	glm::vec4 ray_eye = glm::inverse(scene.getProjectionSpace()) * ray_front;
-	ray_eye = glm::vec4(ray_position.x, ray_position.y, -1.0, 0.0);
-
-	glm::vec3 ray_wor = glm::inverse(scene.getViewSpace()) * ray_eye;
-		// don't forget to normalise the vector at some point
-		ray_wor = glm::normalize(ray_wor);
-	cout << ray_wor.x << " " << ray_wor.y << " " << ray_wor.z << endl;
-
-
 	if (camera->firstMouse)
 	{
 		camera->lastX = mousePosX;
@@ -149,4 +134,6 @@ void Core::processMouse(Scene scene)
 	camera->lastY = mousePosY;
 
 	camera->rotateByOffset(offsetX, offsetY);
+
+	mousePicker->update(mousePosX, mousePosY);
 }

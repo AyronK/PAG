@@ -10,6 +10,7 @@ class Shader;
 class TextureLoader;
 class Camera;
 class Scene;
+class MousePicker;
 
 class Core
 {
@@ -27,6 +28,7 @@ private:
 	std::unique_ptr<TextureLoader> texture;
 	std::unique_ptr<Camera> camera;
 	std::unique_ptr<Scene> scene;
+	std::unique_ptr<MousePicker> mousePicker;
 public:
 	void run();
 	Core();
