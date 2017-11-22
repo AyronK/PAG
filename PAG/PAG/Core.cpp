@@ -24,6 +24,7 @@ void Core::run()
 	glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 	
 	Model robocopModel("F:/Studia/Sem V/PAG/PAG/Objects/nano/nanosuit.obj");
+	//Model robocopModel("F:/Studia/Sem V/PAG/PAG/Objects/2B/2B.fbx");
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); wireframe
 
 	while (!glfwWindowShouldClose(window->getWindow()))
