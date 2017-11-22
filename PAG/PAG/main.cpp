@@ -13,7 +13,7 @@ int main()
 		core.run();
 	}
 	catch (std::exception e) {
-		std::cout << e.what()<<std::endl;
+		std::cout << "ERROR" << e.what()<<std::endl;
 		std::system("PAUSE");
 		return -1;
 	}

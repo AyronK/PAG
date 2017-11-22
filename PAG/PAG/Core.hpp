@@ -2,6 +2,11 @@
 #define Core_hpp
 #define GLFW_INCLUDE_NONE
 
+#include <glad/glad.h> 
+#include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <memory>
 
 class Window;
@@ -17,10 +22,10 @@ private:
 	GLfloat deltaTime = 0.0f;		// Czas pomiêdzy obecn¹ i poprzedni¹ klatk¹
 	GLfloat lastTime = 0.0f;		// Czas ostatniej ramki
 	float cameraSpeed = 20.0f; 
-	float mouseSensivity = 0.05f;
+	float mouseSensivity = 1.0f;
 
 	void processInput();
-	void processMouse();
+	void processMouse(Scene scene);
 
 	std::unique_ptr<Window> window;
 	std::unique_ptr<Shader> shader;

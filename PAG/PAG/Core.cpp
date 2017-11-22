@@ -1,6 +1,4 @@
 #include <stdio.h>
-#include <glad/glad.h> 
-#include <GLFW/glfw3.h>
 #include "Core.hpp"
 #include "Window.hpp"
 #include "Mesh.hpp"
@@ -10,21 +8,18 @@
 #include "Camera.hpp"
 #include "Scene.hpp"
 #include <stdexcept>
-#include <glm/glm.hpp>
-#include <glm/gtc/matrix_transform.hpp>
-#include <glm/gtc/type_ptr.hpp>
 #include <vector>
 #include "Model.hpp"
-#include <filesystem>
+#include <iostream>
 
 using namespace std;
 
 void Core::run()
 {
 	glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
-	
+
 	Model robocopModel("F:/Studia/Sem V/PAG/PAG/Objects/nano/nanosuit.obj");
-	//Model robocopModel("F:/Studia/Sem V/PAG/PAG/Objects/2B/2B.fbx");
+	//Model robocopModel("F:/Studia/Sem V/PAG/PAG/Objects/Car/scene.gltf");
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); wireframe
 
 	while (!glfwWindowShouldClose(window->getWindow()))
@@ -34,15 +29,15 @@ void Core::run()
 		lastTime = currentTime;
 
 		processInput();
-		processMouse();
+		processMouse(*scene);
 
 		glClearColor(BACKGROUND_COLOR);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
+
 		shader->use();
 
 		scene->updateViewSpace(*camera);
-		shader->updateScene(*scene);		
+		shader->updateScene(*scene);
 
 		Transform robocop = Transform();
 		robocop.translate(glm::vec3(0.0f, -1.75f, 0.0f));
@@ -105,11 +100,24 @@ void Core::processInput()
 		camera->cameraPos += glm::normalize(glm::cross(camera->cameraFront, camera->cameraUp)) * speed;
 }
 
-void Core::processMouse()
+void Core::processMouse(Scene scene)
 {
 
 	double mousePosX, mousePosY;
 	glfwGetCursorPos(window->getWindow(), &mousePosX, &mousePosY);
+
+
+	float x = (2.0f * mousePosX) / SCREEN_WIDTH - 1.0f;
+	float y = 1.0f - (2.0f * mousePosY) / SCREEN_HEIGHT;
+	float z = 1.0f;
+	glm::vec3 ray_nds = glm::vec3(x, y, z);
+	glm::vec4 ray_clip = glm::vec4(ray_nds.x, ray_nds.y, -1.0, 1.0);
+	glm::vec4 ray_eye = glm::inverse(scene.getProjectionSpace()) * ray_clip;
+	ray_eye = glm::vec4(ray_nds.x, ray_nds.y, -1.0, 0.0);
+	glm::vec3 ray_wor = glm::inverse(scene.getViewSpace()) * ray_eye;
+	// don't forget to normalise the vector at some point
+	ray_wor = glm::normalize(ray_wor);
+	cout << ray_wor.x << " " << ray_wor.y << " " << ray_wor.z << endl;
 
 	if (camera->firstMouse)
 	{
