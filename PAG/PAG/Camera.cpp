@@ -19,6 +19,11 @@ Camera::~Camera()
 
 }
 
+glm::mat4 Camera::getViewMatrix()
+{
+	return glm::lookAt(cameraPos, cameraPos + cameraFront, cameraUp);
+}
+
 
 void Camera::rotateByOffset(float pOffsetX, float pOffsetY)
 {

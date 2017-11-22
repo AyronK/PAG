@@ -20,7 +20,7 @@ private:
 	float mouseSensivity = 0.05f;
 
 	void processInput();
-	void processMouse();
+	void processMouse(Scene scene);
 
 	std::unique_ptr<Window> window;
 	std::unique_ptr<Shader> shader;
