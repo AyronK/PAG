@@ -1,4 +1,5 @@
 #include "Texture.hpp"
+#include <string>
 unsigned int TextureLoader::TextureFromFile(const char *path, const std::string &directory, bool gamma)
 {
 	std::string filename = std::string(path);
@@ -32,8 +33,9 @@ unsigned int TextureLoader::TextureFromFile(const char *path, const std::string 
 	}
 	else
 	{
-		throw std::runtime_error("Failed to load texture");
-		stbi_image_free(data);
+        return NULL;
+//        throw std::runtime_error("Failed to load texture");
+//        stbi_image_free(data);
 	}
 
 	return textureID;

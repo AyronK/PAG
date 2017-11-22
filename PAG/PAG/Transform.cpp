@@ -1,6 +1,5 @@
 #include "Transform.hpp"
 
-
 #pragma region Constructors/Destructors
 Transform::Transform()
 {
@@ -62,7 +61,7 @@ void Transform::setParent(Transform& parent)
 void Transform::rotate(float rad, glm::vec3 axis)
 {
 	setTransform(glm::rotate(_transform, rad, axis));
-	for each (auto child in _children)
+    for (auto child: _children)
 	{
 		child->rotate(rad, axis);
 	}
@@ -71,7 +70,7 @@ void Transform::rotate(float rad, glm::vec3 axis)
 void Transform::translate(glm::vec3 translation)
 {
 	setTransform(glm::translate(_transform, translation));
-	for each (auto child in _children)
+    for (auto child: _children)
 	{
 		child->translate(translation);
 	}
@@ -80,7 +79,7 @@ void Transform::translate(glm::vec3 translation)
 void Transform::scale(glm::vec3 scale)
 {
 	setTransform(glm::scale(_transform, scale));
-	for each (auto child in _children)
+    for (auto child: _children)
 	{
 		child->scale(scale);
 	}

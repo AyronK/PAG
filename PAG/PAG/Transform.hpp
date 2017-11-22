@@ -1,12 +1,12 @@
 #pragma once
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
-#include <glm\gtx/matrix_decompose.hpp>
+#include <glm/gtx/matrix_decompose.hpp>
 #include <glm/gtc/type_ptr.hpp>
 #include <vector>
 #include <memory>
 
-class Transform : std::enable_shared_from_this<Transform>
+class Transform : public std::enable_shared_from_this<Transform>
 {
 private:
 	glm::mat4 _transform;

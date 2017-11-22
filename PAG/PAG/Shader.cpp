@@ -69,7 +69,7 @@ void Shader::loadShader(GLint type, std::string fileName)
 
 	if (!result)
 	{
-		std::string errorMessage = std::string("%s compilation failed!\n", fileName.c_str());
+		std::string errorMessage;
 
 		GLint logLen;
 		glGetShaderiv(shaderObject, GL_INFO_LOG_LENGTH, &logLen);

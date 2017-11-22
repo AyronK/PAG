@@ -8,7 +8,7 @@
 class Camera
 {
 private:
-	void updateCameraVectors();
+    void updateCameraVectors();
 
 public:
 	Camera();
@@ -25,6 +25,6 @@ public:
 	double lastY;
 	float fov;
 
-	void rotateByOffset(float pOffsetX, float pOffsetY);
+    void rotateByOffset(float pOffsetX, float pOffsetY);
 };
 
