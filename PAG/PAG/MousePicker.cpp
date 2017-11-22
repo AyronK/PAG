@@ -44,3 +44,10 @@ MousePicker::MousePicker(Camera& camera, glm::mat4 projection)
 MousePicker::~MousePicker()
 {
 }
+
+glm::vec3 MousePicker::getPointOnRay(glm::vec3 ray, float distance) {
+	glm::vec3 camPos = camera->cameraPos;
+	glm::vec3 start = glm::vec3(camPos.x, camPos.y, camPos.z);
+	glm::vec3 scaledRay = glm::vec3(ray.x * distance, ray.y * distance, ray.z * distance);
+	return start + scaledRay;
+}
