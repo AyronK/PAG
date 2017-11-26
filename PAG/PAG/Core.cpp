@@ -51,13 +51,7 @@ void Core::run()
 		scene->updateViewSpace(*camera);
 		shader->updateScene(*scene);		
 
-		model.draw(shader.get());
-
-		Transform robocop = Transform();
-		robocop.translate(glm::vec3(0.0f, -1.75f, 0.0f));
-		robocop.scale(glm::vec3(0.2f, 0.2f, 0.2f));
-		shader->setMat4("model", robocop.getTransform());
-		//robocopModel.Draw(*shader);
+		model.draw(shader.get());		
 
 		glfwSwapBuffers(window->getWindow());
 		glfwPollEvents();
