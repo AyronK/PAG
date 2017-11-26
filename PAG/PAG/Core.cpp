@@ -26,6 +26,8 @@ void Core::run()
 	
 	//Model robocopModel("/Users/sern19/Desktop/Tmp/2B/2B.fbx");
 	Model model("F:/Studia/Sem V/PAG/PAG/Objects/2B/source/2B.fbx", shader.get());
+	//model.getRootNode()->getChildren(0)->getNodeTransform()->scale(glm::vec3(0.01f, 0.01f, 0.01f));
+	model.getRootNode()->getNodeTransform()->translate(glm::vec3(50.0f, 50.0f, 50.0f));
 	model.getRootNode()->getNodeTransform()->scale(glm::vec3(0.01f, 0.01f, 0.01f));
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); wireframe
 
