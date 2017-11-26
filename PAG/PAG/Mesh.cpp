@@ -10,7 +10,8 @@ using namespace std;
 void Mesh::drawContent(Shader * const pShader, Textures* const pTextures)
 {
 	Material temporaryMaterial;
-	//if (!mIsSelected) temporaryMaterial = mMaterial;
+	//if (!mIsSelected) 
+	temporaryMaterial = mMaterial;
 	pTextures->setActiveTextures(temporaryMaterial, pShader);
 	//Bindowanie tablicy obiektów
 	glBindVertexArray(VertexArrayObject);

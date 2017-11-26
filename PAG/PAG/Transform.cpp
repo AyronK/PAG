@@ -79,8 +79,8 @@ void Transform::translate(glm::vec3 translation)
 void Transform::scale(glm::vec3 scale)
 {
 	setTransform(glm::scale(_transform, scale));
-    for (auto child: _children)
+    /*for (auto child: _children)
 	{
 		child->scale(scale);
-	}
+	}*/
 }

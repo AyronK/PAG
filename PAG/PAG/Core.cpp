@@ -17,6 +17,7 @@
 #include "Model.hpp"
 #include "MousePicker.hpp"
 #include <iostream>
+#include "Node.hpp"
 using namespace std;
 
 void Core::run()
@@ -24,7 +25,8 @@ void Core::run()
 	glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	
 	//Model robocopModel("/Users/sern19/Desktop/Tmp/2B/2B.fbx");
-	Model robocopModel("F:/Studia/Sem V/PAG/PAG/Objects/Tower/source/Tower.obj", shader.get());
+	Model model("F:/Studia/Sem V/PAG/PAG/Objects/2B/source/2B.fbx", shader.get());
+	model.getRootNode()->getNodeTransform()->scale(glm::vec3(0.01f, 0.01f, 0.01f));
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); wireframe
 
 	while (!glfwWindowShouldClose(window->getWindow()))
@@ -43,6 +45,8 @@ void Core::run()
 
 		scene->updateViewSpace(*camera);
 		shader->updateScene(*scene);		
+
+		model.draw(shader.get());
 
 		Transform robocop = Transform();
 		robocop.translate(glm::vec3(0.0f, -1.75f, 0.0f));
