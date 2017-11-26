@@ -38,7 +38,6 @@ class Node
 private:
     Transform* mElementTransform=NULL; //Dla uproszczenia przyjmijmy, że może mieć tylko 1 gałąź dzieci, jest zawsze w parze z mCachedTransform
     Node* mParentNode=NULL;
-    glm::mat4 mCachedTransform=glm::mat4(1.0f);
     const aiMatrix4x4 mOriginalTransform;
     std::vector<Node> mChildNodes;
     std::vector<Mesh> mMeshes;

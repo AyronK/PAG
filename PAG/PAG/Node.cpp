@@ -16,7 +16,7 @@ Node::Node(const aiNode* const pNode, const aiScene* const pScene, Textures* con
     updateChildrenPointers(this); //Może nie będzie potrzebne, ale przy vectorach lepiej dać
 }
 
-Node::Node(const Node& pSourceNode): mParentNode(pSourceNode.mParentNode), mCachedTransform(pSourceNode.mCachedTransform), mChildNodes(pSourceNode.mChildNodes), mMeshes(pSourceNode.mMeshes), mOriginalTransform(pSourceNode.mOriginalTransform)
+Node::Node(const Node& pSourceNode): mParentNode(pSourceNode.mParentNode), mChildNodes(pSourceNode.mChildNodes), mMeshes(pSourceNode.mMeshes), mOriginalTransform(pSourceNode.mOriginalTransform)
 {
     if (pSourceNode.mElementTransform) mElementTransform=new Transform(*pSourceNode.mElementTransform);
     updateChildrenPointers(this);

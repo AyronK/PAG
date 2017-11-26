@@ -24,7 +24,7 @@ void Core::run()
 	glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	
 	//Model robocopModel("/Users/sern19/Desktop/Tmp/2B/2B.fbx");
-	//Model robocopModel("F:/Studia/Sem V/PAG/PAG/Objects/Tower/Tower.obj");
+	Model robocopModel("F:/Studia/Sem V/PAG/PAG/Objects/Tower/source/Tower.obj", shader.get());
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); wireframe
 
 	while (!glfwWindowShouldClose(window->getWindow()))
