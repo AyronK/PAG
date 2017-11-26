@@ -124,7 +124,7 @@ Transform Node::getHierarchyTransform()
 {
 	Transform temp;
 	if (mParentNode != NULL) {
-		temp.setTransform(mElementTransform->getTransform() * mParentNode->getHierarchyTransform().getTransform());
+		temp.setTransform(mParentNode->getHierarchyTransform().getTransform() * mElementTransform->getTransform());
 	}
 	else {
 		temp.setTransform(mElementTransform->getTransform());

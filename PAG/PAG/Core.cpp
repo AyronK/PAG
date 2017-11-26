@@ -25,9 +25,10 @@ void Core::run()
 	glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	
 	//Model robocopModel("/Users/sern19/Desktop/Tmp/2B/2B.fbx");
-	Model model("F:/Studia/Sem V/PAG/PAG/Objects/2B/source/2B.fbx", shader.get());
+	Model model("F:/Studia/Sem V/PAG/PAG/Objects/Cubes/source/Cubes.fbx", shader.get());
 	//model.getRootNode()->getNodeTransform()->rotate(90, glm::vec3(0, 0, 1));
 	model.getRootNode()->getNodeTransform()->scale(glm::vec3(0.005, 0.005, 0.005));
+	model.getRootNode()->getNodeTransform()->translate(glm::vec3(-0.5, 0, 0));
 	//model.getRootNode()->getChildren(0)->getNodeTransform()->translate(glm::vec3(1,1,1));
 	//model.getRootNode()->getChildren(0)->getChildren(0)->getNodeTransform()->translate(glm::vec3(1, 1, 1));
 	//model.getRootNode()->getChildren(0)->getChildren(0)->getChildren(0)->getNodeTransform()->translate(glm::vec3(1, 1, 1));
