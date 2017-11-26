@@ -88,14 +88,8 @@ void Node::updateChildrenPointers(Node* const pParent)
 void Node::drawContent(Shader *const pShader, Textures* const pTextures)
 {
 	int i;
-	Transform temp;
-	if (mParentNode) {
-		temp.setTransform(mElementTransform->getTransform() * mParentNode->getNodeTransform()->getTransform());
-	}
-	else {
-		temp.setTransform(mElementTransform->getTransform());
-	}
-	pShader->setMat4("model", temp.getTransform());
+	auto transform = getHierarchyTransform().getTransform();
+	pShader->setMat4("model", transform);
 	for (i = 0; i < mMeshes.size(); i++)
 		mMeshes[i].drawContent(pShader, pTextures);
 	for (i = 0; i < mChildNodes.size(); i++)
@@ -124,6 +118,19 @@ Transform* const Node::getNodeTransform()
 {
 	return mElementTransform;
 }
+
+Transform Node::getHierarchyTransform()
+{
+	Transform temp;
+	if (mParentNode != NULL) {
+		temp.setTransform(mElementTransform->getTransform() * mParentNode->getHierarchyTransform().getTransform());
+	}
+	else {
+		temp.setTransform(mElementTransform->getTransform());
+	}
+	return temp;
+}
+
 Node * const Node::getParentNode() { return mParentNode; }
 Node* const Node::getChildren(const unsigned int& pChildNumber)
 {

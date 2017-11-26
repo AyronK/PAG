@@ -59,6 +59,7 @@ public:
     const unsigned int getChildrensCount();
     const unsigned int getNodeLevel();
     Transform* const getNodeTransform();
+	Transform getHierarchyTransform();
 	Node* const getParentNode();
     Node* const getChildren(const unsigned int& pChildNumber);
 };

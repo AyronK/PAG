@@ -4,12 +4,12 @@ Camera::Camera()
 {
 	bool firstMouse = true;
 	yaw = 270.0f;	// yaw is initialized to -90.0 degrees since a yaw of 0.0 results in a direction vector pointing to the right so we initially rotate a bit to the left.
-	pitch = 0.0f;
+	pitch = -20.0f;
 	lastX = SCREEN_WIDTH / 2.0f;
 	lastY = SCREEN_HEIGHT / 2.0f;
 	fov = 15.0f;
 
-	cameraPos = glm::vec3(0.0f, 0.0f, 3.0f);  // camera position in world space
+	cameraPos = glm::vec3(0.0f, 1.0f, 1.5f);  // camera position in world space
 	cameraUp = glm::vec3(0.0f, 1.0f, 0.0f);  // vector "up
 	updateCameraVectors();
 }
