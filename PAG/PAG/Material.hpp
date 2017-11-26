@@ -1,16 +1,18 @@
-#pragma once
-#include <vector>
-#include <assimp/Importer.hpp>
-#include <assimp/scene.h>
-#include <assimp/postprocess.h>
+#ifndef Material_hpp
+#define Material_hpp
 
-class Texture;
-class Material
+#include <vector>
+#include <glm/glm.hpp>
+
+
+struct Material
 {
-private:
-public:
-	std::vector<Texture> loadMaterialTextures(aiMaterial * mat, aiTextureType type, std::string typeName);
-	Material();
-	~Material();
+	std::vector<int> mDiffuseTextureID;
+	glm::vec3 mDiffuseColor = glm::vec3(1, 0, 0);
+	std::vector<int> mSpecularTextureID;
+	glm::vec3 mSpecularLevel = glm::vec3(1, 1, 1);
+	std::vector<int> mNomralTextureID;
+	Material() {};
 };
 
+#endif /* Material_hpp */

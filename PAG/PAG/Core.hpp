@@ -7,7 +7,6 @@
 class Window;
 class Mesh;
 class Shader;
-class TextureLoader;
 class Camera;
 class Scene;
 class MousePicker;
@@ -25,7 +24,6 @@ private:
 
 	std::unique_ptr<Window> window;
 	std::unique_ptr<Shader> shader;
-	std::unique_ptr<TextureLoader> texture;
 	std::unique_ptr<Camera> camera;
 	std::unique_ptr<Scene> scene;
 	std::unique_ptr<MousePicker> mousePicker;

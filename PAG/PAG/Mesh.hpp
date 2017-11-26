@@ -6,14 +6,10 @@
 #include <assimp/Importer.hpp>
 #include <assimp/scene.h>
 #include <assimp/postprocess.h>
+#include "Material.hpp"
 
 class Shader;
-
-struct Texture {
-	unsigned int id;
-	std::string type;
-	aiString path;
-};
+class Textures;
 
 struct Vertex
 {
@@ -28,15 +24,16 @@ class Mesh
 {
 	std::vector<unsigned int> indices;
 	std::vector<Vertex> vertices;
-	std::vector<Texture> textures;
+	Material mMaterial;
 	
 public:
 	GLuint VertexBufferObject = NULL;
 	GLuint VertexArrayObject = NULL;
 	GLuint ElementObjectBuffer = NULL;
 	void setupMesh();
-	void draw(Shader shader);
-	Mesh(std::vector<Vertex> vertices, std::vector<unsigned int> indices, std::vector<Texture> textures);
+	void drawContent(Shader* const pShader, Textures* const pTextures);
+	Mesh(std::vector<Vertex>, std::vector<unsigned int> indices);
+	void setMaterial(const Material& pMaterial);
 	~Mesh();
 };
 

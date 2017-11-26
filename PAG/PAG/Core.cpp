@@ -24,7 +24,7 @@ void Core::run()
 	glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	
 	//Model robocopModel("/Users/sern19/Desktop/Tmp/2B/2B.fbx");
-	Model robocopModel("F:/Studia/Sem V/PAG/PAG/Objects/Tower/Tower.obj");
+	//Model robocopModel("F:/Studia/Sem V/PAG/PAG/Objects/Tower/Tower.obj");
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); wireframe
 
 	while (!glfwWindowShouldClose(window->getWindow()))
@@ -48,7 +48,7 @@ void Core::run()
 		robocop.translate(glm::vec3(0.0f, -1.75f, 0.0f));
 		robocop.scale(glm::vec3(0.2f, 0.2f, 0.2f));
 		shader->setMat4("model", robocop.getTransform());
-		robocopModel.Draw(*shader);
+		//robocopModel.Draw(*shader);
 
 		glfwSwapBuffers(window->getWindow());
 		glfwPollEvents();
@@ -79,7 +79,6 @@ Core::Core()
 
 	glEnable(GL_DEPTH_TEST);
 
-	texture = std::make_unique<TextureLoader>();
 
 	shader = std::make_unique<Shader>();
 
