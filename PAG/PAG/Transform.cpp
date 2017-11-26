@@ -1,4 +1,5 @@
 #include "Transform.hpp"
+#include <assimp/scene.h>
 
 #pragma region Constructors/Destructors
 Transform::Transform()
@@ -83,4 +84,23 @@ void Transform::scale(glm::vec3 scale)
 	{
 		child->scale(scale);
 	}*/
+}
+
+void Transform::importAiTransform(aiMatrix4x4 pMatrix)
+{
+	aiVector3t<float> aiScale, aiPosition;
+	aiQuaterniont<float> aiRotation;
+
+	glm::quat gRotation;
+
+	pMatrix.Decompose(aiScale, aiRotation, aiPosition);
+
+	gRotation.w = aiRotation.w;
+	gRotation.x = aiRotation.x;
+	gRotation.y = aiRotation.y;
+	gRotation.z = aiRotation.z;
+
+	translate(glm::vec3(aiPosition.x, aiPosition.y, aiPosition.z));
+	scale(glm::vec3(aiScale.x, aiScale.y, aiScale.z));
+	rotate(glm::angle(gRotation), glm::axis(gRotation));
 }

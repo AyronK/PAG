@@ -5,6 +5,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include <vector>
 #include <memory>
+#include <assimp/matrix4x4.h>
 
 class Transform : public std::enable_shared_from_this<Transform>
 {
@@ -24,6 +25,7 @@ public:
 	Transform();
 	Transform(const Transform & value);
 
+	void importAiTransform(aiMatrix4x4 pMatrix);
 	glm::mat4 getTransform();
 	void setTransform(glm::mat4 transform);
 

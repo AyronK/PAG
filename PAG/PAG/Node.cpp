@@ -105,7 +105,8 @@ void Node::setIsSelected(const bool& pIsSelected)
 		 mChildNodes[i].setIsSelected(pIsSelected);*/
 }
 
-void Node::resetNodeTransform() { /*mElementTransform->importAiTransform(mOriginalTransform);*/ }
+void Node::resetNodeTransform() {
+	mElementTransform->importAiTransform(mOriginalTransform); }
 
 const unsigned int Node::getNodeLevel()
 {
