@@ -41,49 +41,21 @@ glm::quat Transform::getRotation()
 {
 	return _rotation;
 }
-
-std::vector<std::shared_ptr<Transform>>& Transform::getChildren()
-{
-	return _children;
-}
-
-Transform& Transform::getParent()
-{
-	return *_parent;
-}
-
-void Transform::setParent(Transform& parent)
-{
-	_parent.reset(&parent);
-	parent.getChildren().push_back(std::make_shared<Transform>(*this));
-}
 #pragma endregion
 
 void Transform::rotate(float rad, glm::vec3 axis)
 {
 	setTransform(glm::rotate(_transform, rad, axis));
-    for (auto child: _children)
-	{
-		child->rotate(rad, axis);
-	}
 }
 
 void Transform::translate(glm::vec3 translation)
 {
 	setTransform(glm::translate(_transform, translation));
-    for (auto child: _children)
-	{
-		child->translate(translation);
-	}
 }
 
 void Transform::scale(glm::vec3 scale)
 {
 	setTransform(glm::scale(_transform, scale));
-    /*for (auto child: _children)
-	{
-		child->scale(scale);
-	}*/
 }
 
 void Transform::importAiTransform(aiMatrix4x4 pMatrix)

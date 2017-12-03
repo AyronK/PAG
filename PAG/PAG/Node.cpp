@@ -88,8 +88,8 @@ void Node::updateChildrenPointers(Node* const pParent)
 void Node::drawContent(Shader *const pShader, Textures* const pTextures)
 {
 	int i;
-	auto transform = getHierarchyTransform().getTransform();
-	pShader->setMat4("model", transform);
+	auto transform = getHierarchyTransform();
+	pShader->setMat4("model", transform.getTransform());
 	for (i = 0; i < mMeshes.size(); i++)
 		mMeshes[i].drawContent(pShader, pTextures);
 	for (i = 0; i < mChildNodes.size(); i++)
@@ -124,16 +124,16 @@ Transform Node::getHierarchyTransform()
 {
 	Transform temp;
 	if (mParentNode != NULL) {
-		temp.setTransform(mParentNode->getHierarchyTransform().getTransform() * mElementTransform->getTransform());
+		temp.setTransform(mParentNode->getHierarchyTransform().getTransform() * getNodeTransform()->getTransform());
 	}
 	else {
-		temp.setTransform(mElementTransform->getTransform());
+		temp.setTransform(getNodeTransform()->getTransform());
 	}
 	return temp;
 }
 
 Node * const Node::getParentNode() { return mParentNode; }
-Node* const Node::getChildren(const unsigned int& pChildNumber)
+Node* const Node::getChild(const unsigned int& pChildNumber)
 {
 	if (pChildNumber > mChildNodes.size()) throw std::runtime_error("(Node::getChildNode): Żądany numer dziecka jest większy od ilości dzieci");
 	return &mChildNodes[pChildNumber];

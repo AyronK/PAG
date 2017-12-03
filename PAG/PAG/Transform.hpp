@@ -33,10 +33,6 @@ public:
 	glm::vec3 getScale();
 	glm::quat getRotation();
 
-	std::vector<std::shared_ptr<Transform>>& getChildren();
-	Transform& getParent();
-	void setParent(Transform& parent);
-
 	void rotate(float rad, glm::vec3 axis);
 	void translate(glm::vec3 vec);
 	void scale(glm::vec3 vec);

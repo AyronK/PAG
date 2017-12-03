@@ -23,17 +23,17 @@ using namespace std;
 void Core::run()
 {
 	glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
-	
+
 	//Model robocopModel("/Users/sern19/Desktop/Tmp/2B/2B.fbx");
 	Model model("F:/Studia/Sem V/PAG/PAG/Objects/Cubes/source/Cubes.fbx", shader.get());
 	//model.getRootNode()->getNodeTransform()->rotate(90, glm::vec3(0, 0, 1));
-	model.getRootNode()->getNodeTransform()->scale(glm::vec3(0.005, 0.005, 0.005));
-	model.getRootNode()->getNodeTransform()->translate(glm::vec3(-0.5, 0, 0));
-	//model.getRootNode()->getChildren(0)->getNodeTransform()->translate(glm::vec3(1,1,1));
 	//model.getRootNode()->getChildren(0)->getChildren(0)->getNodeTransform()->translate(glm::vec3(1, 1, 1));
 	//model.getRootNode()->getChildren(0)->getChildren(0)->getChildren(0)->getNodeTransform()->translate(glm::vec3(1, 1, 1));
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); wireframe
 
+	model.getRootNode()->getNodeTransform()->scale(glm::vec3(0.005, 0.005, 0.005));
+	model.getRootNode()->getNodeTransform()->translate(glm::vec3(-0.5, 0, 0));
+	model.getRootNode()->getChild(0)->getChild(0)->getChild(0)->getChild(0)->getChild(0)->getNodeTransform()->scale(glm::vec3(10, 2, 2));
 	while (!glfwWindowShouldClose(window->getWindow()))
 	{
 		GLfloat currentTime = glfwGetTime();
@@ -45,13 +45,13 @@ void Core::run()
 
 		glClearColor(BACKGROUND_COLOR);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-		
+
 		shader->use();
 
 		scene->updateViewSpace(*camera);
-		shader->updateScene(*scene);		
+		shader->updateScene(*scene);
 
-		model.draw(shader.get());		
+		model.draw(shader.get());
 
 		glfwSwapBuffers(window->getWindow());
 		glfwPollEvents();
@@ -66,14 +66,14 @@ Core::Core()
 	if (!glfwInit())
 		throw runtime_error("Cannot initialize GLFW");
 
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-    
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+
 #ifdef __APPLE__
-    glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); //Fix na MacOS
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); //Fix na MacOS
 #endif
-    
+
 	window = std::make_unique<Window>();
 
 	// glad: load all OpenGL function pointers

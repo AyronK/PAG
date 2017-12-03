@@ -61,7 +61,7 @@ public:
     Transform* const getNodeTransform();
 	Transform getHierarchyTransform();
 	Node* const getParentNode();
-    Node* const getChildren(const unsigned int& pChildNumber);
+    Node* const getChild(const unsigned int& pChildNumber);
 };
 
 #endif /* Node_hpp */
