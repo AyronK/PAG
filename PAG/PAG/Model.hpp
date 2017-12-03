@@ -47,6 +47,8 @@ public:
 	Model(const std::string& pModelPath, Shader *const pShader);
 	Model(const Model& pSourceModel);
 	~Model();
+	const std::pair<glm::vec4, glm::vec4> calculateModelOBB();
+	const std::pair<Node*, float> testRayOBBIntersection(const glm::vec3 & pRaySource, const glm::vec3 & pRayDirection);
 	void draw(Shader *const pShader);
 	Node* const getRootNode();
 	std::vector<Node*> getAllNodes();

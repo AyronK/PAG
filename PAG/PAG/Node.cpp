@@ -3,6 +3,7 @@
 #include "Transform.hpp"
 #include "Shader.hpp"
 #include "Textures.hpp"
+#include "MousePicker.hpp"
 
 #include <iostream>
 #include <algorithm>
@@ -142,4 +143,19 @@ Node* const Node::getChild(const unsigned int& pChildNumber)
 Node::~Node()
 {
 	if (mElementTransform) delete mElementTransform;
+}
+
+std::pair<bool, float> Node::tryGetIntersection(const glm::vec3& pRaySource, const glm::vec3& pRayDirection) {
+	std::pair<bool, float> output;
+	output.second = false;
+	if (mMeshes.size() <= 0) {
+		return output;
+	}
+	for (int i = 0; i < mMeshes.size(); i++) {
+		if (mMeshes.at(i).checkRayIntersections(pRaySource, pRayDirection, getHierarchyTransform().getTransform(), output.second)) {
+			output.first = true;
+			return output;
+		}
+	}	
+	return output;
 }

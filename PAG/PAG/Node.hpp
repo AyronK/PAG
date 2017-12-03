@@ -45,11 +45,12 @@ private:
     Node(const aiNode* const pNode, const aiScene* const pScene, Node* const pParentNode, Textures* const pTextures);
     void processNode(const aiNode* const pNode, const aiScene* const pScene, Textures* const pTextures);
     Mesh processMesh(const aiMesh* const pMesh, const aiScene* const pScene, Textures* const pTextures);
-    void updateChildrenPointers(Node* const pParent);
+    void updateChildrenPointers(Node* const pParent); 
 public:
     Node(const aiNode* const pNode, const aiScene* const pScene, Textures* const pTextures);
     Node(const Node& pSourceNode);
     ~Node();
+	std::pair<bool, float> tryGetIntersection(const glm::vec3 & pRaySource, const glm::vec3 & pRayDirection);
     
     void setIsSelected(const bool& pIsSelected);
 

@@ -22,7 +22,7 @@ using namespace std;
 
 void Core::run()
 {
-	glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+	glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
 	//Model robocopModel("/Users/sern19/Desktop/Tmp/2B/2B.fbx");
 	Model model("F:/Studia/Sem V/PAG/PAG/Objects/Cubes/source/Cubes.fbx", shader.get());
@@ -32,8 +32,8 @@ void Core::run()
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); wireframe
 
 	model.getRootNode()->getNodeTransform()->scale(glm::vec3(0.005, 0.005, 0.005));
-	model.getRootNode()->getNodeTransform()->translate(glm::vec3(-0.5, 0, 0));
-	model.getRootNode()->getChild(0)->getChild(0)->getChild(0)->getChild(0)->getChild(0)->getNodeTransform()->scale(glm::vec3(10, 2, 2));
+	//model.getRootNode()->getNodeTransform()->translate(glm::vec3(-0.5, 0, 0));
+	//model.getRootNode()->getChild(0)->getChild(0)->getChild(0)->getChild(0)->getChild(0)->getNodeTransform()->scale(glm::vec3(10, 2, 2));
 
 	while (!glfwWindowShouldClose(window->getWindow()))
 	{
@@ -138,9 +138,13 @@ void Core::processMouse(Scene scene, Model* model)
 
 	camera->rotateByOffset(offsetX, offsetY);
 
+	std::pair<int, int> screenSize;
+	std::pair<double, double> mousePos;
+	glfwGetWindowSize(window->getWindow(), &screenSize.first, &screenSize.second);
+
 	if (glfwGetMouseButton(window->getWindow(), GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS) {
 		mousePicker->update(mousePosX, mousePosY);
-		auto selectedNode = mousePicker->getSelectedNode(model);
+		auto selectedNode = mousePicker->getSelectedNode(&scene, model, screenSize, mousePos);
 		if (selectedNode != nullptr) {
 			selectedNode->setIsSelected(true);
 		}

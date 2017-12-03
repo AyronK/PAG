@@ -37,5 +37,7 @@ public:
 	Mesh(std::vector<Vertex>, std::vector<unsigned int> indices);
 	void setMaterial(const Material& pMaterial);
 	~Mesh();
+	const std::pair<glm::vec4, glm::vec4> getMinMaxVerticles();
+	const bool checkRayIntersections(const glm::vec3 & pRaySource, const glm::vec3 & pRayDirection, const glm::mat4 & pTransform, float & pDistanceOutput);
 };
 

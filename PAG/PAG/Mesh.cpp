@@ -4,6 +4,7 @@
 #include "Textures.hpp"
 #include "Material.hpp"
 #include "Texture.hpp"
+#include "MousePicker.hpp"
 
 using namespace std;
 
@@ -70,3 +71,49 @@ Mesh::~Mesh()
 {
 }
 
+
+const std::pair<glm::vec4, glm::vec4> Mesh::getMinMaxVerticles()
+{
+	int i;
+	std::pair<glm::vec4, glm::vec4> output(FLT_MAX, FLT_MIN);
+
+	if (vertices.size() == 0) return output;
+
+	output.first = glm::vec4(vertices[0].position, 1);
+	output.second = glm::vec4(vertices[0].position, 1);
+	//Minimum
+	for (i = 1; i<vertices.size(); i++)
+	{
+		if (vertices[i].position.x<output.first.x) output.first.x = vertices[i].position.x;
+		if (vertices[i].position.y<output.first.y) output.first.y = vertices[i].position.y;
+		if (vertices[i].position.z<output.first.z) output.first.z = vertices[i].position.z;
+	}
+	//Maximum
+	for (i = 1; i<vertices.size(); i++)
+	{
+		if (vertices[i].position.x>output.second.x) output.second.x = vertices[i].position.x;
+		if (vertices[i].position.y>output.second.y) output.second.y = vertices[i].position.y;
+		if (vertices[i].position.z>output.second.z) output.second.z = vertices[i].position.z;
+	}
+	return output;
+}
+
+const bool Mesh::checkRayIntersections(const glm::vec3& pRaySource, const glm::vec3& pRayDirection, const glm::mat4& pTransform, float& pDistanceOutput)
+{
+	int i;
+	glm::vec3 triangle[3];
+	float distance;
+	std::vector<float> distances;
+	//Sprawdzanie dla ka¿dego trójk¹ta odleg³oœci
+	for (i = 0; i<indices.size(); i += 3)
+	{
+		//Transformacja
+		triangle[0] = glm::vec3(pTransform*glm::vec4(vertices[indices[i]].position, 1.0f)); //PAMIÊTAÆ NA PRZYSZ£OŒÆ O KOLEJNOŒCI - NIE STRACISZ BEZ SENSU GODZINY
+		triangle[1] = glm::vec3(pTransform*glm::vec4(vertices[indices[i + 1]].position, 1.0f));
+		triangle[2] = glm::vec3(pTransform*glm::vec4(vertices[indices[i + 2]].position, 1.0f));
+		if (MousePicker::checkRayIntersectionTriangle(pRaySource, pRayDirection, triangle, distance)) distances.push_back(distance);
+	}
+	if (distances.size() == 0) return false;
+	pDistanceOutput = *std::min_element(std::begin(distances), std::end(distances));
+	return true;
+}

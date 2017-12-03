@@ -7,6 +7,7 @@
 
 class Node;
 class Model;
+class Scene;
 
 class MousePicker
 {
@@ -23,6 +24,7 @@ public:
 	MousePicker(Camera& camera, glm::mat4 projection);
 	~MousePicker();
 	glm::vec3 getPointOnRay(glm::vec3 ray, float distance);
-	Node* getSelectedNode(Model* model);
-};
+	Node * getSelectedNode(Scene * const pScene, Model* model, const std::pair<int, int>& pScreenSize, const std::pair<double, double>& pMousePos);
+	static const bool checkRayIntersectionTriangle(const glm::vec3 & pRaySource, const glm::vec3 & pRayDirection, const glm::vec3 triangle[3], float & pDistanceOutput);
+	};
 
