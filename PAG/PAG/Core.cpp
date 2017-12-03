@@ -18,6 +18,7 @@
 #include "MousePicker.hpp"
 #include <iostream>
 #include "Node.hpp"
+#include "UserInterface.hpp"
 using namespace std;
 
 void Core::run()
@@ -53,7 +54,7 @@ void Core::run()
 		shader->updateScene(*scene);
 
 		model.draw(shader.get());
-
+		ui->draw();
 		glfwSwapBuffers(window->getWindow());
 		glfwPollEvents();
 	}
@@ -94,6 +95,7 @@ Core::Core()
 	glViewport(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT);
 
 	scene = std::make_unique<Scene>();
+	ui = std::make_unique<UserInterface>(window->getWindow());
 	mousePicker = std::make_unique<MousePicker>(*camera, scene->getProjectionSpace());
 }
 
@@ -148,6 +150,7 @@ void Core::processMouse(Scene scene, Model* model)
 		}
 		mousePicker->update(mousePosX, mousePosY);
 		auto selectedNode = mousePicker->getSelectedNode(&scene, model, screenSize, mousePos);
+		ui->setSelectedNode(selectedNode);
 		if (selectedNode != nullptr) {
 			selectedNode->setIsSelected(true);
 		}

@@ -11,6 +11,7 @@ class Camera;
 class Scene;
 class MousePicker;
 class Model;
+class UserInterface;
 
 class Core
 {
@@ -28,6 +29,7 @@ private:
 	std::unique_ptr<Camera> camera;
 	std::unique_ptr<Scene> scene;
 	std::unique_ptr<MousePicker> mousePicker;
+	std::unique_ptr<UserInterface> ui;
 public:
 	void run();
 	Core();
