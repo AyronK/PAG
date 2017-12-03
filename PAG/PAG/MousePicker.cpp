@@ -82,8 +82,6 @@ Node * MousePicker::getSelectedNode(Scene *const pScene, Model* model, const std
 
 	//Obliczanie najbli¿szego Node
 	std::vector<std::pair<Node*, float>> intersectedNodes;
-	/*intersectedNodes.push_back(model->testRayOBBIntersection(rayStartPointWorld, rayDirectionWorld));
-	if (intersectedNodes.size() == 0) return NULL;*/
 
 
 	auto allNodes = model->getAllNodes();
@@ -95,7 +93,6 @@ Node * MousePicker::getSelectedNode(Scene *const pScene, Model* model, const std
 		}
 	}
 	if (intersectedNodes.size() == 0) return NULL;
-	//intersectedNodes.at(5).second = -10.0f;
 
 	std::pair<Node*, float> closestNode = intersectedNodes[0];
 	for (i = 1; i<intersectedNodes.size(); i++)

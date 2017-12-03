@@ -143,11 +143,13 @@ void Core::processMouse(Scene scene, Model* model)
 	glfwGetWindowSize(window->getWindow(), &screenSize.first, &screenSize.second);
 
 	if (glfwGetMouseButton(window->getWindow(), GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS) {
+		for each(auto node in model->getAllNodes()) {
+			node->setIsSelected(false);
+		}
 		mousePicker->update(mousePosX, mousePosY);
 		auto selectedNode = mousePicker->getSelectedNode(&scene, model, screenSize, mousePos);
 		if (selectedNode != nullptr) {
 			selectedNode->setIsSelected(true);
 		}
-
 	}
 }
