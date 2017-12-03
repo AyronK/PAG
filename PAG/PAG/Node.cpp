@@ -98,11 +98,11 @@ void Node::drawContent(Shader *const pShader, Textures* const pTextures)
 
 void Node::setIsSelected(const bool& pIsSelected)
 {
-	/* int i;
+	 int i;
 	 for (i=0;i<mMeshes.size();i++)
 		 mMeshes[i].setIsSelected(pIsSelected);
 	 for (i=0;i<mChildNodes.size();i++)
-		 mChildNodes[i].setIsSelected(pIsSelected);*/
+		 mChildNodes[i].setIsSelected(pIsSelected);
 }
 
 void Node::resetNodeTransform() {

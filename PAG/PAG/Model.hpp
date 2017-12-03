@@ -40,6 +40,7 @@ private:
 	Textures* mTextures = NULL;
 	std::string mModelDirectory;
 	std::string mModelFilename;
+	void getChildrenNodes(Node * node, std::vector<Node*>* allNodes);
 
 	void loadModel(const std::string& pModelPath, Shader *const pShader);
 public:
@@ -48,6 +49,7 @@ public:
 	~Model();
 	void draw(Shader *const pShader);
 	Node* const getRootNode();
+	std::vector<Node*> getAllNodes();
 };
 
 #endif /* Model_hpp */

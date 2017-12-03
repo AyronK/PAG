@@ -5,6 +5,9 @@
 #include "Camera.hpp"
 #include <memory>
 
+class Node;
+class Model;
+
 class MousePicker
 {
 private:
@@ -20,5 +23,6 @@ public:
 	MousePicker(Camera& camera, glm::mat4 projection);
 	~MousePicker();
 	glm::vec3 getPointOnRay(glm::vec3 ray, float distance);
+	Node* getSelectedNode(Model* model);
 };
 

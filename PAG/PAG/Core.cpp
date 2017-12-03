@@ -34,6 +34,7 @@ void Core::run()
 	model.getRootNode()->getNodeTransform()->scale(glm::vec3(0.005, 0.005, 0.005));
 	model.getRootNode()->getNodeTransform()->translate(glm::vec3(-0.5, 0, 0));
 	model.getRootNode()->getChild(0)->getChild(0)->getChild(0)->getChild(0)->getChild(0)->getNodeTransform()->scale(glm::vec3(10, 2, 2));
+
 	while (!glfwWindowShouldClose(window->getWindow()))
 	{
 		GLfloat currentTime = glfwGetTime();
@@ -41,7 +42,7 @@ void Core::run()
 		lastTime = currentTime;
 
 		processInput();
-		processMouse(*scene);
+		processMouse(*scene, &model);
 
 		glClearColor(BACKGROUND_COLOR);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -116,7 +117,7 @@ void Core::processInput()
 		camera->cameraPos += glm::normalize(glm::cross(camera->cameraFront, camera->cameraUp)) * speed;
 }
 
-void Core::processMouse(Scene scene)
+void Core::processMouse(Scene scene, Model* model)
 {
 
 	double mousePosX, mousePosY;
@@ -137,5 +138,12 @@ void Core::processMouse(Scene scene)
 
 	camera->rotateByOffset(offsetX, offsetY);
 
-	mousePicker->update(mousePosX, mousePosY);
+	if (glfwGetMouseButton(window->getWindow(), GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS) {
+		mousePicker->update(mousePosX, mousePosY);
+		auto selectedNode = mousePicker->getSelectedNode(model);
+		if (selectedNode != nullptr) {
+			selectedNode->setIsSelected(true);
+		}
+
+	}
 }

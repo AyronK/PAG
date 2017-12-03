@@ -10,10 +10,10 @@ using namespace std;
 void Mesh::drawContent(Shader * const pShader, Textures* const pTextures)
 {
 	Material temporaryMaterial;
-	//if (!mIsSelected) 
-	temporaryMaterial = mMaterial;
+	if (!isSelected) {
+		temporaryMaterial = mMaterial;
+	}
 	pTextures->setActiveTextures(temporaryMaterial, pShader);
-	//Bindowanie tablicy obiektów
 	glBindVertexArray(VertexArrayObject);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);
 	glBindVertexArray(NULL);
@@ -29,6 +29,11 @@ void Mesh::setMaterial(const Material& pMaterial)
 	mMaterial = pMaterial;
 }
 
+
+void Mesh::setIsSelected(bool isSelected)
+{
+	this->isSelected = isSelected;
+}
 
 void Mesh::setupMesh() {
 
@@ -64,3 +69,4 @@ void Mesh::setupMesh() {
 Mesh::~Mesh()
 {
 }
+

@@ -1,5 +1,5 @@
 #include "MousePicker.hpp"
-#include <GLFW/glfw3.h>
+#include "Model.hpp"
 
 glm::vec3 MousePicker::calculateMouseRay(float mouseX, float mouseY)
 {
@@ -51,3 +51,13 @@ glm::vec3 MousePicker::getPointOnRay(glm::vec3 ray, float distance) {
 	glm::vec3 scaledRay = glm::vec3(ray.x * distance, ray.y * distance, ray.z * distance);
 	return start + scaledRay;
 }
+
+Node * MousePicker::getSelectedNode(Model* model)
+{
+	if (model->getAllNodes().size() > 0) {
+		return model->getAllNodes().at(0);
+	}
+	return nullptr;
+}
+
+

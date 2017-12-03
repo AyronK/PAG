@@ -10,6 +10,7 @@ class Shader;
 class Camera;
 class Scene;
 class MousePicker;
+class Model;
 
 class Core
 {
@@ -20,7 +21,7 @@ private:
 	float mouseSensivity = 0.05f;
 
 	void processInput();
-	void processMouse(Scene scene);
+	void processMouse(Scene scene, Model* model);
 
 	std::unique_ptr<Window> window;
 	std::unique_ptr<Shader> shader;

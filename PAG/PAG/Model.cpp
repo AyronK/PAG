@@ -71,6 +71,21 @@ void Model::draw(Shader *const pShader)
 
 Node* const Model::getRootNode() { return mRootNode; }
 
+std::vector<Node*> Model::getAllNodes()
+{
+	std::vector<Node*> allNodes;
+	getChildrenNodes(mRootNode, &allNodes);
+	return allNodes;
+}
+
+void Model::getChildrenNodes(Node* node, std::vector<Node*>* allNodes)
+{
+	allNodes->push_back(node);
+	for (int i = 0; i < node->getChildrensCount(); i++) {
+		getChildrenNodes(node->getChild(i), allNodes);
+	}
+}
+
 Model::~Model()
 {
 	if (mRootNode) delete mRootNode;

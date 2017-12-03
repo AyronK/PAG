@@ -8,7 +8,7 @@
 struct Material
 {
 	std::vector<int> mDiffuseTextureID;
-	glm::vec3 mDiffuseColor = glm::vec3(1, 0, 0);
+	glm::vec3 mDiffuseColor = glm::vec3(0.25f, 0.25f, 0.5f);
 	std::vector<int> mSpecularTextureID;
 	glm::vec3 mSpecularLevel = glm::vec3(1, 1, 1);
 	std::vector<int> mNomralTextureID;

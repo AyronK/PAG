@@ -25,8 +25,10 @@ class Mesh
 	std::vector<unsigned int> indices;
 	std::vector<Vertex> vertices;
 	Material mMaterial;
+	bool isSelected;
 	
 public:
+	void setIsSelected(bool isSelected);
 	GLuint VertexBufferObject = NULL;
 	GLuint VertexArrayObject = NULL;
 	GLuint ElementObjectBuffer = NULL;
