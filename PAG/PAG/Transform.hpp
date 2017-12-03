@@ -18,9 +18,13 @@ private:
 	glm::vec3 _skew;
 	glm::vec4 _perspective;
 
+	glm::vec3 _rotationAxis = glm::vec3(1.0f, 0, 0);
+	float _rotationAngle = 0.0f;
+
 	std::vector<std::shared_ptr<Transform>> _children;
 	std::shared_ptr<Transform> _parent;
 	std::shared_ptr<Transform> sharedPtrOfThis;
+	void update();
 public:
 	Transform();
 	Transform(const Transform & value);
@@ -29,9 +33,16 @@ public:
 	glm::mat4 getTransform();
 	void setTransform(glm::mat4 transform);
 
+
 	glm::vec3 getPosition();
 	glm::vec3 getScale();
 	glm::quat getRotation();
+
+
+	void setPosition(glm::vec3 position);
+	const std::pair<glm::vec3, float> getRotationAxisAndAngle();
+	void setScale(glm::vec3 rotation);
+	void setRotation(float rad, glm::vec3 axis);
 
 	void rotate(float rad, glm::vec3 axis);
 	void translate(glm::vec3 vec);

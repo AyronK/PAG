@@ -28,6 +28,14 @@ void Transform::setTransform(glm::mat4 transform)
 	glm::decompose(transform, _scale, _rotation, _position, _skew, _perspective);
 }
 
+void Transform::update() {
+	glm::mat4 transform = glm::mat4(1);
+	transform = glm::translate(transform, _position);
+	transform = glm::rotate(transform, _rotationAngle, _rotationAxis);
+	transform = glm::scale(transform, _scale);
+	setTransform(transform);
+}
+
 glm::vec3 Transform::getPosition() {
 	return _position;
 }
@@ -41,10 +49,35 @@ glm::quat Transform::getRotation()
 {
 	return _rotation;
 }
+
+void Transform::setPosition(glm::vec3 position)
+{
+	_position = position;
+	update();
+}
+
+const std::pair<glm::vec3, float> Transform::getRotationAxisAndAngle()
+{
+	return std::pair<glm::vec3, float>(_rotationAxis, _rotationAngle);
+}
+
+void Transform::setScale(glm::vec3 scale)
+{
+	_scale = scale;
+	update();
+}
+void Transform::setRotation(float rad, glm::vec3 axis)
+{
+	_rotationAngle = rad;
+	_rotationAxis = axis;
+	update();
+}
 #pragma endregion
 
 void Transform::rotate(float rad, glm::vec3 axis)
 {
+	_rotationAngle = rad;
+	_rotationAxis = axis;
 	setTransform(glm::rotate(_transform, rad, axis));
 }
 
