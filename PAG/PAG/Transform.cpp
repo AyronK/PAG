@@ -5,14 +5,11 @@
 Transform::Transform()
 {
 	setTransform(glm::mat4(1));
-	_parent = std::shared_ptr<Transform>();
-	sharedPtrOfThis = std::make_shared<Transform>(*this);
 }
 
 Transform::Transform(const Transform & value)
 {
 	setTransform(value._transform);
-	_parent = value._parent;
 }
 #pragma endregion
 

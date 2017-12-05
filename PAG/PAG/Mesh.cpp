@@ -71,33 +71,6 @@ Mesh::~Mesh()
 {
 }
 
-
-const std::pair<glm::vec4, glm::vec4> Mesh::getMinMaxVerticles()
-{
-	int i;
-	std::pair<glm::vec4, glm::vec4> output(FLT_MAX, FLT_MIN);
-
-	if (vertices.size() == 0) return output;
-
-	output.first = glm::vec4(vertices[0].position, 1);
-	output.second = glm::vec4(vertices[0].position, 1);
-	//Minimum
-	for (i = 1; i<vertices.size(); i++)
-	{
-		if (vertices[i].position.x<output.first.x) output.first.x = vertices[i].position.x;
-		if (vertices[i].position.y<output.first.y) output.first.y = vertices[i].position.y;
-		if (vertices[i].position.z<output.first.z) output.first.z = vertices[i].position.z;
-	}
-	//Maximum
-	for (i = 1; i<vertices.size(); i++)
-	{
-		if (vertices[i].position.x>output.second.x) output.second.x = vertices[i].position.x;
-		if (vertices[i].position.y>output.second.y) output.second.y = vertices[i].position.y;
-		if (vertices[i].position.z>output.second.z) output.second.z = vertices[i].position.z;
-	}
-	return output;
-}
-
 const bool Mesh::checkRayIntersections(const glm::vec3& pRaySource, const glm::vec3& pRayDirection, const glm::mat4& pTransform, float& pDistanceOutput)
 {
 	int i;

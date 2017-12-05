@@ -21,9 +21,6 @@ private:
 	glm::vec3 _rotationAxis = glm::vec3(1.0f, 0, 0);
 	float _rotationAngle = 0.0f;
 
-	std::vector<std::shared_ptr<Transform>> _children;
-	std::shared_ptr<Transform> _parent;
-	std::shared_ptr<Transform> sharedPtrOfThis;
 	void update();
 public:
 	Transform();

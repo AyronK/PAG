@@ -122,33 +122,32 @@ void Core::processInput()
 void Core::processMouse(Scene scene, Model* model)
 {
 
-	double mousePosX, mousePosY;
-	glfwGetCursorPos(window->getWindow(), &mousePosX, &mousePosY);
+	std::pair<double, double> mousePos;
+	glfwGetCursorPos(window->getWindow(), &mousePos.first, &mousePos.second);
 
 	if (camera->firstMouse)
 	{
-		camera->lastX = mousePosX;
-		camera->lastY = mousePosY;
+		camera->lastX = mousePos.first;
+		camera->lastY = mousePos.second;
 		camera->firstMouse = false;
 	}
 
-	float offsetX = (mousePosX - camera->lastX) * mouseSensivity;
-	float offsetY = (camera->lastY - mousePosY) * mouseSensivity;
+	float offsetX = (mousePos.first - camera->lastX) * mouseSensivity;
+	float offsetY = (camera->lastY - mousePos.second) * mouseSensivity;
 
-	camera->lastX = mousePosX;
-	camera->lastY = mousePosY;
+	camera->lastX = mousePos.first;
+	camera->lastY = mousePos.second;
 
 	camera->rotateByOffset(offsetX, offsetY);
 
 	std::pair<int, int> screenSize;
-	std::pair<double, double> mousePos;
 	glfwGetWindowSize(window->getWindow(), &screenSize.first, &screenSize.second);
 
 	if (glfwGetMouseButton(window->getWindow(), GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS) {
 		for each(auto node in model->getAllNodes()) {
 			node->setIsSelected(false);
 		}
-		mousePicker->update(mousePosX, mousePosY);
+		mousePicker->update(mousePos.first, mousePos.second);
 		auto selectedNode = mousePicker->getSelectedNode(&scene, model, screenSize, mousePos);
 		ui->setSelectedNode(selectedNode);
 		if (selectedNode != nullptr) {
