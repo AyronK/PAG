@@ -107,7 +107,7 @@ Core::Core()
 
 	scene = std::make_unique<Scene>();
 	ui = std::make_unique<UserInterface>(window->getWindow());
-	mousePicker = std::make_unique<MousePicker>(*camera, scene->getProjectionSpace());
+	mousePicker = std::make_unique<MousePicker>();
 }
 
 Core::~Core()
@@ -161,7 +161,6 @@ void Core::processMouse(Scene scene, std::vector<Model*> models)
 				node->setIsSelected(false);
 			}
 		}
-		mousePicker->update(mousePos.first, mousePos.second);
 		auto selectedNode = mousePicker->getSelectedNode(&scene, models, screenSize, mousePos);
 		ui->setSelectedNode(selectedNode);
 		if (selectedNode != nullptr) {
