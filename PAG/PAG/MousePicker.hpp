@@ -4,6 +4,7 @@
 #include <glm/gtc/type_ptr.hpp>
 #include "Camera.hpp"
 #include <memory>
+#include <vector>
 
 class Node;
 class Model;
@@ -24,7 +25,7 @@ public:
 	MousePicker(Camera& camera, glm::mat4 projection);
 	~MousePicker();
 	glm::vec3 getPointOnRay(glm::vec3 ray, float distance);
-	Node * getSelectedNode(Scene * const pScene, Model* model, const std::pair<int, int>& pScreenSize, const std::pair<double, double>& pMousePos);
+	Node * getSelectedNode(Scene * const pScene, std::vector<Model*>, const std::pair<int, int>& pScreenSize, const std::pair<double, double>& pMousePos);
 	static const bool checkRayIntersectionTriangle(const glm::vec3 & pRaySource, const glm::vec3 & pRayDirection, const glm::vec3 triangle[3], float & pDistanceOutput);
 	};
 

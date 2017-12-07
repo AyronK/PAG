@@ -55,7 +55,7 @@ glm::vec3 MousePicker::getPointOnRay(glm::vec3 ray, float distance) {
 	return start + scaledRay;
 }
 
-Node * MousePicker::getSelectedNode(Scene *const pScene, Model* model, const std::pair<int, int>& pScreenSize, const std::pair<double, double>& pMousePos)
+Node * MousePicker::getSelectedNode(Scene *const pScene, std::vector<Model*> models, const std::pair<int, int>& pScreenSize, const std::pair<double, double>& pMousePos)
 {
 	int i;
 	glm::vec4 rayStartPoint(
@@ -84,7 +84,13 @@ Node * MousePicker::getSelectedNode(Scene *const pScene, Model* model, const std
 	std::vector<std::pair<Node*, float>> intersectedNodes;
 
 
-	auto allNodes = model->getAllNodes();
+	std::vector<Node*> allNodes;
+
+	for each (auto model in models)
+	{
+		auto modelNodes = model->getAllNodes();
+		allNodes.insert(allNodes.end(), modelNodes.begin(), modelNodes.end());
+	}
 
 	for (int i = 0; i < allNodes.size(); i++) {
 		auto intersection = allNodes.at(i)->tryGetIntersection(rayStartPointWorld, rayDirectionWorld);

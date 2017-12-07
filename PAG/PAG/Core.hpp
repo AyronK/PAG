@@ -3,6 +3,7 @@
 #define GLFW_INCLUDE_NONE
 
 #include <memory>
+#include <vector>
 
 class Window;
 class Mesh;
@@ -22,7 +23,7 @@ private:
 	float mouseSensivity = 0.125f;
 
 	void processInput();
-	void processMouse(Scene scene, Model* model);
+	void processMouse(Scene scene, std::vector<Model*> models);
 
 	std::unique_ptr<Window> window;
 	std::unique_ptr<Shader> shader;

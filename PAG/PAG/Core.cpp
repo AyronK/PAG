@@ -26,15 +26,19 @@ void Core::run()
 	glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
 	//Model robocopModel("/Users/sern19/Desktop/Tmp/2B/2B.fbx");
-	Model model("F:/Studia/Sem V/PAG/PAG/Objects/Cubes/source/Cubes.fbx", shader.get());
+	std::vector<Model*> models;
+	Model cubes("C:/Users/Ayron/Desktop/Studia/PAG/PAG/Objects/Cubes/source/Cubes.fbx", shader.get());
+	
 	//model.getRootNode()->getNodeTransform()->rotate(90, glm::vec3(0, 0, 1));
 	//model.getRootNode()->getChildren(0)->getChildren(0)->getNodeTransform()->translate(glm::vec3(1, 1, 1));
 	//model.getRootNode()->getChildren(0)->getChildren(0)->getChildren(0)->getNodeTransform()->translate(glm::vec3(1, 1, 1));
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); wireframe
 
-	model.getRootNode()->getNodeTransform()->scale(glm::vec3(0.005, 0.005, 0.005));
+	cubes.getRootNode()->getNodeTransform()->scale(glm::vec3(0.005, 0.005, 0.005));
 	//model.getRootNode()->getNodeTransform()->translate(glm::vec3(-0.5, 0, 0));
 	//model.getRootNode()->getChild(0)->getChild(0)->getChild(0)->getChild(0)->getChild(0)->getNodeTransform()->scale(glm::vec3(10, 2, 2));
+
+	models.push_back(&cubes);
 
 	while (!glfwWindowShouldClose(window->getWindow()))
 	{
@@ -43,7 +47,7 @@ void Core::run()
 		lastTime = currentTime;
 
 		processInput();
-		processMouse(*scene, &model);
+		processMouse(*scene, models);
 
 		glClearColor(BACKGROUND_COLOR);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -53,7 +57,7 @@ void Core::run()
 		scene->updateViewSpace(*camera);
 		shader->updateScene(*scene);
 
-		model.draw(shader.get());
+		cubes.draw(shader.get());
 		ui->draw();
 		glfwSwapBuffers(window->getWindow());
 		glfwPollEvents();
@@ -119,7 +123,7 @@ void Core::processInput()
 		camera->cameraPos += glm::normalize(glm::cross(camera->cameraFront, camera->cameraUp)) * speed;
 }
 
-void Core::processMouse(Scene scene, Model* model)
+void Core::processMouse(Scene scene, std::vector<Model*> models)
 {
 
 	std::pair<double, double> mousePos;
@@ -144,11 +148,14 @@ void Core::processMouse(Scene scene, Model* model)
 	glfwGetWindowSize(window->getWindow(), &screenSize.first, &screenSize.second);
 
 	if (glfwGetMouseButton(window->getWindow(), GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS) {
-		for each(auto node in model->getAllNodes()) {
-			node->setIsSelected(false);
+		for each (auto model in models)
+		{
+			for each(auto node in model->getAllNodes()) {
+				node->setIsSelected(false);
+			}
 		}
 		mousePicker->update(mousePos.first, mousePos.second);
-		auto selectedNode = mousePicker->getSelectedNode(&scene, model, screenSize, mousePos);
+		auto selectedNode = mousePicker->getSelectedNode(&scene, models, screenSize, mousePos);
 		ui->setSelectedNode(selectedNode);
 		if (selectedNode != nullptr) {
 			selectedNode->setIsSelected(true);
