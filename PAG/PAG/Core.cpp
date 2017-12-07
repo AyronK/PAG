@@ -28,6 +28,7 @@ void Core::run()
 	//Model robocopModel("/Users/sern19/Desktop/Tmp/2B/2B.fbx");
 	std::vector<Model*> models;
 	Model cubes("C:/Users/Ayron/Desktop/Studia/PAG/PAG/Objects/Cubes/source/Cubes.fbx", shader.get());
+	Model twoB("C:/Users/Ayron/Desktop/Studia/PAG/PAG/Objects/2B/source/2B.fbx", shader.get());
 	
 	//model.getRootNode()->getNodeTransform()->rotate(90, glm::vec3(0, 0, 1));
 	//model.getRootNode()->getChildren(0)->getChildren(0)->getNodeTransform()->translate(glm::vec3(1, 1, 1));
@@ -35,10 +36,13 @@ void Core::run()
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); wireframe
 
 	cubes.getRootNode()->getNodeTransform()->scale(glm::vec3(0.005, 0.005, 0.005));
+	twoB.getRootNode()->getNodeTransform()->scale(glm::vec3(0.007, 0.007, 0.007));
+	twoB.getRootNode()->getNodeTransform()->translate(glm::vec3(30.0f, 0.0f,0.0f));
 	//model.getRootNode()->getNodeTransform()->translate(glm::vec3(-0.5, 0, 0));
 	//model.getRootNode()->getChild(0)->getChild(0)->getChild(0)->getChild(0)->getChild(0)->getNodeTransform()->scale(glm::vec3(10, 2, 2));
 
 	models.push_back(&cubes);
+	models.push_back(&twoB);
 
 	while (!glfwWindowShouldClose(window->getWindow()))
 	{
@@ -57,7 +61,10 @@ void Core::run()
 		scene->updateViewSpace(*camera);
 		shader->updateScene(*scene);
 
-		cubes.draw(shader.get());
+		for each (auto model in models)
+		{
+			model->draw(shader.get());
+		}
 		ui->draw();
 		glfwSwapBuffers(window->getWindow());
 		glfwPollEvents();
