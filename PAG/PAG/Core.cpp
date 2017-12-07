@@ -23,7 +23,6 @@ using namespace std;
 
 void Core::run()
 {
-	glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
 	//Model robocopModel("/Users/sern19/Desktop/Tmp/2B/2B.fbx");
 	std::vector<Model*> models;
@@ -136,23 +135,31 @@ void Core::processMouse(Scene scene, std::vector<Model*> models)
 	std::pair<double, double> mousePos;
 	glfwGetCursorPos(window->getWindow(), &mousePos.first, &mousePos.second);
 
-	if (camera->firstMouse)
+	if (cameraMove)
 	{
+		if (camera->firstMouse)
+		{
+			camera->lastX = mousePos.first;
+			camera->lastY = mousePos.second;
+			camera->firstMouse = false;
+		}
+
+		float offsetX = (mousePos.first - camera->lastX) * mouseSensivity;
+		float offsetY = (camera->lastY - mousePos.second) * mouseSensivity;
+
 		camera->lastX = mousePos.first;
 		camera->lastY = mousePos.second;
-		camera->firstMouse = false;
+
+		camera->rotateByOffset(offsetX, offsetY);
 	}
-
-	float offsetX = (mousePos.first - camera->lastX) * mouseSensivity;
-	float offsetY = (camera->lastY - mousePos.second) * mouseSensivity;
-
-	camera->lastX = mousePos.first;
-	camera->lastY = mousePos.second;
-
-	camera->rotateByOffset(offsetX, offsetY);
 
 	std::pair<int, int> screenSize;
 	glfwGetWindowSize(window->getWindow(), &screenSize.first, &screenSize.second);
+
+	if (glfwGetKey(window->getWindow(), GLFW_KEY_E) == GLFW_PRESS)
+	{
+		cameraMove = !cameraMove;
+	}
 
 	if (glfwGetMouseButton(window->getWindow(), GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS) {
 		for each (auto model in models)

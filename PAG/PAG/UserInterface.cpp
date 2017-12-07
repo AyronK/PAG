@@ -63,50 +63,43 @@ void UserInterface::draw()
 	{
 		//Przyciski selekcji modyfikowanego obiektu/informacje
 		ImGui::SetNextWindowPos(ImVec2(0, mainMenuHeight));
-		ImGui::SetNextWindowSize(ImVec2(240, 480));
-		ImGui::Begin("Selected node", temporaryBool, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
-		ImGui::Text("  Node level %i", mSelectedNode->getNodeLevel());
-		//ImGui::Text("  Transform level %i", mSelectedTransform->getTransformLevel());
+		ImGui::SetNextWindowSize(ImVec2(220, 370));
+		ImGui::Begin("Edit mode", temporaryBool, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
 		if (mSelectedNode->getParentNode() != NULL && mSelectedNode->getNodeLevel() > 0 && ImGui::Button("Select parent node"))
 		{
 			setSelectedNode(mSelectedNode->getParentNode());
 		}
-		/*if (mSelectedTransform != NULL)
-		{
-			updateUITransformData();
-		}*/
 
 		//Pola z danymi
 		ImGui::Text("Position");
-		ImGui::PushID(0); //Imgui u¿ywa nazw pól jako id
+		ImGui::PushID(0); 
 		ImGui::InputFloat(":x", &mTranslateX, 0.01f, 1, 2, ImGuiInputTextFlags_CharsDecimal);
 		ImGui::InputFloat(":y", &mTranslateY, 0.01f, 1, 2, ImGuiInputTextFlags_CharsDecimal);
 		ImGui::InputFloat(":z", &mTranslateZ, 0.01f, 1, 2, ImGuiInputTextFlags_CharsDecimal);
 		ImGui::PopID();
 		ImGui::Text("Scale");
-		ImGui::PushID(1); //Wiêc aby dalsze przyciski by³y responsywne
+		ImGui::PushID(1); 
 		ImGui::InputFloat(":x", &mScaleX, 0.1f, 1.0f, 2, ImGuiInputTextFlags_CharsDecimal);
 		ImGui::InputFloat(":y", &mScaleY, 0.1f, 1.0f, 2, ImGuiInputTextFlags_CharsDecimal);
 		ImGui::InputFloat(":z", &mScaleZ, 0.1f, 1.0f, 2, ImGuiInputTextFlags_CharsDecimal);
 		ImGui::PopID();
-		ImGui::Text("Rotate");
-		ImGui::InputFloat(":angle", &mRotationAngle, 0.001f, 0.1f, 3, ImGuiInputTextFlags_CharsDecimal);
-		ImGui::PushID(2); //U¿ywamy PushID
+		ImGui::Text("Rotation");
+		ImGui::InputFloat(":deg", &mRotationAngle, 0.001f, 0.1f, 3, ImGuiInputTextFlags_CharsDecimal);
+		ImGui::PushID(2); 
 		ImGui::InputFloat(":x", &mRotationAxisX, 1.0f, 1.0f, 1, ImGuiInputTextFlags_CharsDecimal);
 		ImGui::InputFloat(":y", &mRotationAxisY, 1.0f, 1.0f, 1, ImGuiInputTextFlags_CharsDecimal);
 		ImGui::InputFloat(":z", &mRotationAxisZ, 1.0f, 1.0f, 1, ImGuiInputTextFlags_CharsDecimal);
 		ImGui::PopID();
 
 
-		if (mSelectedTransform != NULL && ImGui::Button("Update transform")) updateTransform();
+		if (mSelectedTransform != NULL && ImGui::Button("Update")) updateTransform();
 		ImGui::End();
 	}
 	else
 	{
 		ImGui::SetNextWindowPos(ImVec2(0, mainMenuHeight));
 		ImGui::SetNextWindowSize(ImVec2(208, 48));
-		ImGui::Begin("No node selected", temporaryBool, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
-		ImGui::Text("  Press RMB to select node");
+		ImGui::Begin("Nothing selected", temporaryBool, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
 		ImGui::End();
 	}
 
