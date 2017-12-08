@@ -23,18 +23,29 @@ using namespace std;
 
 void Core::run()
 {
-	glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_NORMAL);
 
 	//Model robocopModel("/Users/sern19/Desktop/Tmp/2B/2B.fbx");
-	Model model("F:/Studia/Sem V/PAG/PAG/Objects/Cubes/source/Cubes.fbx", shader.get());
+	std::vector<Model*> models;
+	Model cubes("C:/Users/Ayron/Desktop/Studia/PAG/PAG/Objects/Cubes/source/Cubes.fbx", shader.get());
+	Model twoB("C:/Users/Ayron/Desktop/Studia/PAG/PAG/Objects/2B/source/2B.fbx", shader.get());
+	Model lambo("C:/Users/Ayron/Desktop/Studia/PAG/PAG/Objects/Lambo/source/Avent.obj", shader.get());
+	
 	//model.getRootNode()->getNodeTransform()->rotate(90, glm::vec3(0, 0, 1));
 	//model.getRootNode()->getChildren(0)->getChildren(0)->getNodeTransform()->translate(glm::vec3(1, 1, 1));
 	//model.getRootNode()->getChildren(0)->getChildren(0)->getChildren(0)->getNodeTransform()->translate(glm::vec3(1, 1, 1));
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); wireframe
 
-	model.getRootNode()->getNodeTransform()->scale(glm::vec3(0.005, 0.005, 0.005));
+	cubes.getRootNode()->getNodeTransform()->scale(glm::vec3(0.005, 0.005, 0.005));
+	twoB.getRootNode()->getNodeTransform()->translate(glm::vec3(1.0f, 0.0f, 0.0f));
+	twoB.getRootNode()->getNodeTransform()->scale(glm::vec3(0.007, 0.007, 0.007));
+	lambo.getRootNode()->getNodeTransform()->scale(glm::vec3(0.25, 0.25, 0.25));
+	lambo.getRootNode()->getNodeTransform()->translate(glm::vec3(-5.0f, 0.0f, 0.0f));
 	//model.getRootNode()->getNodeTransform()->translate(glm::vec3(-0.5, 0, 0));
 	//model.getRootNode()->getChild(0)->getChild(0)->getChild(0)->getChild(0)->getChild(0)->getNodeTransform()->scale(glm::vec3(10, 2, 2));
+
+	models.push_back(&cubes);
+	models.push_back(&twoB);
+	models.push_back(&lambo);
 
 	while (!glfwWindowShouldClose(window->getWindow()))
 	{
@@ -43,7 +54,7 @@ void Core::run()
 		lastTime = currentTime;
 
 		processInput();
-		processMouse(*scene, &model);
+		processMouse(*scene, models);
 
 		glClearColor(BACKGROUND_COLOR);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -53,7 +64,10 @@ void Core::run()
 		scene->updateViewSpace(*camera);
 		shader->updateScene(*scene);
 
-		model.draw(shader.get());
+		for each (auto model in models)
+		{
+			model->draw(shader.get());
+		}
 		ui->draw();
 		glfwSwapBuffers(window->getWindow());
 		glfwPollEvents();
@@ -96,7 +110,7 @@ Core::Core()
 
 	scene = std::make_unique<Scene>();
 	ui = std::make_unique<UserInterface>(window->getWindow());
-	mousePicker = std::make_unique<MousePicker>(*camera, scene->getProjectionSpace());
+	mousePicker = std::make_unique<MousePicker>();
 }
 
 Core::~Core()
@@ -119,36 +133,46 @@ void Core::processInput()
 		camera->cameraPos += glm::normalize(glm::cross(camera->cameraFront, camera->cameraUp)) * speed;
 }
 
-void Core::processMouse(Scene scene, Model* model)
+void Core::processMouse(Scene scene, std::vector<Model*> models)
 {
 
 	std::pair<double, double> mousePos;
 	glfwGetCursorPos(window->getWindow(), &mousePos.first, &mousePos.second);
 
-	if (camera->firstMouse)
+	if (cameraMove)
 	{
+		if (camera->firstMouse)
+		{
+			camera->lastX = mousePos.first;
+			camera->lastY = mousePos.second;
+			camera->firstMouse = false;
+		}
+
+		float offsetX = (mousePos.first - camera->lastX) * mouseSensivity;
+		float offsetY = (camera->lastY - mousePos.second) * mouseSensivity;
+
 		camera->lastX = mousePos.first;
 		camera->lastY = mousePos.second;
-		camera->firstMouse = false;
+
+		camera->rotateByOffset(offsetX, offsetY);
 	}
-
-	float offsetX = (mousePos.first - camera->lastX) * mouseSensivity;
-	float offsetY = (camera->lastY - mousePos.second) * mouseSensivity;
-
-	camera->lastX = mousePos.first;
-	camera->lastY = mousePos.second;
-
-	camera->rotateByOffset(offsetX, offsetY);
 
 	std::pair<int, int> screenSize;
 	glfwGetWindowSize(window->getWindow(), &screenSize.first, &screenSize.second);
 
+	if (glfwGetKey(window->getWindow(), GLFW_KEY_E) == GLFW_PRESS)
+	{
+		cameraMove = !cameraMove;
+	}
+
 	if (glfwGetMouseButton(window->getWindow(), GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS) {
-		for each(auto node in model->getAllNodes()) {
-			node->setIsSelected(false);
+		for each (auto model in models)
+		{
+			for each(auto node in model->getAllNodes()) {
+				node->setIsSelected(false);
+			}
 		}
-		mousePicker->update(mousePos.first, mousePos.second);
-		auto selectedNode = mousePicker->getSelectedNode(&scene, model, screenSize, mousePos);
+		auto selectedNode = mousePicker->getSelectedNode(&scene, models, screenSize, mousePos);
 		ui->setSelectedNode(selectedNode);
 		if (selectedNode != nullptr) {
 			selectedNode->setIsSelected(true);

@@ -3,6 +3,7 @@
 #define GLFW_INCLUDE_NONE
 
 #include <memory>
+#include <vector>
 
 class Window;
 class Mesh;
@@ -16,13 +17,14 @@ class UserInterface;
 class Core
 {
 private:
+	bool cameraMove = true;
 	GLfloat deltaTime = 0.0f;		// Czas pomiêdzy obecn¹ i poprzedni¹ klatk¹
 	GLfloat lastTime = 0.0f;		// Czas ostatniej ramki
 	float cameraSpeed = 5.0f; 
 	float mouseSensivity = 0.125f;
 
 	void processInput();
-	void processMouse(Scene scene, Model* model);
+	void processMouse(Scene scene, std::vector<Model*> models);
 
 	std::unique_ptr<Window> window;
 	std::unique_ptr<Shader> shader;
