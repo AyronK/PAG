@@ -26,9 +26,13 @@ void Core::run()
 
 	//Model robocopModel("/Users/sern19/Desktop/Tmp/2B/2B.fbx");
 	std::vector<Model*> models;
-	Model cubes("C:/Users/Ayron/Desktop/Studia/PAG/PAG/Objects/Cubes/source/Cubes.fbx", shader.get());
+	/*Model cubes("C:/Users/Ayron/Desktop/Studia/PAG/PAG/Objects/Cubes/source/Cubes.fbx", shader.get());
 	Model twoB("C:/Users/Ayron/Desktop/Studia/PAG/PAG/Objects/2B/source/2B.fbx", shader.get());
-	Model lambo("C:/Users/Ayron/Desktop/Studia/PAG/PAG/Objects/Lambo/source/Avent.obj", shader.get());
+	Model lambo("C:/Users/Ayron/Desktop/Studia/PAG/PAG/Objects/Lambo/source/Avent.obj", shader.get());*/
+	Model cubes("C:/Users/BeataPC/source/repos/PAG/PAG/Objects/Cubes/source/Cubes.fbx", shader.get());
+	//Model twoB("C:/Users/BeataPC/source/repos/PAG/PAG/Objects/2B/source/2B.fbx", shader.get());
+	//Model lambo("C:/Users/BeataPC/source/repos/PAG/PAG/Objects/Lambo/source/Avent.obj", shader.get());
+	Model plane("C:/Users/BeataPC/source/repos/PAG/PAG/Objects/Plane/source/plane.FBX", shader.get());
 	
 	//model.getRootNode()->getNodeTransform()->rotate(90, glm::vec3(0, 0, 1));
 	//model.getRootNode()->getChildren(0)->getChildren(0)->getNodeTransform()->translate(glm::vec3(1, 1, 1));
@@ -36,16 +40,16 @@ void Core::run()
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); wireframe
 
 	cubes.getRootNode()->getNodeTransform()->scale(glm::vec3(0.005, 0.005, 0.005));
-	twoB.getRootNode()->getNodeTransform()->translate(glm::vec3(1.0f, 0.0f, 0.0f));
-	twoB.getRootNode()->getNodeTransform()->scale(glm::vec3(0.007, 0.007, 0.007));
-	lambo.getRootNode()->getNodeTransform()->scale(glm::vec3(0.25, 0.25, 0.25));
-	lambo.getRootNode()->getNodeTransform()->translate(glm::vec3(-5.0f, 0.0f, 0.0f));
+	//twoB.getRootNode()->getNodeTransform()->translate(glm::vec3(1.0f, 0.0f, 0.0f));
+	//twoB.getRootNode()->getNodeTransform()->scale(glm::vec3(0.007, 0.007, 0.007));
+	//lambo.getRootNode()->getNodeTransform()->scale(glm::vec3(0.25, 0.25, 0.25));
+	//lambo.getRootNode()->getNodeTransform()->translate(glm::vec3(-5.0f, 0.0f, 0.0f));
 	//model.getRootNode()->getNodeTransform()->translate(glm::vec3(-0.5, 0, 0));
 	//model.getRootNode()->getChild(0)->getChild(0)->getChild(0)->getChild(0)->getChild(0)->getNodeTransform()->scale(glm::vec3(10, 2, 2));
 
 	models.push_back(&cubes);
-	models.push_back(&twoB);
-	models.push_back(&lambo);
+	//models.push_back(&twoB);
+	models.push_back(&plane);
 
 	while (!glfwWindowShouldClose(window->getWindow()))
 	{
@@ -60,6 +64,63 @@ void Core::run()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		shader->use();
+
+
+
+		////copper
+		//glm::vec3 matAmbient = glm::vec3(0.19125f, 0.0735f, 0.0225f);
+		//glm::vec3 matDiffuse = glm::vec3(0.7038f, 0.27048f, 0.0828f);
+		//glm::vec3 matSpecular = glm::vec3(0.256777f, 0.137622f, 0.086014f);/*
+		glm::vec3 matAmbient = glm::vec3(0.2f, 0.2f, 0.2f);
+		glm::vec3 matDiffuse = glm::vec3(0.2f, 0.2f, 0.2f);
+		glm::vec3 matSpecular = glm::vec3(0.2f, 0.2f, 0.2f);
+		float shininess = 12.8f;
+
+		////unique_ptr<Material> cube = make_unique<Material>(matAmbient, matDiffuse, matSpecular, shininess);
+
+		shader->setVec3("mambient", matAmbient);
+		shader->setVec3("mdiffuse", matDiffuse);
+		shader->setVec3("mspecular", matSpecular);
+		shader->setFloat("mshininess", shininess);
+
+
+		//glm::vec3 ligDiffuse = lightColor * glm::vec3(0.6f);
+		//glm::vec3 ligAmbient = ligDiffuse * glm::vec3(0.9f);
+		//glm::vec3 ligSpecular = glm::vec3(1.0f, 1.0f, 1.0f);
+		////shader->setVec3("lambient", ligAmbient);
+		////shader->setVec3("ldiffuse", ligDiffuse);
+		////shader->setVec3("lspecular", ligSpecular);
+		//shader->setVec3("lambient", 0.2f, 0.2f, 0.2f);
+		//shader->setVec3("ldiffuse", 0.5f, 0.5f, 0.5f);
+		//shader->setVec3("lspecular", 1.0f, 1.0f, 1.0f);
+
+		//every light
+		glm::vec3 lightColor = glm::vec3(2.0f, 2.0f, 2.0f);
+		shader->setVec3("lightColor", lightColor);
+		shader->setFloat("currentTime", currentTime);
+		shader->setVec3("viewPosition", camera->cameraPos);
+
+
+		//directional light
+		glm::vec3 lightDirection = glm::normalize(glm::vec3(-0.2f, -3.0f, -1.3f));
+		shader->setVec3("lightDirection", lightDirection);
+		glm::vec3 directionalColors = glm::vec3(0.0f, sin(currentTime) + 1.0f, cos(currentTime) + 1.0f);
+		shader->setVec3("directionalColors", directionalColors);
+
+		//point light
+		//glm::vec3 pointLightPosition = glm::vec3(1, 1, 1.0f);
+		glm::vec3 pointLightPosition = glm::vec3(10 * sin(currentTime), 2.0f, 1.0f);
+		shader->setVec3("pointLightPosition", pointLightPosition);
+
+		//spotlight
+		shader->setVec3("spotLightPosition", camera->cameraPos);
+		shader->setVec3("spotLightDirection", camera->cameraFront);
+		shader->setFloat("lightCutOff", glm::cos(glm::radians(3.0f)));
+		shader->setFloat("outerLightCutOff", glm::cos(glm::radians(4.5f)));
+
+
+
+
 
 		scene->updateViewSpace(*camera);
 		shader->updateScene(*scene);

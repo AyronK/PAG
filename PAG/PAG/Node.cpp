@@ -91,6 +91,7 @@ void Node::drawContent(Shader *const pShader, Textures* const pTextures)
 	int i;
 	auto transform = getHierarchyTransform();
 	pShader->setMat4("model", transform.getTransform());
+	pShader->setMat3("normalTransform", glm::mat3(glm::transpose(glm::inverse(transform.getTransform()))));
 	for (i = 0; i < mMeshes.size(); i++)
 		mMeshes[i].drawContent(pShader, pTextures);
 	for (i = 0; i < mChildNodes.size(); i++)
