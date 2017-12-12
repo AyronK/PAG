@@ -14,6 +14,7 @@ void Mesh::drawContent(Shader * const pShader, Textures* const pTextures)
 	if (!isSelected) {
 		temporaryMaterial = mMaterial;
 	}
+;
 	pTextures->setActiveTextures(temporaryMaterial, pShader);
 	glBindVertexArray(VertexArrayObject);
 	glDrawElements(GL_TRIANGLES, indices.size(), GL_UNSIGNED_INT, 0);

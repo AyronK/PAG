@@ -1,122 +1,128 @@
 #version 330 core 
 
-in vec2 fragVertexTexture; //Zmienna wspó³rzêdnych tekstury z vertex shadera
-smooth in vec3 Normal;  
+in vec2 fragVertexTexture;
+//Zmienna wspó³rzêdnych tekstury z vertex shadera
+smooth in vec3 Normal;
 in vec3 FragPos;
-
-out vec4 fragColor; //Zmienna wyjœciowa dla koloru fragmentu
+out vec4 fragColor;
+//Zmienna wyjœciowa dla koloru fragmentu
 
 
 //all lights
 uniform vec3 lightColor;
 uniform vec3 viewPosition;
 uniform float currentTime;
-
 //Directional light 
 uniform vec3 directionalColors;
-uniform vec3 lightDirection;
-
+uniform vec3 directionalLightDirection;
 //Point light
 uniform vec3 pointLightPosition;
-
 //Spotlight 
 uniform vec3 spotLightPosition;
 uniform vec3 spotLightDirection;
 uniform float lightCutOff;
 uniform float outerLightCutOff;
-
 //textures and materials
 uniform bool shouldUseDiffuseTexture;
 uniform sampler2D diffuse0;
 uniform vec3 diffuseColor;
+uniform float animatedIntensity;
 //uniform sampler2D specular0;
 uniform vec3 mambient;
 uniform vec3 mdiffuse;
 uniform vec3 mspecular;
 uniform float mshininess;
-
 uniform mat3 normalTransform;
+
+const float ATTENUATION_LINEAR = 0.09f;
+const float ATTENUATION_QUADRATIC = 0.032f;
+
+vec4 getTexel();
+vec3 getDirectionalLight(vec3 viewDirection, vec3 normals);
+vec3 getPointLight(vec3 viewDirection, vec3 normals);
+vec3 getSpotLight(vec3 viewDirection, vec3 normals);
+vec3 countSpecular(vec3 viewDirection, vec3 lightDirection, vec3 normals);
+float countAttenuation(vec3 lightDirection);
 
 void main()
 {
-	// DIRECTIONAL LIGHT
-	// zmiana koloru w czasie
-		// dlambient
-	vec3 dlambient = mambient * directionalColors * vec3(0.2);
-		// dldiffuse
-	vec3 norm = normalize(normalTransform*Normal);
-	vec3 lightDir = normalize(-lightDirection);  
-	float diff = max(dot(norm, lightDir), 0.0);
-	vec3 dldiffuse = mdiffuse * directionalColors * diff * vec3(0.5);
-		// dlspecular
-	vec3 viewDir = normalize(viewPosition - FragPos);
-    vec3 reflectDir = reflect(-lightDir, norm);  
-    float spec = pow(max(dot(viewDir, reflectDir), 0.0), mshininess);
-	vec3 dlspecular = mspecular * vec3(1.0f, 1.0f, 1.0f) * spec;
+    vec3 normals = normalize(normalTransform*Normal);
+    vec3 viewDirection = normalize(viewPosition - FragPos);
 
-	vec3 directionalLight = dlambient + dldiffuse + dlspecular;
+    vec3 directionalLight = getDirectionalLight(viewDirection, normals);
+    vec3 pointLight = getPointLight(viewDirection, normals);
+    vec3 spotLight = getSpotLight(viewDirection, normals);
 
+    vec3 lights = directionalLight + pointLight + spotLight;
 	
-	// POINT LIGHT
-	// przemieszczanie w czasie
-	float constant = 1.0f;
-    float linear = 0.09f;
-    float quadratic = 0.032f;
-	// attenuation
-    float distance = length(pointLightPosition - FragPos);
-    float attenuation = 1.0 / (constant + linear * distance + quadratic * (distance * distance)); 	  
-		// plambient	
-	vec3 plambient = mambient *  lightColor * vec3(0.8f) * vec3(0.9f) * attenuation; 
-		// pldiffuse
-	lightDir = normalize(pointLightPosition - FragPos);  
-	diff = max(dot(norm, lightDir), 0.0);
-	vec3 pldiffuse = mdiffuse * lightColor * vec3(0.8f) * diff *  attenuation; 
-		// plspecular
-    reflectDir = reflect(-lightDir, norm);  
-    spec = pow(max(dot(viewDir, reflectDir), 0.0), mshininess);
-	vec3 plspecular = mspecular *  vec3(1.0f, 1.0f, 1.0f) * spec * attenuation;
+	fragColor = getTexel() * vec4(lights, 1.0);
+}
 
-	vec3 pointLight = plambient + pldiffuse + plspecular;
-
-
-	
-	// SPOTLIGHT
-	// zmiana intensywnosci w czasie
-	lightDir = normalize(spotLightPosition - FragPos);  
-	float theta = dot(lightDir, normalize(-spotLightDirection));
-    float epsilon   = lightCutOff - outerLightCutOff;
-	float intensity = clamp((theta - outerLightCutOff) / epsilon, 0.0, 1.0);   
-	intensity = 2 * intensity + 3*sin(currentTime);	 
-	// attenuation
-    distance = length(spotLightPosition - FragPos);
-    attenuation = 1.0 / (constant + linear * distance + quadratic * (distance * distance)); 	
-		// slambient	
-	vec3 slambient =   mambient * lightColor * vec3(1.2f) * attenuation; 
-		// sldiffuse
-	diff = max(dot(norm, lightDir), 0.0);
-	vec3 sldiffuse =   mdiffuse * lightColor * vec3(0.8f) * diff * intensity * attenuation;
-		// slspecular
-	reflectDir = reflect(-lightDir, norm);
-	spec = pow(max(dot(viewDir, reflectDir), 0.0), mshininess); 
-	vec3 slspecular =  vec3(1.0f, 1.0f, 1.0f) * spec * intensity * attenuation;   
-	
-	vec3 spotLight = slambient + sldiffuse + slspecular;
-
-
-
-	vec3 lights = directionalLight + pointLight + spotLight;
-	//vec3 lights = directionalLight;
-
-	//vec3 lights = pointLight + spotLight;
-
-	vec4 texel0;
-	texel0=texture(diffuse0, fragVertexTexture);
+vec4 getTexel()
+{ 
 	if (shouldUseDiffuseTexture)
-		fragColor=texel0 * vec4(lights, 1.0);
-	else
-		fragColor=vec4(diffuseColor,1) * vec4(lights, 1.0);
+		return texture(diffuse0, fragVertexTexture);
+    else
+		return vec4(diffuseColor,1);
+}
 
-	//fragColor=vec4(normalize(normalTransform*Normal),1);
+vec3 getDirectionalLight(vec3 viewDirection, vec3 normals)
+{
+	vec3 lightDirection = normalize(-directionalLightDirection);
+    float diff = max(dot(normals, lightDirection), 0.0);
+	
+    vec3 ambient = mambient * lightColor * vec3(0.7) * animatedIntensity;
+	vec3 diffuse = mdiffuse * lightColor * diff * vec3(0.9) * animatedIntensity;
+    vec3 specular = countSpecular(viewDirection, lightDirection, normals);
+
+    return  ambient + diffuse + specular;
+}
+
+
+vec3 getSpotLight(vec3 viewDirection, vec3 normals)
+{
+	vec3 lightDirection = normalize(spotLightPosition - FragPos);
+	float diff = max(dot(normals, lightDirection), 0.0);
+
+    float theta = dot(lightDirection, normalize(-spotLightDirection));
+    float epsilon   = lightCutOff - outerLightCutOff;
+    float intensity = clamp((theta - outerLightCutOff) / epsilon, 0.0, 1.0);  
+	
+    float attenuation = countAttenuation(lightDirection);
+
+    vec3 diffuse =   mdiffuse * directionalColors * vec3(0.8f) * diff * intensity * attenuation;	
+    vec3 specular = countSpecular(viewDirection, lightDirection, normals) * attenuation * intensity;
+	vec3 ambient =   mambient * directionalColors * vec3(1.2f) * attenuation;
+
+    return ambient + diffuse + specular;
+}
+
+
+vec3 getPointLight(vec3 viewDirection, vec3 normals)
+{
+	vec3 lightDirection = normalize(pointLightPosition - FragPos);
+    float diff = max(dot(normals, lightDirection), 0.0);
+	
+    float attenuation = countAttenuation(lightDirection);
+	
+    vec3 diffuse = mdiffuse * lightColor * vec3(0.8f) * diff *  attenuation;	
+	vec3 ambient = mambient *  lightColor * vec3(0.7f) * attenuation;
+	vec3 specular = countSpecular(viewDirection, lightDirection, normals) * attenuation;
+
+    return ambient + diffuse + specular;
+}
+
+vec3 countSpecular(vec3 viewDirection, vec3 lightDirection, vec3 normals)
+{
+	vec3 reflectDirection = reflect(-lightDirection, normals);
+    float spec = pow(max(dot(viewDirection, reflectDirection), 0.0), mshininess);
+	return mspecular *  vec3(1.0f, 1.0f, 1.0f) * spec;
+}
+
+float countAttenuation(vec3 lightDirection)
+{
+    float distance = length(lightDirection);
+    return 1.0 / (1.0 + ATTENUATION_LINEAR * distance + ATTENUATION_QUADRATIC * (distance * distance)); 
 }
 
 

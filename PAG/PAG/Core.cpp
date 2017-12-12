@@ -24,15 +24,16 @@ using namespace std;
 void Core::run()
 {
 
+	glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	std::vector<Model*> models;
-	/*Model cubes("C:/Users/Ayron/Desktop/Studia/PAG/PAG/Objects/Cubes/source/Cubes.fbx", shader.get());
+	Model cubes("C:/Users/Ayron/Desktop/Studia/PAG/PAG/Objects/Cubes/source/Cubes.fbx", shader.get());
 	Model twoB("C:/Users/Ayron/Desktop/Studia/PAG/PAG/Objects/2B/source/2B.fbx", shader.get());
-	Model lambo("C:/Users/Ayron/Desktop/Studia/PAG/PAG/Objects/Lambo/source/Avent.obj", shader.get());*/
-	Model cubes("C:/Users/BeataPC/source/repos/PAG/PAG/Objects/Cubes/source/Cubes.fbx", shader.get());
+	//Model lambo("C:/Users/Ayron/Desktop/Studia/PAG/PAG/Objects/Lambo/source/Avent.obj", shader.get());
+	//Model cubes("C:/Users/BeataPC/source/repos/PAG/PAG/Objects/Cubes/source/Cubes.fbx", shader.get());
 	//Model twoB("C:/Users/BeataPC/source/repos/PAG/PAG/Objects/2B/source/2B.fbx", shader.get());
 	//Model lambo("C:/Users/BeataPC/source/repos/PAG/PAG/Objects/Lambo/source/Avent.obj", shader.get());
-	Model plane("C:/Users/BeataPC/source/repos/PAG/PAG/Objects/Plane/source/plane.FBX", shader.get());
-	
+	Model plane("C:/Users/Ayron/Desktop/Studia/PAG/PAG/Objects/Plane/source/plane.FBX", shader.get());
+
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); wireframe
 
 	cubes.getRootNode()->getNodeTransform()->scale(glm::vec3(0.005, 0.005, 0.005));
@@ -94,18 +95,20 @@ void Core::run()
 		glm::vec3 lightColor = glm::vec3(2.0f, 2.0f, 2.0f);
 		shader->setVec3("lightColor", lightColor);
 		shader->setFloat("currentTime", currentTime);
+		shader->setFloat("animatedIntensity", 1.1 - cos(currentTime/5.0));
+
 		shader->setVec3("viewPosition", camera->cameraPos);
 
 
 		//directional light
 		glm::vec3 lightDirection = glm::normalize(glm::vec3(-0.2f, -3.0f, -1.3f));
-		shader->setVec3("lightDirection", lightDirection);
+		shader->setVec3("directionalLightDirection", lightDirection);
 		glm::vec3 directionalColors = glm::vec3(0.0f, sin(currentTime) + 1.0f, cos(currentTime) + 1.0f);
 		shader->setVec3("directionalColors", directionalColors);
 
 		//point light
 		//glm::vec3 pointLightPosition = glm::vec3(1, 1, 1.0f);
-		glm::vec3 pointLightPosition = glm::vec3(10 * sin(currentTime), 2.0f, 1.0f);
+		glm::vec3 pointLightPosition = glm::vec3(5 * sin(currentTime), 0.2f, 5 * cos(currentTime));
 		shader->setVec3("pointLightPosition", pointLightPosition);
 
 		//spotlight
@@ -142,7 +145,7 @@ Core::Core()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-	
+
 	window = std::make_unique<Window>();
 
 	// glad: load all OpenGL function pointers
