@@ -103,7 +103,7 @@ void Core::run()
 		//directional light
 		glm::vec3 lightDirection = glm::normalize(glm::vec3(-0.2f, -3.0f, -1.3f));
 		shader->setVec3("directionalLightDirection", lightDirection);
-		glm::vec3 directionalColors = glm::vec3(0.0f, sin(currentTime) + 1.0f, cos(currentTime) + 1.0f);
+		glm::vec3 directionalColors = glm::vec3(0.0f, sin(currentTime) + 1.0f, 0.0f);
 		shader->setVec3("directionalColors", directionalColors);
 
 		//point light

@@ -87,8 +87,9 @@ vec3 getSpotLight(vec3 viewDirection, vec3 normals)
     float theta = dot(lightDirection, normalize(-spotLightDirection));
     float epsilon   = lightCutOff - outerLightCutOff;
     float intensity = clamp((theta - outerLightCutOff) / epsilon, 0.0, 1.0);  
+	intensity *=3;
 	
-    float attenuation = countAttenuation(lightDirection);
+    float attenuation = countAttenuation(spotLightPosition);
 
     vec3 diffuse =   mdiffuse * directionalColors * vec3(0.8f) * diff * intensity * attenuation;	
     vec3 specular = countSpecular(viewDirection, lightDirection, normals) * attenuation * intensity;
@@ -103,7 +104,7 @@ vec3 getPointLight(vec3 viewDirection, vec3 normals)
 	vec3 lightDirection = normalize(pointLightPosition - FragPos);
     float diff = max(dot(normals, lightDirection), 0.0);
 	
-    float attenuation = countAttenuation(lightDirection);
+    float attenuation = countAttenuation(pointLightPosition);
 	
     vec3 diffuse = mdiffuse * lightColor * vec3(0.8f) * diff *  attenuation;	
 	vec3 ambient = mambient *  lightColor * vec3(0.7f) * attenuation;
@@ -121,7 +122,7 @@ vec3 countSpecular(vec3 viewDirection, vec3 lightDirection, vec3 normals)
 
 float countAttenuation(vec3 lightDirection)
 {
-    float distance = length(lightDirection);
+    float distance = length(lightDirection - FragPos);
     return 1.0 / (1.0 + ATTENUATION_LINEAR * distance + ATTENUATION_QUADRATIC * (distance * distance)); 
 }
 
