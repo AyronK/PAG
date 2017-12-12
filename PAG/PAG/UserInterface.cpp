@@ -47,7 +47,7 @@ void UserInterface::updateTransform()
 	temporaryValues.x = mRotationAxisX;
 	temporaryValues.y = mRotationAxisY;
 	temporaryValues.z = mRotationAxisZ;
-	mSelectedTransform->setRotation(mRotationAngle, temporaryValues);
+	mSelectedTransform->setRotation(glm::radians(mRotationAngle), temporaryValues);
 }
 
 void UserInterface::draw()
@@ -65,7 +65,7 @@ void UserInterface::draw()
 		ImGui::SetNextWindowPos(ImVec2(0, mainMenuHeight));
 		ImGui::SetNextWindowSize(ImVec2(220, 370));
 		ImGui::Begin("Edit mode", temporaryBool, ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoCollapse);
-		if (mSelectedNode->getParentNode() != NULL && mSelectedNode->getNodeLevel() > 0 && ImGui::Button("Select parent node"))
+		if (mSelectedNode->getParentNode() != NULL && mSelectedNode->getNodeLevel() > 0 && ImGui::Button("Select parent"))
 		{
 			setSelectedNode(mSelectedNode->getParentNode());
 		}

@@ -24,28 +24,22 @@ using namespace std;
 void Core::run()
 {
 
-	//Model robocopModel("/Users/sern19/Desktop/Tmp/2B/2B.fbx");
 	std::vector<Model*> models;
 	Model cubes("C:/Users/Ayron/Desktop/Studia/PAG/PAG/Objects/Cubes/source/Cubes.fbx", shader.get());
-	Model twoB("C:/Users/Ayron/Desktop/Studia/PAG/PAG/Objects/2B/source/2B.fbx", shader.get());
-	Model lambo("C:/Users/Ayron/Desktop/Studia/PAG/PAG/Objects/Lambo/source/Avent.obj", shader.get());
+	Model nano("C:/Users/Ayron/Desktop/Studia/PAG/PAG/Objects/nanosuit/source/nanosuit.obj", shader.get());
+	//Model lambo("C:/Users/Ayron/Desktop/Studia/PAG/PAG/Objects/Lambo/source/Avent.obj", shader.get());
 	
-	//model.getRootNode()->getNodeTransform()->rotate(90, glm::vec3(0, 0, 1));
-	//model.getRootNode()->getChildren(0)->getChildren(0)->getNodeTransform()->translate(glm::vec3(1, 1, 1));
-	//model.getRootNode()->getChildren(0)->getChildren(0)->getChildren(0)->getNodeTransform()->translate(glm::vec3(1, 1, 1));
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); wireframe
 
 	cubes.getRootNode()->getNodeTransform()->scale(glm::vec3(0.005, 0.005, 0.005));
-	twoB.getRootNode()->getNodeTransform()->translate(glm::vec3(1.0f, 0.0f, 0.0f));
-	twoB.getRootNode()->getNodeTransform()->scale(glm::vec3(0.007, 0.007, 0.007));
-	lambo.getRootNode()->getNodeTransform()->scale(glm::vec3(0.25, 0.25, 0.25));
-	lambo.getRootNode()->getNodeTransform()->translate(glm::vec3(-5.0f, 0.0f, 0.0f));
-	//model.getRootNode()->getNodeTransform()->translate(glm::vec3(-0.5, 0, 0));
-	//model.getRootNode()->getChild(0)->getChild(0)->getChild(0)->getChild(0)->getChild(0)->getNodeTransform()->scale(glm::vec3(10, 2, 2));
-
+	nano.getRootNode()->getNodeTransform()->translate(glm::vec3(1.0f, 0.0f, 0.0f));
+	nano.getRootNode()->getNodeTransform()->scale(glm::vec3(0.07, 0.07, 0.07));
+	//lambo.getRootNode()->getNodeTransform()->scale(glm::vec3(0.25, 0.25, 0.25));
+	nano.getRootNode()->getNodeTransform()->translate(glm::vec3(5.0f, 0.0f, 0.0f));
+	
 	models.push_back(&cubes);
-	models.push_back(&twoB);
-	models.push_back(&lambo);
+	models.push_back(&nano);
+	//models.push_back(&lambo);
 
 	while (!glfwWindowShouldClose(window->getWindow()))
 	{
@@ -85,11 +79,7 @@ Core::Core()
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
-
-#ifdef __APPLE__
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); //Fix na MacOS
-#endif
-
+	
 	window = std::make_unique<Window>();
 
 	// glad: load all OpenGL function pointers
