@@ -7,26 +7,29 @@ in vec3 FragPos;
 out vec4 fragColor;
 //Zmienna wyjœciowa dla koloru fragmentu
 
-
-//all lights
 uniform vec3 lightColor;
 uniform vec3 viewPosition;
 uniform float currentTime;
+
 //Directional light 
-uniform vec3 directionalColors;
 uniform vec3 directionalLightDirection;
+uniform float animatedIntensity;
+
 //Point light
 uniform vec3 pointLightPosition;
+
 //Spotlight 
+uniform vec3 spotColors;
 uniform vec3 spotLightPosition;
 uniform vec3 spotLightDirection;
 uniform float lightCutOff;
 uniform float outerLightCutOff;
+
 //textures and materials
 uniform bool shouldUseDiffuseTexture;
 uniform sampler2D diffuse0;
 uniform vec3 diffuseColor;
-uniform float animatedIntensity;
+
 //uniform sampler2D specular0;
 uniform vec3 mambient;
 uniform vec3 mdiffuse;
@@ -91,11 +94,11 @@ vec3 getSpotLight(vec3 viewDirection, vec3 normals)
 	
     float attenuation = countAttenuation(spotLightPosition);
 
-    vec3 diffuse =   mdiffuse * directionalColors * vec3(0.8f) * diff * intensity * attenuation;	
+    vec3 diffuse =   mdiffuse * spotColors * vec3(0.8f) * diff * intensity * attenuation;	
     vec3 specular = countSpecular(viewDirection, lightDirection, normals) * attenuation * intensity;
-	vec3 ambient =   mambient * directionalColors * vec3(1.2f) * attenuation;
+	//vec3 ambient =   mambient * spotColors * vec3(1.2f) * attenuation;
 
-    return ambient + diffuse + specular;
+    return diffuse + specular;
 }
 
 
