@@ -154,6 +154,8 @@
   <ItemGroup>
     <ClCompile Include="Camera.cpp" />
     <ClCompile Include="Core.cpp" />
+    <ClCompile Include="CParticle.cpp" />
+    <ClCompile Include="CParticleSystemTransformFeedback.cpp" />
     <ClCompile Include="FileReader.cpp" />
     <ClCompile Include="glad.c" />
     <ClCompile Include="imgui.cpp" />
@@ -177,6 +179,8 @@
     <ClInclude Include="Camera.hpp" />
     <ClInclude Include="config.hpp" />
     <ClInclude Include="Core.hpp" />
+    <ClInclude Include="CParticle.hpp" />
+    <ClInclude Include="CParticleSystemTransformFeedback.hpp" />
     <ClInclude Include="FileReader.hpp" />
     <ClInclude Include="imconfig.h" />
     <ClInclude Include="imgui.h" />
