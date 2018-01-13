@@ -27,7 +27,7 @@ bool CParticleSystemTransformFeedback::InitalizeParticleSystem(Shader *const def
 		glTransformFeedbackVaryings(particlesShader->getProgram(), 6, sVaryings, GL_INTERLEAVED_ATTRIBS);
 
 
-	//glGenTransformFeedbacks(1, &uiTransformFeedbackBuffer);
+	glGenTransformFeedbacks(1, &uiTransformFeedbackBuffer);
 	glGenQueries(1, &uiQuery);
 
 	glGenBuffers(2, uiParticleBuffer);
