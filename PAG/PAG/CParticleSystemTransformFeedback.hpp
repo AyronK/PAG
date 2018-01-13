@@ -8,10 +8,10 @@ class Shader;
 class CParticleSystemTransformFeedback
 {
 public:
-	bool InitalizeParticleSystem(Shader *const defaultShader, Shader *const shader);
+	bool InitalizeParticleSystem(Shader *const shader);
 
 	void RenderParticles();
-	void UpdateParticles(float fTimePassed);
+	void UpdateParticles(float fTimePassed, Shader *const particlesShader);
 
 	void SetGeneratorProperties(glm::vec3 a_vGenPosition, glm::vec3 a_vGenVelocityMin, glm::vec3 a_vGenVelocityMax, glm::vec3 a_vGenGravityVector,
 		glm::vec3 a_vGenColor, float a_fGenLifeMin, float a_fGenLifeMax, float a_fGenSize, float fEvery, int a_iNumToGenerate);

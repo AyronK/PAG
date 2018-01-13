@@ -9,7 +9,13 @@ CParticleSystemTransformFeedback::CParticleSystemTransformFeedback()
 {
 }
 
-bool CParticleSystemTransformFeedback::InitalizeParticleSystem(Shader *const defaultShader, Shader *const particlesShader)
+double fRand(double fMin, double fMax)
+{
+	double f = (double)rand() / RAND_MAX;
+	return fMin + f * (fMax - fMin);
+}
+
+bool CParticleSystemTransformFeedback::InitalizeParticleSystem(Shader *const particlesShader)
 {
 	if (bInitialized)return false;
 
@@ -59,4 +65,57 @@ bool CParticleSystemTransformFeedback::InitalizeParticleSystem(Shader *const def
 	bInitialized = true;
 
 	return true;
+}
+
+void CParticleSystemTransformFeedback::UpdateParticles(float fTimePassed, Shader *const particlesShader)
+{
+	if (!bInitialized)return;
+
+	particlesShader->use();
+
+	particlesShader->setFloat("fTimePassed", fTimePassed);
+	particlesShader->setVec3("vGenPosition", vGenPosition);
+	particlesShader->setVec3("vGenVelocityMin", vGenVelocityMin);
+	particlesShader->setVec3("vGenVelocityRange", vGenVelocityRange);
+	particlesShader->setVec3("vGenColor", vGenColor);
+	particlesShader->setVec3("vGenGravityVector", vGenGravityVector);
+
+	particlesShader->setFloat("fGenLifeMin", fGenLifeMin);
+	particlesShader->setFloat("fGenLifeRange", fGenLifeRange);
+
+	particlesShader->setFloat("fGenSize", fGenSize);
+	particlesShader->setFloat("iNumToGenerate", 0);
+
+	fElapsedTime += fTimePassed;
+
+	if (fElapsedTime > fNextGenerationTime)
+	{
+		particlesShader->setInt("iNumToGenerate", iNumToGenerate);
+		fElapsedTime -= fNextGenerationTime;
+
+		glm::vec3 vRandomSeed = glm::vec3(fRand(-10.0f, 20.0f), fRand(-10.0f, 20.0f), fRand(-10.0f, 20.0f));
+		particlesShader->setVec3("vRandomSeed", vRandomSeed);
+	}
+
+	glEnable(GL_RASTERIZER_DISCARD);
+	glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, uiTransformFeedbackBuffer);
+
+	glBindVertexArray(uiVAO[iCurReadBuffer]);
+	glEnableVertexAttribArray(1); // Re-enable velocity
+
+	glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, uiParticleBuffer[1 - iCurReadBuffer]);
+
+	glBeginQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN, uiQuery);
+	glBeginTransformFeedback(GL_POINTS);
+
+	glDrawArrays(GL_POINTS, 0, iNumParticles);
+
+	glEndTransformFeedback();
+
+	glEndQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN);
+	glGetQueryObjectiv(uiQuery, GL_QUERY_RESULT, &iNumParticles);
+
+	iCurReadBuffer = 1 - iCurReadBuffer;
+
+	glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
 }
