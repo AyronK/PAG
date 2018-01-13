@@ -24,7 +24,7 @@
 #include <ctime>
 using namespace std;
 
-const int FRAMES_PER_SECOND = 25;
+const int FRAMES_PER_SECOND = 60;
 const int SKIP_TICKS = 1000 / FRAMES_PER_SECOND;
 const int MAX_FRAMESKIP = 10;
 
@@ -61,16 +61,17 @@ void Core::run()
 	Texture2 texture;
 
 	particleSystem->SetGeneratorProperties(
-		glm::vec3(0.0f, 2.5f, 0.0f), // Where the particles are generated
-		glm::vec3(-10, 0, -10), // Minimal velocity
-		glm::vec3(10, 25, 10), // Maximal velocity
-		glm::vec3(0, -5, 0), // Gravity force applied to particles
-		glm::vec3(0.0f, 0.5f, 1.0f), // Color (light blue)
-		1.5f, // Minimum lifetime in seconds
-		3.0f, // Maximum lifetime in seconds
-		0.05f, // Rendered size
-		0.02f, // Spawn every 0.05 seconds
-		30); // And spawn 30 particles
+		glm::vec3(0.0f, 0.25f, 0.0f), // position
+		glm::vec3(-0.025, 0.3, -0.025), // Minimal velocity
+		glm::vec3(0.025, 0.05, 0.025f), // Maximal velocity
+		glm::vec3(0, 0, 0), // Gravity force 
+		glm::vec3(1.0f, 0.5f, 0.0f), // Color 
+		13.5f, // Minimum lifetime in seconds
+		45.0f, // Maximum lifetime in seconds
+		0.04f, // Rendered size
+		0.01f, // Spawn every 
+		1); // count of particles
+
 	float timeval = 0, lasttimeVel = 0;
 	while (!glfwWindowShouldClose(window->getWindow()) && game_is_running)
 	{
@@ -136,7 +137,7 @@ void Core::run()
 		texture.setActiveTexture(0);
 		particleSystem->SetMatrices(&scene->getProjectionSpace(), camera->cameraPos, camera->cameraPos + camera->cameraFront, camera->cameraUp);
 		timeval = clock();
-		float interval = float(timeval - lasttimeVel) / float(500);
+		float interval = float(timeval - lasttimeVel) / float(1000);
 		lasttimeVel = timeval;
 
 		particleSystem->UpdateParticles(interval, particlesShader.get());
@@ -146,8 +147,6 @@ void Core::run()
 		glfwPollEvents();
 	}
 }
-
-
 
 Core::Core()
 {

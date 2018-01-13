@@ -96,7 +96,7 @@ void CParticleSystemTransformFeedback::UpdateParticles(float fTimePassed, Shader
 	particlesShader->setFloat("fGenLifeRange", fGenLifeRange);
 
 	particlesShader->setFloat("fGenSize", fGenSize);
-	particlesShader->setFloat("iNumToGenerate", 0);
+	particlesShader->setInt("iNumToGenerate", 0);
 
 	fElapsedTime += fTimePassed;
 
@@ -104,10 +104,10 @@ void CParticleSystemTransformFeedback::UpdateParticles(float fTimePassed, Shader
 	{
 		particlesShader->setInt("iNumToGenerate", iNumToGenerate);
 		fElapsedTime -= fNextGenerationTime;
-
-		glm::vec3 vRandomSeed = glm::vec3(fRand(-0.1f, 0.2f), fRand(-0.1f, 0.2f), fRand(-0.1f, 0.2f));
-		particlesShader->setVec3("vRandomSeed", vRandomSeed);
 	}
+
+	glm::vec3 vRandomSeed = glm::vec3(fRand(-0.1f, 0.2f), fRand(-0.1f, 0.2f), fRand(-0.1f, 0.2f));
+	particlesShader->setVec3("vRandomSeed", vRandomSeed);
 
 	glEnable(GL_RASTERIZER_DISCARD);
 	glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, uiTransformFeedbackBuffer);
