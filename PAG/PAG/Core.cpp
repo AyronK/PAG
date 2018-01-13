@@ -20,6 +20,7 @@
 #include "Node.hpp"
 #include "CParticleSystemTransformFeedback.hpp"
 #include "UserInterface.hpp"
+#include "Texture2.hpp"
 using namespace std;
 
 void Core::run()
@@ -45,18 +46,18 @@ void Core::run()
 	models.push_back(&cubes);
 	//models.push_back(&nano);
 	models.push_back(&plane);
-
+	Texture2 texture;
 
 	particleSystem->SetGeneratorProperties(
-		glm::vec3(0, 0, 0.0f), // Where the particles are generated
-		glm::vec3(0, 0, 0), // Minimal velocity
-		glm::vec3(1, 1, 1), // Maximal velocity
-		glm::vec3(0, 0, 0), // Gravity force applied to particles
-		glm::vec3(0.0f, 0.5f, 1.0f), // Color (light blue)
-		1.5f, // Minimum lifetime in seconds
-		30.0f, // Maximum lifetime in seconds
-		2.75f, // Rendered size
-		0.002f, // Spawn every 0.05 seconds
+		glm::vec3(2, 0, 0.0f), // Where the particles are generated
+		glm::vec3(-0.07f, 0, -0.07f), // Minimal velocity
+		glm::vec3(0.07f,0.1f, 0.07f), // Maximal velocity
+		glm::vec3(0, 0.5f, 0), // Gravity force applied to particles
+		glm::vec3(0.3f, 0.7f, 0.3f), // Color (light blue)
+		2.0f, // Minimum lifetime in seconds
+		5.0f, // Maximum lifetime in seconds
+		0.03f, // Rendered size
+		0.000005f, // Spawn every 0.05 seconds
 		30); // And spawn 30 particles
 
 	while (!glfwWindowShouldClose(window->getWindow()))
@@ -114,9 +115,11 @@ void Core::run()
 			model->draw(defaultShader.get());
 		}
 		ui->draw();
+
+		texture.setActiveTexture(0);
 		particleSystem->SetMatrices(&scene->getProjectionSpace(), camera->cameraPos, camera->cameraPos + camera->cameraFront, camera->cameraUp);
-		
-		particleSystem->UpdateParticles(0.001f, particlesShader.get());
+
+		particleSystem->UpdateParticles(currentTime, particlesShader.get());
 		particleSystem->RenderParticles(particlesRenderingShader.get());
 
 		glfwSwapBuffers(window->getWindow());

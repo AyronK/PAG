@@ -8,7 +8,6 @@
 
 #define PARTICLES_GEOMETRY_SHADER_PATH "../Shaders/particles.geom"
 #define PARTICLES_VERTEX_SHADER_PATH "../Shaders/particles.vert"
-#define PARTICLES_FRAGMENT_SHADER_PATH "../Shaders/particles.frag"
 
 #define PARTICLES_RENDERING_GEOMETRY_SHADER_PATH "../Shaders/particlesRendering.geom"
 #define PARTICLES_RENDERING_VERTEX_SHADER_PATH "../Shaders/particlesRendering.vert"

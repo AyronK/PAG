@@ -102,6 +102,9 @@
     <ClCompile Include="glad.c">
       <Filter>Resource Files</Filter>
     </ClCompile>
+    <ClCompile Include="Texture2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Core.hpp">
@@ -182,6 +185,9 @@
     <ClInclude Include="CParticle.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Texture2.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Shaders\basic.vert">
@@ -193,9 +199,6 @@
     <None Include="..\Shaders\particles.geom">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="..\Shaders\particles.vert">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="..\Shaders\particlesRendering.geom">
       <Filter>Shaders</Filter>
     </None>
@@ -203,6 +206,9 @@
       <Filter>Shaders</Filter>
     </None>
     <None Include="..\Shaders\particles.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\particlesRendering.frag">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>
