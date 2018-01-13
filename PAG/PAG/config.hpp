@@ -2,9 +2,10 @@
 #define SCREEN_HEIGHT 1080
 #define BACKGROUND_COLOR 0.2f, 0.3f, 0.3f, 1.0f
 #define WINDOWS_NAME "WINDOW GL"
-#define GL_VERTEX_SHADER_PATH "../Shaders/basic.vert"
-#define GL_FRAGMENT_SHADER_PATH "../Shaders/basic.frag"
-#define GL_GEOMETRY_SHADER_PATH "../Shaders/particles.geom"
+#define DEFAULT_VERTEX_SHADER_PATH "../Shaders/basic.vert"
+#define DEFAULT_FRAGMENT_SHADER_PATH "../Shaders/basic.frag"
+#define PARTICLES_GEOMETRY_SHADER_PATH "../Shaders/particles.geom"
+#define PARTICLES_VERTEX_SHADER_PATH "../Shaders/particles.vert"
 
 //Material stuff
 #define DIFFUSE_NAME "diffuse"

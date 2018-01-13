@@ -26,10 +26,10 @@ void Core::run()
 
 	glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	std::vector<Model*> models;
-	Model cubes("F:/Studia/Sem V/PAG/PAG/Objects/Cubes/source/Cubes.fbx", shader.get());
+	Model cubes("F:/Studia/Sem V/PAG/PAG/Objects/Cubes/source/Cubes.fbx", defaultShader.get());
 	//Model nano("F:/Studia/Sem V/PAG/PAG/Objects/nanosuit/source/nanosuit.obj", shader.get());
 	//Model lambo("C:/Users/Ayron/Desktop/Studia/PAG/PAG/Objects/Lambo/source/Avent.obj", shader.get());
-	Model plane("F:/Studia/Sem V/PAG/PAG/Objects/Plane/source/plane.FBX", shader.get());
+	Model plane("F:/Studia/Sem V/PAG/PAG/Objects/Plane/source/plane.FBX", defaultShader.get());
 
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); wireframe
 
@@ -57,47 +57,47 @@ void Core::run()
 		glClearColor(BACKGROUND_COLOR);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		shader->use();
+		defaultShader->use();
 
 		glm::vec3 matAmbient = glm::vec3(0.2f, 0.2f, 0.2f);
 		glm::vec3 matDiffuse = glm::vec3(0.2f, 0.2f, 0.2f);
 		glm::vec3 matSpecular = glm::vec3(0.2f, 0.2f, 0.2f);
 		float shininess = 12.8f;
 
-		shader->setVec3("mambient", matAmbient);
-		shader->setVec3("mdiffuse", matDiffuse);
-		shader->setVec3("mspecular", matSpecular);
-		shader->setFloat("mshininess", shininess);
+		defaultShader->setVec3("mambient", matAmbient);
+		defaultShader->setVec3("mdiffuse", matDiffuse);
+		defaultShader->setVec3("mspecular", matSpecular);
+		defaultShader->setFloat("mshininess", shininess);
 
 		glm::vec3 lightColor = glm::vec3(2.0f, 2.0f, 2.0f);
 
-		shader->setVec3("lightColor", lightColor);
-		shader->setFloat("currentTime", currentTime);
-		shader->setFloat("animatedIntensity", 1.1 - cos(currentTime/2.0));
+		defaultShader->setVec3("lightColor", lightColor);
+		defaultShader->setFloat("currentTime", currentTime);
+		defaultShader->setFloat("animatedIntensity", 1.1 - cos(currentTime/2.0));
 
-		shader->setVec3("viewPosition", camera->cameraPos);
+		defaultShader->setVec3("viewPosition", camera->cameraPos);
 
 
 		glm::vec3 lightDirection = glm::normalize(glm::vec3(-0.2f, -3.0f, -1.3f));
-		shader->setVec3("directionalLightDirection", lightDirection);
+		defaultShader->setVec3("directionalLightDirection", lightDirection);
 
 		glm::vec3 pointLightPosition = glm::vec3(5 * sin(currentTime), 0.2f, 5 * cos(currentTime));
-		shader->setVec3("pointLightPosition", pointLightPosition);
+		defaultShader->setVec3("pointLightPosition", pointLightPosition);
 
-		shader->setVec3("spotLightPosition", camera->cameraPos);
-		shader->setVec3("spotLightDirection", camera->cameraFront);
-		shader->setFloat("lightCutOff", glm::cos(glm::radians(3.0f)));
-		shader->setFloat("outerLightCutOff", glm::cos(glm::radians(7.5f)));
+		defaultShader->setVec3("spotLightPosition", camera->cameraPos);
+		defaultShader->setVec3("spotLightDirection", camera->cameraFront);
+		defaultShader->setFloat("lightCutOff", glm::cos(glm::radians(3.0f)));
+		defaultShader->setFloat("outerLightCutOff", glm::cos(glm::radians(7.5f)));
 
 		glm::vec3 spotColors = glm::vec3(-sin(currentTime) + 1.0f, sin(currentTime) + 1.0f, cos(currentTime) + 1.0f);
-		shader->setVec3("spotColors", spotColors);
+		defaultShader->setVec3("spotColors", spotColors);
 
 		scene->updateViewSpace(*camera);
-		shader->updateScene(*scene);
+		defaultShader->updateScene(*scene);
 
 		for each (auto model in models)
 		{
-			model->draw(shader.get());
+			model->draw(defaultShader.get());
 		}
 		ui->draw();
 		glfwSwapBuffers(window->getWindow());
@@ -126,13 +126,22 @@ Core::Core()
 	glEnable(GL_DEPTH_TEST);
 
 
-	shader = std::make_unique<Shader>();
+	defaultShader = std::make_unique<Shader>();
 
 
-	shader->loadShader(GL_VERTEX_SHADER, GL_VERTEX_SHADER_PATH);
-	shader->loadShader(GL_FRAGMENT_SHADER, GL_FRAGMENT_SHADER_PATH);
-	shader->link();
-	shader->use();
+	defaultShader->loadShader(GL_VERTEX_SHADER, DEFAULT_VERTEX_SHADER_PATH);
+	defaultShader->loadShader(GL_FRAGMENT_SHADER, DEFAULT_FRAGMENT_SHADER_PATH);
+	defaultShader->link();
+	defaultShader->use();
+
+
+	particlesShader = std::make_unique<Shader>();
+
+
+	particlesShader->loadShader(GL_VERTEX_SHADER, PARTICLES_VERTEX_SHADER_PATH);
+	particlesShader->loadShader(GL_GEOMETRY_SHADER, PARTICLES_GEOMETRY_SHADER_PATH);
+	particlesShader->link();
+	particlesShader->use();
 
 	camera = std::make_unique<Camera>();
 	glfwGetCursorPos(window->getWindow(), &camera->lastX, &camera->lastY);
