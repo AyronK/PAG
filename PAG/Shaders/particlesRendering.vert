@@ -17,4 +17,5 @@ void main()
 	vColorPass = vColor;
 	fSizePass = fSize;
 	fLifeTimePass = fLifeTime;
+	iTypePass = iType;
 }

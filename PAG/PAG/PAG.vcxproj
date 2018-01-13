@@ -208,9 +208,9 @@
     <None Include="..\Shaders\basic.vert">
       <DeploymentContent>false</DeploymentContent>
     </None>
+    <None Include="..\Shaders\particles.frag" />
     <None Include="..\Shaders\particles.geom" />
     <None Include="..\Shaders\particles.vert" />
-    <None Include="..\Shaders\particlesRendering.frag" />
     <None Include="..\Shaders\particlesRendering.geom" />
     <None Include="..\Shaders\particlesRendering.vert" />
   </ItemGroup>

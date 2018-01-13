@@ -46,6 +46,19 @@ void Core::run()
 	//models.push_back(&nano);
 	models.push_back(&plane);
 
+
+	particleSystem->SetGeneratorProperties(
+		glm::vec3(0, 0, 0.0f), // Where the particles are generated
+		glm::vec3(0, 0, 0), // Minimal velocity
+		glm::vec3(1, 1, 1), // Maximal velocity
+		glm::vec3(0, 0, 0), // Gravity force applied to particles
+		glm::vec3(0.0f, 0.5f, 1.0f), // Color (light blue)
+		1.5f, // Minimum lifetime in seconds
+		30.0f, // Maximum lifetime in seconds
+		2.75f, // Rendered size
+		0.002f, // Spawn every 0.05 seconds
+		30); // And spawn 30 particles
+
 	while (!glfwWindowShouldClose(window->getWindow()))
 	{
 		GLfloat currentTime = glfwGetTime();
@@ -74,7 +87,7 @@ void Core::run()
 
 		defaultShader->setVec3("lightColor", lightColor);
 		defaultShader->setFloat("currentTime", currentTime);
-		defaultShader->setFloat("animatedIntensity", 1.1 - cos(currentTime/2.0));
+		defaultShader->setFloat("animatedIntensity", 1.1 - cos(currentTime / 2.0));
 
 		defaultShader->setVec3("viewPosition", camera->cameraPos);
 
@@ -101,10 +114,9 @@ void Core::run()
 			model->draw(defaultShader.get());
 		}
 		ui->draw();
-
-		particleSystem->SetMatrices(&scene->getProjectionSpace(), camera->cameraPos, camera->cameraFront, camera->cameraUp);
-
-		particleSystem->UpdateParticles(currentTime, particlesShader.get());
+		particleSystem->SetMatrices(&scene->getProjectionSpace(), camera->cameraPos, camera->cameraPos + camera->cameraFront, camera->cameraUp);
+		
+		particleSystem->UpdateParticles(0.001f, particlesShader.get());
 		particleSystem->RenderParticles(particlesRenderingShader.get());
 
 		glfwSwapBuffers(window->getWindow());
@@ -145,20 +157,8 @@ Core::Core()
 	particlesShader = std::make_unique<Shader>();
 
 
-	particlesShader->loadShader(GL_VERTEX_SHADER, PARTICLES_VERTEX_SHADER_PATH);
-	particlesShader->loadShader(GL_GEOMETRY_SHADER, PARTICLES_GEOMETRY_SHADER_PATH);
-	particlesShader->link();
-	particlesShader->use();
-
-
 	particlesRenderingShader = std::make_unique<Shader>();
 
-
-	particlesRenderingShader->loadShader(GL_VERTEX_SHADER, PARTICLES_RENDERING_VERTEX_SHADER_PATH);
-	particlesRenderingShader->loadShader(GL_GEOMETRY_SHADER, PARTICLES_RENDERING_GEOMETRY_SHADER_PATH);
-	particlesRenderingShader->loadShader(GL_FRAGMENT_SHADER, PARTICLES_RENDERING_FRAGMENT_SHADER_PATH);
-	particlesRenderingShader->link();
-	particlesRenderingShader->use();
 
 	camera = std::make_unique<Camera>();
 	glfwGetCursorPos(window->getWindow(), &camera->lastX, &camera->lastY);
@@ -171,17 +171,6 @@ Core::Core()
 
 	particleSystem = std::make_unique<CParticleSystemTransformFeedback>();
 	particleSystem->InitalizeParticleSystem(particlesShader.get(), particlesRenderingShader.get());
-	particleSystem->SetGeneratorProperties(
-		glm::vec3(-10.0f, 17.5f, 0.0f), // Where the particles are generated
-		glm::vec3(-5, 0, -5), // Minimal velocity
-		glm::vec3(5, 20, 5), // Maximal velocity
-		glm::vec3(0, -5, 0), // Gravity force applied to particles
-		glm::vec3(0.0f, 0.5f, 1.0f), // Color (light blue)
-		1.5f, // Minimum lifetime in seconds
-		3.0f, // Maximum lifetime in seconds
-		0.75f, // Rendered size
-		0.02f, // Spawn every 0.05 seconds
-		30); // And spawn 30 particles
 }
 
 Core::~Core()

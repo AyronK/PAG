@@ -31,9 +31,19 @@ bool CParticleSystemTransformFeedback::InitalizeParticleSystem(Shader *const par
 		"iTypeOut",
 	};
 
+	particlesShader->loadShader(GL_VERTEX_SHADER, PARTICLES_VERTEX_SHADER_PATH);
+	particlesShader->loadShader(GL_GEOMETRY_SHADER, PARTICLES_GEOMETRY_SHADER_PATH);
+
 	for (int i = 0; i < NUM_PARTICLE_ATTRIBUTES; i++)
 		glTransformFeedbackVaryings(particlesShader->getProgram(), 6, sVaryings, GL_INTERLEAVED_ATTRIBS);
 
+	particlesShader->link();
+
+	renderingShader->loadShader(GL_VERTEX_SHADER, PARTICLES_RENDERING_VERTEX_SHADER_PATH);
+	renderingShader->loadShader(GL_GEOMETRY_SHADER, PARTICLES_RENDERING_GEOMETRY_SHADER_PATH);
+	renderingShader->loadShader(GL_FRAGMENT_SHADER, PARTICLES_RENDERING_FRAGMENT_SHADER_PATH);
+
+	renderingShader->link();
 
 	glGenTransformFeedbacks(1, &uiTransformFeedbackBuffer);
 	glGenQueries(1, &uiQuery);
@@ -175,7 +185,7 @@ void CParticleSystemTransformFeedback::SetGeneratorProperties(glm::vec3 a_vGenPo
 	fGenLifeRange = a_fGenLifeMax - a_fGenLifeMin;
 
 	fNextGenerationTime = fEvery;
-	fElapsedTime = 0.8f;
+	fElapsedTime = 0.0f;
 
 	iNumToGenerate = a_iNumToGenerate;
 }

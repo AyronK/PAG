@@ -4,8 +4,11 @@
 #define WINDOWS_NAME "WINDOW GL"
 #define DEFAULT_VERTEX_SHADER_PATH "../Shaders/basic.vert"
 #define DEFAULT_FRAGMENT_SHADER_PATH "../Shaders/basic.frag"
+
+
 #define PARTICLES_GEOMETRY_SHADER_PATH "../Shaders/particles.geom"
 #define PARTICLES_VERTEX_SHADER_PATH "../Shaders/particles.vert"
+#define PARTICLES_FRAGMENT_SHADER_PATH "../Shaders/particles.frag"
 
 #define PARTICLES_RENDERING_GEOMETRY_SHADER_PATH "../Shaders/particlesRendering.geom"
 #define PARTICLES_RENDERING_VERTEX_SHADER_PATH "../Shaders/particlesRendering.vert"
