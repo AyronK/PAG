@@ -1,10 +1,14 @@
 #pragma once
 #include <glm/glm.hpp>
 #include <glad/glad.h>
+
+#include <memory>
+
+class Shader;
 class CParticleSystemTransformFeedback
 {
 public:
-	bool InitalizeParticleSystem();
+	bool InitalizeParticleSystem(Shader *const defaultShader, Shader *const shader);
 
 	void RenderParticles();
 	void UpdateParticles(float fTimePassed);
@@ -50,9 +54,4 @@ private:
 	float fGenSize;
 
 	int iNumToGenerate;
-
-	/*CShader shVertexRender, shGeomRender, shFragRender;
-	CShader shVertexUpdate, shGeomUpdate, shFragUpdate;
-	CShaderProgram spRenderParticles;
-	CShaderProgram spUpdateParticles;*/
 };

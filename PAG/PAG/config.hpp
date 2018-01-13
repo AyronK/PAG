@@ -19,3 +19,7 @@
 //Model stuff
 #define MODEL_SOURCE_FOLDER "source/"
 #define MODEL_TEXTURE_FOLDER "textures/"
+
+
+#define MAX_PARTICLES_ON_SCENE 100
+#define NUM_PARTICLE_ATTRIBUTES 6
