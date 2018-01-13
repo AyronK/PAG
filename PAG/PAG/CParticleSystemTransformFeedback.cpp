@@ -3,7 +3,7 @@
 #include "config.hpp"
 #include "CParticle.hpp"
 #include <GLFW\glfw3.h>
-
+#include "glm/gtc/matrix_transform.hpp"
 
 CParticleSystemTransformFeedback::CParticleSystemTransformFeedback()
 {
@@ -118,4 +118,18 @@ void CParticleSystemTransformFeedback::UpdateParticles(float fTimePassed, Shader
 	iCurReadBuffer = 1 - iCurReadBuffer;
 
 	glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
+}
+
+void CParticleSystemTransformFeedback::SetMatrices(glm::mat4* a_matProjection, glm::vec3 vEye, glm::vec3 vView, glm::vec3 vUpVector)
+{
+	matProjection = *a_matProjection;
+	matView = glm::lookAt(vEye, vView, vUpVector);
+
+	vView = vView - vEye;
+	vView = glm::normalize(vView);
+	vQuad1 = glm::cross(vView, vUpVector);
+
+	vQuad1 = glm::normalize(vQuad1);
+	vQuad2 = glm::cross(vView, vQuad1);
+	vQuad2 = glm::normalize(vQuad2);
 }

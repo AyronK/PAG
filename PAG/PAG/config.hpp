@@ -7,6 +7,11 @@
 #define PARTICLES_GEOMETRY_SHADER_PATH "../Shaders/particles.geom"
 #define PARTICLES_VERTEX_SHADER_PATH "../Shaders/particles.vert"
 
+#define PARTICLES_RENDERING_GEOMETRY_SHADER_PATH "../Shaders/particlesRendering.geom"
+#define PARTICLES_RENDERING_VERTEX_SHADER_PATH "../Shaders/particlesRendering.vert"
+#define PARTICLES_RENDERING_FRAGMENT_SHADER_PATH "../Shaders/particlesRendering.frag"
+
+
 //Material stuff
 #define DIFFUSE_NAME "diffuse"
 #define SPECULAR_NAME "specular"

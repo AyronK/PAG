@@ -29,6 +29,7 @@ private:
 	std::unique_ptr<Window> window;
 	std::unique_ptr<Shader> defaultShader;
 	std::unique_ptr<Shader> particlesShader;
+	std::unique_ptr<Shader> particlesRenderingShader;
 	std::unique_ptr<Camera> camera;
 	std::unique_ptr<Scene> scene;
 	std::unique_ptr<MousePicker> mousePicker;

@@ -210,6 +210,9 @@
     </None>
     <None Include="..\Shaders\particles.geom" />
     <None Include="..\Shaders\particles.vert" />
+    <None Include="..\Shaders\particlesRendering.frag" />
+    <None Include="..\Shaders\particlesRendering.geom" />
+    <None Include="..\Shaders\particlesRendering.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

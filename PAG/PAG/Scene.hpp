@@ -1,6 +1,4 @@
-#include <stdio.h>
 #include <glm/glm.hpp>
-#include "config.hpp"
 #include <memory>
 
 class Shader;

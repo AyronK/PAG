@@ -1,8 +1,7 @@
 #pragma once
 #include <glm/glm.hpp>
-#include <glad/glad.h>
-
 #include <memory>
+#include <glad/glad.h>
 
 class Shader;
 class CParticleSystemTransformFeedback

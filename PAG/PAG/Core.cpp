@@ -143,6 +143,16 @@ Core::Core()
 	particlesShader->link();
 	particlesShader->use();
 
+
+	particlesRenderingShader = std::make_unique<Shader>();
+
+
+	particlesRenderingShader->loadShader(GL_VERTEX_SHADER, PARTICLES_RENDERING_VERTEX_SHADER_PATH);
+	particlesRenderingShader->loadShader(GL_GEOMETRY_SHADER, PARTICLES_RENDERING_GEOMETRY_SHADER_PATH);
+	particlesRenderingShader->loadShader(GL_FRAGMENT_SHADER, PARTICLES_RENDERING_FRAGMENT_SHADER_PATH);
+	particlesRenderingShader->link();
+	particlesRenderingShader->use();
+
 	camera = std::make_unique<Camera>();
 	glfwGetCursorPos(window->getWindow(), &camera->lastX, &camera->lastY);
 
