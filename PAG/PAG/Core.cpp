@@ -18,6 +18,7 @@
 #include "MousePicker.hpp"
 #include <iostream>
 #include "Node.hpp"
+#include "CParticleSystemTransformFeedback.hpp"
 #include "UserInterface.hpp"
 using namespace std;
 
@@ -100,6 +101,12 @@ void Core::run()
 			model->draw(defaultShader.get());
 		}
 		ui->draw();
+
+		particleSystem->SetMatrices(&scene->getProjectionSpace(), camera->cameraPos, camera->cameraFront, camera->cameraUp);
+
+		particleSystem->UpdateParticles(currentTime, particlesShader.get());
+		particleSystem->RenderParticles(particlesRenderingShader.get());
+
 		glfwSwapBuffers(window->getWindow());
 		glfwPollEvents();
 	}
@@ -161,6 +168,20 @@ Core::Core()
 	scene = std::make_unique<Scene>();
 	ui = std::make_unique<UserInterface>(window->getWindow());
 	mousePicker = std::make_unique<MousePicker>();
+
+	particleSystem = std::make_unique<CParticleSystemTransformFeedback>();
+	particleSystem->InitalizeParticleSystem(particlesShader.get(), particlesRenderingShader.get());
+	particleSystem->SetGeneratorProperties(
+		glm::vec3(-10.0f, 17.5f, 0.0f), // Where the particles are generated
+		glm::vec3(-5, 0, -5), // Minimal velocity
+		glm::vec3(5, 20, 5), // Maximal velocity
+		glm::vec3(0, -5, 0), // Gravity force applied to particles
+		glm::vec3(0.0f, 0.5f, 1.0f), // Color (light blue)
+		1.5f, // Minimum lifetime in seconds
+		3.0f, // Maximum lifetime in seconds
+		0.75f, // Rendered size
+		0.02f, // Spawn every 0.05 seconds
+		30); // And spawn 30 particles
 }
 
 Core::~Core()

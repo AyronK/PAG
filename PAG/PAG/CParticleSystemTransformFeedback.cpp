@@ -7,6 +7,8 @@
 
 CParticleSystemTransformFeedback::CParticleSystemTransformFeedback()
 {
+	bInitialized = false;
+	iCurReadBuffer = 0;
 }
 
 double fRand(double fMin, double fMax)
@@ -15,7 +17,7 @@ double fRand(double fMin, double fMax)
 	return fMin + f * (fMax - fMin);
 }
 
-bool CParticleSystemTransformFeedback::InitalizeParticleSystem(Shader *const particlesShader)
+bool CParticleSystemTransformFeedback::InitalizeParticleSystem(Shader *const particlesShader, Shader *const renderingShader)
 {
 	if (bInitialized)return false;
 
@@ -132,4 +134,53 @@ void CParticleSystemTransformFeedback::SetMatrices(glm::mat4* a_matProjection, g
 	vQuad1 = glm::normalize(vQuad1);
 	vQuad2 = glm::cross(vView, vQuad1);
 	vQuad2 = glm::normalize(vQuad2);
+}
+
+void CParticleSystemTransformFeedback::RenderParticles(Shader *const renderingShader)
+{
+	if (!bInitialized)return;
+
+	glEnable(GL_BLEND);
+	glBlendFunc(GL_SRC_ALPHA, GL_ONE);
+	glDepthMask(0);
+
+	glDisable(GL_RASTERIZER_DISCARD);
+	renderingShader->use();
+	renderingShader->setMat4("matrices.mProj", matProjection);
+	renderingShader->setMat4("matrices.mView", matView);
+	renderingShader->setVec3("vQuad1", vQuad1);
+	renderingShader->setVec3("vQuad2", vQuad2);
+	renderingShader->setInt("gSampler", 0);
+
+	glBindVertexArray(uiVAO[iCurReadBuffer]);
+	glDisableVertexAttribArray(1); // Disable velocity, because we don't need it for rendering
+
+	glDrawArrays(GL_POINTS, 0, iNumParticles);
+
+	glDepthMask(1);
+	glDisable(GL_BLEND);
+}
+
+void CParticleSystemTransformFeedback::SetGeneratorProperties(glm::vec3 a_vGenPosition, glm::vec3 a_vGenVelocityMin, glm::vec3 a_vGenVelocityMax, glm::vec3 a_vGenGravityVector, glm::vec3 a_vGenColor, float a_fGenLifeMin, float a_fGenLifeMax, float a_fGenSize, float fEvery, int a_iNumToGenerate)
+{
+	vGenPosition = a_vGenPosition;
+	vGenVelocityMin = a_vGenVelocityMin;
+	vGenVelocityRange = a_vGenVelocityMax - a_vGenVelocityMin;
+
+	vGenGravityVector = a_vGenGravityVector;
+	vGenColor = a_vGenColor;
+	fGenSize = a_fGenSize;
+
+	fGenLifeMin = a_fGenLifeMin;
+	fGenLifeRange = a_fGenLifeMax - a_fGenLifeMin;
+
+	fNextGenerationTime = fEvery;
+	fElapsedTime = 0.8f;
+
+	iNumToGenerate = a_iNumToGenerate;
+}
+
+int CParticleSystemTransformFeedback::GetNumParticles()
+{
+	return iNumParticles;
 }

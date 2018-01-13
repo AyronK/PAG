@@ -7,9 +7,9 @@ class Shader;
 class CParticleSystemTransformFeedback
 {
 public:
-	bool InitalizeParticleSystem(Shader *const shader);
+	bool InitalizeParticleSystem(Shader *const particlesShader, Shader *const renderingShader);
 
-	void RenderParticles();
+	void RenderParticles(Shader *const renderingShader);
 	void UpdateParticles(float fTimePassed, Shader *const particlesShader);
 
 	void SetGeneratorProperties(glm::vec3 a_vGenPosition, glm::vec3 a_vGenVelocityMin, glm::vec3 a_vGenVelocityMax, glm::vec3 a_vGenGravityVector,
