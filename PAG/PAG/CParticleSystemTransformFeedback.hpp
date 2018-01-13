@@ -27,13 +27,13 @@ public:
 private:
 	bool bInitialized;
 
-	GLuint uiTransformFeedbackBuffer;
+	UINT uiTransformFeedbackBuffer;
 
-	GLuint uiParticleBuffer[2];
-	GLuint uiVAO[2];
+	UINT uiParticleBuffer[2];
+	UINT uiVAO[2];
 
-	GLuint uiQuery;
-	GLuint uiTexture;
+	UINT uiQuery;
+	UINT uiTexture;
 
 	int iCurReadBuffer;
 	int iNumParticles;

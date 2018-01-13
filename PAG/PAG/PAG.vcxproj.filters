@@ -205,10 +205,10 @@
     <None Include="..\Shaders\particlesRendering.vert">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="..\Shaders\particles.frag">
+    <None Include="..\Shaders\particlesRendering.frag">
       <Filter>Shaders</Filter>
     </None>
-    <None Include="..\Shaders\particlesRendering.frag">
+    <None Include="..\Shaders\particles.vert">
       <Filter>Shaders</Filter>
     </None>
   </ItemGroup>

@@ -21,10 +21,22 @@
 #include "CParticleSystemTransformFeedback.hpp"
 #include "UserInterface.hpp"
 #include "Texture2.hpp"
+#include <ctime>
 using namespace std;
+
+const int FRAMES_PER_SECOND = 25;
+const int SKIP_TICKS = 1000 / FRAMES_PER_SECOND;
+const int MAX_FRAMESKIP = 10;
+
+DWORD next_game_tick = GetTickCount();
+int loops;
 
 void Core::run()
 {
+	int sleep_time = 0;
+
+	bool game_is_running = true;
+
 
 	glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	std::vector<Model*> models;
@@ -49,19 +61,24 @@ void Core::run()
 	Texture2 texture;
 
 	particleSystem->SetGeneratorProperties(
-		glm::vec3(2, 0, 0.0f), // Where the particles are generated
-		glm::vec3(-0.07f, 0, -0.07f), // Minimal velocity
-		glm::vec3(0.07f,0.1f, 0.07f), // Maximal velocity
-		glm::vec3(0, 0.5f, 0), // Gravity force applied to particles
-		glm::vec3(0.3f, 0.7f, 0.3f), // Color (light blue)
-		2.0f, // Minimum lifetime in seconds
-		5.0f, // Maximum lifetime in seconds
-		0.03f, // Rendered size
-		0.000005f, // Spawn every 0.05 seconds
+		glm::vec3(0.0f, 2.5f, 0.0f), // Where the particles are generated
+		glm::vec3(-10, 0, -10), // Minimal velocity
+		glm::vec3(10, 25, 10), // Maximal velocity
+		glm::vec3(0, -5, 0), // Gravity force applied to particles
+		glm::vec3(0.0f, 0.5f, 1.0f), // Color (light blue)
+		1.5f, // Minimum lifetime in seconds
+		3.0f, // Maximum lifetime in seconds
+		0.05f, // Rendered size
+		0.02f, // Spawn every 0.05 seconds
 		30); // And spawn 30 particles
-
-	while (!glfwWindowShouldClose(window->getWindow()))
+	float timeval = 0, lasttimeVel = 0;
+	while (!glfwWindowShouldClose(window->getWindow()) && game_is_running)
 	{
+		loops = 0;
+		while (GetTickCount() > next_game_tick && loops < MAX_FRAMESKIP) {
+			next_game_tick += SKIP_TICKS;
+			loops++;
+		}
 		GLfloat currentTime = glfwGetTime();
 		deltaTime = currentTime - lastTime;
 		lastTime = currentTime;
@@ -118,8 +135,11 @@ void Core::run()
 
 		texture.setActiveTexture(0);
 		particleSystem->SetMatrices(&scene->getProjectionSpace(), camera->cameraPos, camera->cameraPos + camera->cameraFront, camera->cameraUp);
+		timeval = clock();
+		float interval = float(timeval - lasttimeVel) / float(500);
+		lasttimeVel = timeval;
 
-		particleSystem->UpdateParticles(currentTime, particlesShader.get());
+		particleSystem->UpdateParticles(interval, particlesShader.get());
 		particleSystem->RenderParticles(particlesRenderingShader.get());
 
 		glfwSwapBuffers(window->getWindow());
