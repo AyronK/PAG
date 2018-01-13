@@ -205,7 +205,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Shaders\basic.frag" />
-    <None Include="..\Shaders\basic.vert" />
+    <None Include="..\Shaders\basic.vert">
+      <DeploymentContent>false</DeploymentContent>
+    </None>
+    <None Include="..\Shaders\particles.geom" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

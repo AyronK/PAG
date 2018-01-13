@@ -4,6 +4,7 @@
 #define WINDOWS_NAME "WINDOW GL"
 #define GL_VERTEX_SHADER_PATH "../Shaders/basic.vert"
 #define GL_FRAGMENT_SHADER_PATH "../Shaders/basic.frag"
+#define GL_GEOMETRY_SHADER_PATH "../Shaders/particles.geom"
 
 //Material stuff
 #define DIFFUSE_NAME "diffuse"

@@ -49,14 +49,14 @@ float countAttenuation(vec3 lightDirection);
 
 void main()
 {
-    vec3 normals = normalize(normalTransform*Normal);
-    vec3 viewDirection = normalize(viewPosition - FragPos);
+	vec3 normals = normalize(normalTransform*Normal);
+	vec3 viewDirection = normalize(viewPosition - FragPos);
 
-    vec3 directionalLight = getDirectionalLight(viewDirection, normals);
-    vec3 pointLight = getPointLight(viewDirection, normals);
-    vec3 spotLight = getSpotLight(viewDirection, normals);
+	vec3 directionalLight = getDirectionalLight(viewDirection, normals);
+	vec3 pointLight = getPointLight(viewDirection, normals);
+	vec3 spotLight = getSpotLight(viewDirection, normals);
 
-    vec3 lights = directionalLight + pointLight + spotLight;
+	vec3 lights = directionalLight + pointLight + spotLight;
 	
 	fragColor = getTexel() * vec4(lights, 1.0);
 }
@@ -65,20 +65,20 @@ vec4 getTexel()
 { 
 	if (shouldUseDiffuseTexture)
 		return texture(diffuse0, fragVertexTexture);
-    else
+	else
 		return vec4(diffuseColor,1);
 }
 
 vec3 getDirectionalLight(vec3 viewDirection, vec3 normals)
 {
 	vec3 lightDirection = normalize(-directionalLightDirection);
-    float diff = max(dot(normals, lightDirection), 0.0);
+	float diff = max(dot(normals, lightDirection), 0.0);
 	
-    vec3 ambient = mambient * lightColor * vec3(0.7) * animatedIntensity;
+	vec3 ambient = mambient * lightColor * vec3(0.7) * animatedIntensity;
 	vec3 diffuse = mdiffuse * lightColor * diff * vec3(0.9) * animatedIntensity;
-    vec3 specular = countSpecular(viewDirection, lightDirection, normals);
+	vec3 specular = countSpecular(viewDirection, lightDirection, normals);
 
-    return  ambient + diffuse + specular;
+	return  ambient + diffuse + specular;
 }
 
 
@@ -87,46 +87,46 @@ vec3 getSpotLight(vec3 viewDirection, vec3 normals)
 	vec3 lightDirection = normalize(spotLightPosition - FragPos);
 	float diff = max(dot(normals, lightDirection), 0.0);
 
-    float theta = dot(lightDirection, normalize(-spotLightDirection));
-    float epsilon   = lightCutOff - outerLightCutOff;
-    float intensity = clamp((theta - outerLightCutOff) / epsilon, 0.0, 1.0);  
+	float theta = dot(lightDirection, normalize(-spotLightDirection));
+	float epsilon   = lightCutOff - outerLightCutOff;
+	float intensity = clamp((theta - outerLightCutOff) / epsilon, 0.0, 1.0);  
 	intensity *=3;
 	
-    float attenuation = countAttenuation(spotLightPosition);
+	float attenuation = countAttenuation(spotLightPosition);
 
-    vec3 diffuse =   mdiffuse * spotColors * vec3(0.8f) * diff * intensity * attenuation;	
-    vec3 specular = countSpecular(viewDirection, lightDirection, normals) * attenuation * intensity;
+	vec3 diffuse =   mdiffuse * spotColors * vec3(0.8f) * diff * intensity * attenuation;	
+	vec3 specular = countSpecular(viewDirection, lightDirection, normals) * attenuation * intensity;
 	//vec3 ambient =   mambient * spotColors * vec3(1.2f) * attenuation;
 
-    return diffuse + specular;
+	return diffuse + specular;
 }
 
 
 vec3 getPointLight(vec3 viewDirection, vec3 normals)
 {
 	vec3 lightDirection = normalize(pointLightPosition - FragPos);
-    float diff = max(dot(normals, lightDirection), 0.0);
+	float diff = max(dot(normals, lightDirection), 0.0);
 	
-    float attenuation = countAttenuation(pointLightPosition);
+	float attenuation = countAttenuation(pointLightPosition);
 	
-    vec3 diffuse = mdiffuse * lightColor * vec3(0.8f) * diff *  attenuation;	
+	vec3 diffuse = mdiffuse * lightColor * vec3(0.8f) * diff *  attenuation;	
 	vec3 ambient = mambient *  lightColor * vec3(0.7f) * attenuation;
 	vec3 specular = countSpecular(viewDirection, lightDirection, normals) * attenuation;
 
-    return ambient + diffuse + specular;
+	return ambient + diffuse + specular;
 }
 
 vec3 countSpecular(vec3 viewDirection, vec3 lightDirection, vec3 normals)
 {
 	vec3 reflectDirection = reflect(-lightDirection, normals);
-    float spec = pow(max(dot(viewDirection, reflectDirection), 0.0), mshininess);
+	float spec = pow(max(dot(viewDirection, reflectDirection), 0.0), mshininess);
 	return mspecular *  vec3(1.0f, 1.0f, 1.0f) * spec;
 }
 
 float countAttenuation(vec3 lightDirection)
 {
-    float distance = length(lightDirection - FragPos);
-    return 1.0 / (1.0 + ATTENUATION_LINEAR * distance + ATTENUATION_QUADRATIC * (distance * distance)); 
+	float distance = length(lightDirection - FragPos);
+	return 1.0 / (1.0 + ATTENUATION_LINEAR * distance + ATTENUATION_QUADRATIC * (distance * distance)); 
 }
 
 

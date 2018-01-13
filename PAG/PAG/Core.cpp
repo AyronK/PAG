@@ -26,23 +26,23 @@ void Core::run()
 
 	glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	std::vector<Model*> models;
-	Model cubes("C:/Users/Ayron/Desktop/Studia/PAG/PAG/Objects/Cubes/source/Cubes.fbx", shader.get());
-	Model nano("C:/Users/Ayron/Desktop/Studia/PAG/PAG/Objects/nanosuit/source/nanosuit.obj", shader.get());
+	Model cubes("F:/Studia/Sem V/PAG/PAG/Objects/Cubes/source/Cubes.fbx", shader.get());
+	//Model nano("F:/Studia/Sem V/PAG/PAG/Objects/nanosuit/source/nanosuit.obj", shader.get());
 	//Model lambo("C:/Users/Ayron/Desktop/Studia/PAG/PAG/Objects/Lambo/source/Avent.obj", shader.get());
-	Model plane("C:/Users/Ayron/Desktop/Studia/PAG/PAG/Objects/Plane/source/plane.FBX", shader.get());
+	Model plane("F:/Studia/Sem V/PAG/PAG/Objects/Plane/source/plane.FBX", shader.get());
 
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); wireframe
 
 	cubes.getRootNode()->getNodeTransform()->scale(glm::vec3(0.005, 0.005, 0.005));
-	nano.getRootNode()->getNodeTransform()->translate(glm::vec3(3.0f, 0.0f, 0.0f));
-	nano.getRootNode()->getNodeTransform()->scale(glm::vec3(0.07, 0.07, 0.07));
+	//nano.getRootNode()->getNodeTransform()->translate(glm::vec3(3.0f, 0.0f, 0.0f));
+	//nano.getRootNode()->getNodeTransform()->scale(glm::vec3(0.07, 0.07, 0.07));
 	//lambo.getRootNode()->getNodeTransform()->scale(glm::vec3(0.25, 0.25, 0.25));
 	//lambo.getRootNode()->getNodeTransform()->translate(glm::vec3(-5.0f, 0.0f, 0.0f));
 	//model.getRootNode()->getNodeTransform()->translate(glm::vec3(-0.5, 0, 0));
 	//model.getRootNode()->getChild(0)->getChild(0)->getChild(0)->getChild(0)->getChild(0)->getNodeTransform()->scale(glm::vec3(10, 2, 2));
 
 	models.push_back(&cubes);
-	models.push_back(&nano);
+	//models.push_back(&nano);
 	models.push_back(&plane);
 
 	while (!glfwWindowShouldClose(window->getWindow()))
@@ -128,6 +128,10 @@ Core::Core()
 
 	shader = std::make_unique<Shader>();
 
+
+	shader->loadShader(GL_VERTEX_SHADER, GL_VERTEX_SHADER_PATH);
+	shader->loadShader(GL_FRAGMENT_SHADER, GL_FRAGMENT_SHADER_PATH);
+	shader->link();
 	shader->use();
 
 	camera = std::make_unique<Camera>();

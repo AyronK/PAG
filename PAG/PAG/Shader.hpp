@@ -10,8 +10,9 @@ class Shader
 {
 private:
 	GLuint program;
-	void loadShader(GLint type, std::string fileName);
 public:
+	void loadShader(GLint type, std::string fileName);
+	void link();
 	GLuint getProgram();
 	void updateScene(Scene scene);
 	void use();
