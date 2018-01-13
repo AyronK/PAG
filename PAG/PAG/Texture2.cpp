@@ -15,7 +15,7 @@ Texture2::Texture2()
 	glGenTextures(24, textures);
 
 	loadTexture("../Textures/particle.bmp", 0);
-	loadTexture("../Textures/owoc.jpg", 1);
+	loadTexture("../Textures/water.bmp", 1);
 	loadTexture("../Textures/ja.jpg", 2);
 }
 

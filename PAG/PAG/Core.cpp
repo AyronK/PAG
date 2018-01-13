@@ -59,19 +59,48 @@ void Core::run()
 	//models.push_back(&nano);
 	models.push_back(&plane);
 	Texture2 texture;
-
-	particleSystem->SetGeneratorProperties(
-		glm::vec3(0.0f, 0.25f, 0.0f), // position
-		glm::vec3(-0.025, 0.3, -0.025), // Minimal velocity
-		glm::vec3(0.025, 0.05, 0.025f), // Maximal velocity
-		glm::vec3(0, 0, 0), // Gravity force 
-		glm::vec3(1.0f, 0.5f, 0.0f), // Color 
-		13.5f, // Minimum lifetime in seconds
-		45.0f, // Maximum lifetime in seconds
-		0.04f, // Rendered size
-		0.01f, // Spawn every 
-		1); // count of particles
-
+	//fire
+	//{
+	//	particleSystem->SetGeneratorProperties(
+	//		glm::vec3(0.0f, 0.25f, 0.0f), // position
+	//		glm::vec3(-0.025, 0.3, -0.025), // Minimal velocity
+	//		glm::vec3(0.025, 0.05, 0.025f), // Maximal velocity
+	//		glm::vec3(0, 0, 0), // Gravity force 
+	//		glm::vec3(1.0f, 0.5f, 0.0f), // Color 
+	//		13.5f, // Minimum lifetime in seconds
+	//		45.0f, // Maximum lifetime in seconds
+	//		0.04f, // Rendered size
+	//		0.01f, // Spawn every 
+	//		1); // count of particles
+	//}
+	//water
+	//{
+	//	particleSystem->SetGeneratorProperties(
+	//		glm::vec3(1.0f, 1.0f, 0.0f), // position
+	//		glm::vec3(-0.05, -0.2, -0.05), // Minimal velocity
+	//		glm::vec3(0.05, 0.0, 0.05f), // Maximal velocity
+	//		glm::vec3(0, -2.5, 0), // Gravity force 
+	//		glm::vec3(0.25f, 0.45f, 0.8f), // Color 
+	//		13.5f, // Minimum lifetime in seconds
+	//		45.0f, // Maximum lifetime in seconds
+	//		0.03f, // Rendered size
+	//		0.0001f, // Spawn every 
+	//		2); // count of particles
+	//}
+	//sparkling
+	{
+		particleSystem->SetGeneratorProperties(
+			glm::vec3(0.5f, 0.60f, 0.0f), // position
+			glm::vec3(-0.1, -0.1, -0.1), // Minimal velocity
+			glm::vec3(0.1, 0.1, 0.1f), // Maximal velocity
+			glm::vec3(0, 0, 0), // Gravity force 
+			glm::vec3(1.0f, 0.9f, 0.1f), // Color 
+			3.0f, // Minimum lifetime in seconds
+			5.0f, // Maximum lifetime in seconds
+			0.03f, // Rendered size
+			0.5f, // Spawn every 
+			10); // count of particles
+	}
 	float timeval = 0, lasttimeVel = 0;
 	while (!glfwWindowShouldClose(window->getWindow()) && game_is_running)
 	{
@@ -134,7 +163,11 @@ void Core::run()
 		}
 		ui->draw();
 
+		//fire
 		texture.setActiveTexture(0);
+		//water
+		//texture.setActiveTexture(1);
+
 		particleSystem->SetMatrices(&scene->getProjectionSpace(), camera->cameraPos, camera->cameraPos + camera->cameraFront, camera->cameraUp);
 		timeval = clock();
 		float interval = float(timeval - lasttimeVel) / float(1000);
