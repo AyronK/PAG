@@ -1,16 +1,16 @@
-#include "Texture2.hpp"
+#include "TextureLoader.hpp"
 
-void Texture2::setActiveTexture(int id)
+void TextureLoader::setActiveTexture(int id)
 {
 	glActiveTexture(GL_TEXTURE0);
 	glBindTexture(GL_TEXTURE_2D, textures[id]);
 }
 
-unsigned int Texture2::getTexture(int id) {
+unsigned int TextureLoader::getTexture(int id) {
 	return textures[id];
 }
 
-Texture2::Texture2()
+TextureLoader::TextureLoader()
 {
 	glGenTextures(24, textures);
 
@@ -19,7 +19,7 @@ Texture2::Texture2()
 	loadTexture("../Textures/ja.jpg", 2);
 }
 
-void Texture2::loadTexture(std::string name, int id) {
+void TextureLoader::loadTexture(std::string name, int id) {
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
@@ -46,6 +46,6 @@ void Texture2::loadTexture(std::string name, int id) {
 }
 
 
-Texture2::~Texture2()
+TextureLoader::~TextureLoader()
 {
 }

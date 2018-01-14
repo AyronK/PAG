@@ -34,55 +34,52 @@
     <Filter Include="Source Files\ImGUI">
       <UniqueIdentifier>{41f95057-c61c-47a3-a611-641cd36a3750}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\GL\UserBehvaiou">
+      <UniqueIdentifier>{d4c0e5b4-7b8d-42a5-9226-c325f0f09d85}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GL\UserBehaviour">
+      <UniqueIdentifier>{ad950cc5-8f24-414d-bab4-fcba45109fa4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GL\ParticleSystem">
+      <UniqueIdentifier>{89fa57be-76aa-4d40-b2e1-0a741e046765}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GL\ParticleSystam">
+      <UniqueIdentifier>{c89daa44-8487-425c-9b0a-cdf14cc755b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GL\Textures">
+      <UniqueIdentifier>{f3c69ba0-0b20-4f90-b377-f9e2ee155dfe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GL\Textures">
+      <UniqueIdentifier>{975751ca-701f-4730-8fe3-8c8ac7b64075}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GL\Model">
+      <UniqueIdentifier>{1c63afd5-cb5c-435b-b0ad-b8530c67d16a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GL\Model">
+      <UniqueIdentifier>{7fa50fe3-c8a3-4bc6-9d09-b95963ab1074}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GL\Engine">
+      <UniqueIdentifier>{3d3b9459-125d-4d8b-97a6-90622fbb3159}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\GL\Scene">
+      <UniqueIdentifier>{78e3e721-16de-4156-b55f-22915065bd9c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GL\Scene">
+      <UniqueIdentifier>{4effabb2-aee1-4b1a-ac55-b8754f48cabb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\GL\Engine">
+      <UniqueIdentifier>{2a31795b-0f16-44c5-a30e-6d7b062ee33b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Core.cpp">
-      <Filter>Source Files\GL</Filter>
-    </ClCompile>
-    <ClCompile Include="Mesh.cpp">
-      <Filter>Source Files\GL</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Source Files\GL</Filter>
-    </ClCompile>
-    <ClCompile Include="Texture.cpp">
-      <Filter>Source Files\GL</Filter>
-    </ClCompile>
-    <ClCompile Include="Window.cpp">
-      <Filter>Source Files\GL</Filter>
     </ClCompile>
     <ClCompile Include="FileReader.cpp">
       <Filter>Source Files\DataAccess</Filter>
     </ClCompile>
     <ClCompile Include="stb_image.cpp">
       <Filter>Source Files\DataAccess</Filter>
-    </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source Files\GL</Filter>
-    </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Source Files\GL</Filter>
-    </ClCompile>
-    <ClCompile Include="Transform.cpp">
-      <Filter>Source Files\GL</Filter>
-    </ClCompile>
-    <ClCompile Include="Model.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="MousePicker.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Node.cpp">
-      <Filter>Source Files\GL</Filter>
-    </ClCompile>
-    <ClCompile Include="Textures.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="UserInterface.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="imgui_draw.cpp">
       <Filter>Source Files\ImGUI</Filter>
@@ -93,35 +90,59 @@
     <ClCompile Include="imgui.cpp">
       <Filter>Source Files\ImGUI</Filter>
     </ClCompile>
-    <ClCompile Include="CParticleSystemTransformFeedback.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CParticle.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="glad.c">
       <Filter>Resource Files</Filter>
     </ClCompile>
-    <ClCompile Include="Texture2.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Window.cpp">
+      <Filter>Source Files\GL\UserBehaviour</Filter>
+    </ClCompile>
+    <ClCompile Include="UserInterface.cpp">
+      <Filter>Source Files\GL\UserBehaviour</Filter>
+    </ClCompile>
+    <ClCompile Include="MousePicker.cpp">
+      <Filter>Source Files\GL\UserBehaviour</Filter>
+    </ClCompile>
+    <ClCompile Include="CParticle.cpp">
+      <Filter>Source Files\GL\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="CParticleSystemTransformFeedback.cpp">
+      <Filter>Source Files\GL\ParticleSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Texture.cpp">
+      <Filter>Source Files\GL\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="TextureLoader.cpp">
+      <Filter>Source Files\GL\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="Textures.cpp">
+      <Filter>Source Files\GL\Textures</Filter>
+    </ClCompile>
+    <ClCompile Include="Mesh.cpp">
+      <Filter>Source Files\GL\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Model.cpp">
+      <Filter>Source Files\GL\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Node.cpp">
+      <Filter>Source Files\GL\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Transform.cpp">
+      <Filter>Source Files\GL\Model</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files\GL\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\GL\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Core.cpp">
+      <Filter>Source Files\GL\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Shader.cpp">
+      <Filter>Source Files\GL\Engine</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Core.hpp">
-      <Filter>Header Files\GL</Filter>
-    </ClInclude>
-    <ClInclude Include="Mesh.hpp">
-      <Filter>Header Files\GL</Filter>
-    </ClInclude>
-    <ClInclude Include="Shader.hpp">
-      <Filter>Header Files\GL</Filter>
-    </ClInclude>
-    <ClInclude Include="Texture.hpp">
-      <Filter>Header Files\GL</Filter>
-    </ClInclude>
-    <ClInclude Include="Window.hpp">
-      <Filter>Header Files\GL</Filter>
-    </ClInclude>
     <ClInclude Include="FileReader.hpp">
       <Filter>Header Files\DataAccess</Filter>
     </ClInclude>
@@ -130,33 +151,6 @@
     </ClInclude>
     <ClInclude Include="stb_image.h">
       <Filter>Header Files\DataAccess</Filter>
-    </ClInclude>
-    <ClInclude Include="Camera.hpp">
-      <Filter>Header Files\GL</Filter>
-    </ClInclude>
-    <ClInclude Include="Scene.hpp">
-      <Filter>Header Files\GL</Filter>
-    </ClInclude>
-    <ClInclude Include="Transform.hpp">
-      <Filter>Header Files\GL</Filter>
-    </ClInclude>
-    <ClInclude Include="Model.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MousePicker.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Node.hpp">
-      <Filter>Header Files\GL</Filter>
-    </ClInclude>
-    <ClInclude Include="Textures.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Material.hpp">
-      <Filter>Header Files\GL</Filter>
-    </ClInclude>
-    <ClInclude Include="UserInterface.hpp">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="imconfig.h">
       <Filter>Header Files\ImGUI</Filter>
@@ -179,14 +173,56 @@
     <ClInclude Include="stb_truetype.h">
       <Filter>Header Files\ImGUI</Filter>
     </ClInclude>
-    <ClInclude Include="CParticleSystemTransformFeedback.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Window.hpp">
+      <Filter>Header Files\GL\UserBehvaiou</Filter>
+    </ClInclude>
+    <ClInclude Include="UserInterface.hpp">
+      <Filter>Header Files\GL\UserBehvaiou</Filter>
+    </ClInclude>
+    <ClInclude Include="MousePicker.hpp">
+      <Filter>Header Files\GL\UserBehvaiou</Filter>
     </ClInclude>
     <ClInclude Include="CParticle.hpp">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\GL\ParticleSystam</Filter>
     </ClInclude>
-    <ClInclude Include="Texture2.hpp">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="CParticleSystemTransformFeedback.hpp">
+      <Filter>Header Files\GL\ParticleSystam</Filter>
+    </ClInclude>
+    <ClInclude Include="Texture.hpp">
+      <Filter>Header Files\GL\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="TextureLoader.hpp">
+      <Filter>Header Files\GL\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Textures.hpp">
+      <Filter>Header Files\GL\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Material.hpp">
+      <Filter>Header Files\GL\Textures</Filter>
+    </ClInclude>
+    <ClInclude Include="Transform.hpp">
+      <Filter>Header Files\GL\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Node.hpp">
+      <Filter>Header Files\GL\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Model.hpp">
+      <Filter>Header Files\GL\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Mesh.hpp">
+      <Filter>Header Files\GL\Model</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.hpp">
+      <Filter>Header Files\GL\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Core.hpp">
+      <Filter>Header Files\GL\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Shader.hpp">
+      <Filter>Header Files\GL\Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.hpp">
+      <Filter>Header Files\GL\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

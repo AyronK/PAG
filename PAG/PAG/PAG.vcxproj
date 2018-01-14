@@ -170,7 +170,7 @@
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="stb_image.cpp" />
     <ClCompile Include="Texture.cpp" />
-    <ClCompile Include="Texture2.cpp" />
+    <ClCompile Include="TextureLoader.cpp" />
     <ClCompile Include="Textures.cpp" />
     <ClCompile Include="Transform.cpp" />
     <ClCompile Include="UserInterface.cpp" />
@@ -199,7 +199,7 @@
     <ClInclude Include="stb_textedit.h" />
     <ClInclude Include="stb_truetype.h" />
     <ClInclude Include="Texture.hpp" />
-    <ClInclude Include="Texture2.hpp" />
+    <ClInclude Include="TextureLoader.hpp" />
     <ClInclude Include="Textures.hpp" />
     <ClInclude Include="Transform.hpp" />
     <ClInclude Include="UserInterface.hpp" />
