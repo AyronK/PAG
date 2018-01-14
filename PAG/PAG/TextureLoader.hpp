@@ -3,6 +3,8 @@
 #include <glm/glm.hpp>
 #include <stb_image.h>
 #include <stdexcept>
+#include <vector>
+#include <string>
 
 class TextureLoader
 {
@@ -13,6 +15,7 @@ public:
 	unsigned int getTexture(int id);
 	TextureLoader();
 	void loadTexture(std::string name, int id);
+	static unsigned int TextureLoader::loadCubemap(std::vector<std::string> faces);
 	~TextureLoader();
 };
 

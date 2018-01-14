@@ -36,6 +36,7 @@ void Core::run()
 	int sleep_time = 0;
 
 	bool game_is_running = true;
+	float timeval = 0, lasttimeVel = 0;
 
 
 	glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
@@ -101,7 +102,19 @@ void Core::run()
 	//		0.5f, // Spawn every 
 	//		10); // count of particles
 	//}
-	float timeval = 0, lasttimeVel = 0;
+
+	vector<std::string> faces
+	{
+		"../Textures/Skybox/right.jpg",
+		"../Textures/Skybox/left.jpg",
+		"../Textures/Skybox/top.jpg",
+		"../Textures/Skybox/bottom.jpg",
+		"../Textures/Skybox/back.jpg",
+		"../Textures/Skybox/front.jpg"
+	};
+
+	unsigned int skyboxTexture = TextureLoader::loadCubemap(faces);
+
 	while (!glfwWindowShouldClose(window->getWindow()) && game_is_running)
 	{
 		loops = 0;
@@ -162,6 +175,7 @@ void Core::run()
 			model->draw(defaultShader.get());
 		}
 		ui->draw();
+
 
 		//fire
 		//texture.setActiveTexture(0);
