@@ -22,6 +22,7 @@
 #include "UserInterface.hpp"
 #include "TextureLoader.hpp"
 #include <ctime>
+#include "Skybox.hpp"
 using namespace std;
 
 const int FRAMES_PER_SECOND = 60;
@@ -103,17 +104,16 @@ void Core::run()
 	//		10); // count of particles
 	//}
 
-	vector<std::string> faces
+	Skybox skybox;
+	skybox.setupSkybox(std::vector<std::string>
 	{
 		"../Textures/Skybox/right.jpg",
-		"../Textures/Skybox/left.jpg",
-		"../Textures/Skybox/top.jpg",
-		"../Textures/Skybox/bottom.jpg",
-		"../Textures/Skybox/back.jpg",
-		"../Textures/Skybox/front.jpg"
-	};
-
-	unsigned int skyboxTexture = TextureLoader::loadCubemap(faces);
+			"../Textures/Skybox/left.jpg",
+			"../Textures/Skybox/top.jpg",
+			"../Textures/Skybox/bottom.jpg",
+			"../Textures/Skybox/back.jpg",
+			"../Textures/Skybox/front.jpg"
+	});
 
 	while (!glfwWindowShouldClose(window->getWindow()) && game_is_running)
 	{
