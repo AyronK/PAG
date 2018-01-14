@@ -105,7 +105,9 @@ void Core::run()
 	//}
 
 	Skybox skybox;
-	skybox.setupSkybox(std::vector<std::string>
+	skybox.setupSkybox();
+
+	unsigned int skyboxTexture = TextureLoader::loadCubemap(std::vector<std::string>
 	{
 		"../Textures/Skybox/right.jpg",
 			"../Textures/Skybox/left.jpg",
@@ -114,6 +116,8 @@ void Core::run()
 			"../Textures/Skybox/back.jpg",
 			"../Textures/Skybox/front.jpg"
 	});
+
+	skyboxShader->setInt("skybox", skyboxTexture);
 
 	while (!glfwWindowShouldClose(window->getWindow()) && game_is_running)
 	{
@@ -187,8 +191,11 @@ void Core::run()
 		float interval = float(timeval - lasttimeVel) / float(1000);
 		lasttimeVel = timeval;
 
+		skybox.drawContent(skyboxShader.get(), scene.get());
+
 		particleSystem->UpdateParticles(interval, particlesShader.get());
 		particleSystem->RenderParticles(particlesRenderingShader.get());
+
 
 		glfwSwapBuffers(window->getWindow());
 		glfwPollEvents();

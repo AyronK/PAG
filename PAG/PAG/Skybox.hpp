@@ -5,61 +5,61 @@
 #include <string>
 
 class Shader;
+class Scene;
 
 class Skybox
 {
 private:
 	float skyboxVertices[108] = {
 		// positions          
-		-1.0f,  1.0f, -1.0f,
-		-1.0f, -1.0f, -1.0f,
-		1.0f, -1.0f, -1.0f,
-		1.0f, -1.0f, -1.0f,
-		1.0f,  1.0f, -1.0f,
-		-1.0f,  1.0f, -1.0f,
+		-50.0f,  50.0f, -50.0f,
+		-50.0f, -50.0f, -50.0f,
+		50.0f, -50.0f, -50.0f,
+		50.0f, -50.0f, -50.0f,
+		50.0f,  50.0f, -50.0f,
+		-50.0f,  50.0f, -50.0f,
 
-		-1.0f, -1.0f,  1.0f,
-		-1.0f, -1.0f, -1.0f,
-		-1.0f,  1.0f, -1.0f,
-		-1.0f,  1.0f, -1.0f,
-		-1.0f,  1.0f,  1.0f,
-		-1.0f, -1.0f,  1.0f,
+		-50.0f, -50.0f,  50.0f,50.0
+		-50.0f, -50.0f, -50.0f,
+		-50.0f,  50.0f, -50.0f,
+		-50.0f,  50.0f, -50.0f,
+		-50.0f,  50.0f,  50.0f,
+		-50.0f, -50.0f,  50.0f,
 
-		1.0f, -1.0f, -1.0f,
-		1.0f, -1.0f,  1.0f,
-		1.0f,  1.0f,  1.0f,
-		1.0f,  1.0f,  1.0f,
-		1.0f,  1.0f, -1.0f,
-		1.0f, -1.0f, -1.0f,
+		50.0f, -50.0f, -50.0f,
+		50.0f, -50.0f,  50.0f,
+		50.0f,  50.0f,  50.0f,
+		50.0f,  50.0f,  50.0f,
+		50.0f,  50.0f, -50.0f,
+		50.0f, -50.0f, -50.0f,
 
-		-1.0f, -1.0f,  1.0f,
-		-1.0f,  1.0f,  1.0f,
-		1.0f,  1.0f,  1.0f,
-		1.0f,  1.0f,  1.0f,
-		1.0f, -1.0f,  1.0f,
-		-1.0f, -1.0f,  1.0f,
+		-50.0f, -50.0f,  50.0f,
+		-50.0f,  50.0f,  50.0f,
+		50.0f,  50.0f,  50.0f,
+		50.0f,  50.0f,  50.0f,
+		50.0f, -50.0f,  50.0f,
+		-50.0f, -50.0f,  50.0f,
 
-		-1.0f,  1.0f, -1.0f,
-		1.0f,  1.0f, -1.0f,
-		1.0f,  1.0f,  1.0f,
-		1.0f,  1.0f,  1.0f,
-		-1.0f,  1.0f,  1.0f,
-		-1.0f,  1.0f, -1.0f,
+		-50.0f,  50.0f, -50.0f,
+		50.0f,  50.0f, -50.0f,
+		50.0f,  50.0f,  50.0f,
+		50.0f,  50.0f,  50.0f,
+		-50.0f,  50.0f,  50.0f,
+		-50.0f,  50.0f, -50.0f,
 
-		-1.0f, -1.0f, -1.0f,
-		-1.0f, -1.0f,  1.0f,
-		1.0f, -1.0f, -1.0f,
-		1.0f, -1.0f, -1.0f,
-		-1.0f, -1.0f,  1.0f,
-		1.0f, -1.0f,  1.0f
+		-50.0f, -50.0f, -50.0f,
+		-50.0f, -50.0f,  50.0f,
+		50.0f, -50.0f, -50.0f,
+		50.0f, -50.0f, -50.0f,
+		-50.0f, -50.0f,  50.0f,
+		50.0f, -50.0f,  50.0f
 	};
 	unsigned int skyboxTexture;
 public:
 	GLuint VertexBufferObject = NULL;
 	GLuint VertexArrayObject = NULL;
-	GLuint ElementObjectBuffer = NULL;
-	void setupSkybox(std::vector<std::string> faces);
-	void drawContent(Shader* const pShader);
+	void setupSkybox();
+	void drawContent(Shader* const pShader, Scene * const scene);
 	Skybox();
 	~Skybox();
 };
