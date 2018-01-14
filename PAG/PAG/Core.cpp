@@ -28,6 +28,7 @@ using namespace std;
 const int FRAMES_PER_SECOND = 60;
 const int SKIP_TICKS = 1000 / FRAMES_PER_SECOND;
 const int MAX_FRAMESKIP = 10;
+bool particlesEnabled = true;
 
 DWORD next_game_tick = GetTickCount();
 int loops;
@@ -63,48 +64,19 @@ void Core::run()
 	//models.push_back(&lambo);
 	models.push_back(&plane);
 	TextureLoader texture;
-	//fire
-	//{
-	//	particleSystem->SetGeneratorProperties(
-	//		glm::vec3(0.0f, 0.25f, 0.0f), // position
-	//		glm::vec3(-0.025, 0.3, -0.025), // Minimal velocity
-	//		glm::vec3(0.025, 0.05, 0.025f), // Maximal velocity
-	//		glm::vec3(0, 0, 0), // Gravity force 
-	//		glm::vec3(1.0f, 0.5f, 0.0f), // Color 
-	//		13.5f, // Minimum lifetime in seconds
-	//		45.0f, // Maximum lifetime in seconds
-	//		0.04f, // Rendered size
-	//		0.01f, // Spawn every 
-	//		1); // count of particles
-	//}
-	//water
-	{
-		particleSystem->SetGeneratorProperties(
-			glm::vec3(1.0f, 1.0f, 0.0f), // position
-			glm::vec3(-0.05, -0.2, -0.05), // Minimal velocity
-			glm::vec3(0.05, 0.0, 0.05f), // Maximal velocity
-			glm::vec3(0, -2.5, 0), // Gravity force 
-			glm::vec3(0.25f, 0.45f, 0.8f), // Color 
-			13.5f, // Minimum lifetime in seconds
-			45.0f, // Maximum lifetime in seconds
-			0.03f, // Rendered size
-			0.0001f, // Spawn every 
-			2); // count of particles
-	}
-	//sparkling
-	//{
-	//	particleSystem->SetGeneratorProperties(
-	//		glm::vec3(0.5f, 0.60f, 0.0f), // position
-	//		glm::vec3(-0.1, -0.1, -0.1), // Minimal velocity
-	//		glm::vec3(0.1, 0.1, 0.1f), // Maximal velocity
-	//		glm::vec3(0, 0, 0), // Gravity force 
-	//		glm::vec3(1.0f, 0.9f, 0.1f), // Color 
-	//		3.0f, // Minimum lifetime in seconds
-	//		5.0f, // Maximum lifetime in seconds
-	//		0.03f, // Rendered size
-	//		0.5f, // Spawn every 
-	//		10); // count of particles
-	//}
+
+	//sparkling - 2
+	particleSystem->SetGeneratorProperties(
+		glm::vec3(0.5f, 0.60f, 0.0f), // position
+		glm::vec3(-0.1, -0.1, -0.1), // Minimal velocity
+		glm::vec3(0.1, 0.1, 0.1f), // Maximal velocity
+		glm::vec3(0, 0, 0), // Gravity force 
+		glm::vec3(1.0f, 0.9f, 0.1f), // Color 
+		3.0f, // Minimum lifetime in seconds
+		5.0f, // Maximum lifetime in seconds
+		0.03f, // Rendered size
+		0.5f, // Spawn every 
+		10); // count of particles
 
 	Skybox skybox;
 	skybox.setupSkybox();
@@ -197,10 +169,7 @@ void Core::run()
 		nano.draw(defaultShader.get());
 		nano.getRootNode()->getNodeTransform()->translate(glm::vec3(-15.0f, 0.0f, 0.0f));
 
-		//fire
-		//texture.setActiveTexture(0);
-		//water
-		texture.setActiveTexture(1);
+		texture.setActiveTexture(0);
 
 		particleSystem->SetMatrices(&scene->getProjectionSpace(), camera->cameraPos, camera->cameraPos + camera->cameraFront, camera->cameraUp);
 		timeval = clock();
@@ -209,8 +178,10 @@ void Core::run()
 
 		skybox.drawContent(skyboxShader.get(), scene.get());
 
-		particleSystem->UpdateParticles(interval, particlesShader.get());
-		particleSystem->RenderParticles(particlesRenderingShader.get());
+		if (particlesEnabled) {
+			particleSystem->UpdateParticles(interval, particlesShader.get());
+			particleSystem->RenderParticles(particlesRenderingShader.get());
+		}
 
 		ui->draw();
 
@@ -316,9 +287,62 @@ void Core::processMouse(Scene scene, std::vector<Model*> models)
 	std::pair<int, int> screenSize;
 	glfwGetWindowSize(window->getWindow(), &screenSize.first, &screenSize.second);
 
+	if (glfwGetKey(window->getWindow(), GLFW_KEY_P) == GLFW_PRESS)
+	{
+		particlesEnabled = !particlesEnabled;
+	}
+
 	if (glfwGetKey(window->getWindow(), GLFW_KEY_E) == GLFW_PRESS)
 	{
 		cameraMove = !cameraMove;
+	}
+			
+	if (glfwGetKey(window->getWindow(), GLFW_KEY_1) == GLFW_PRESS) {
+		//fire
+		{
+			particleSystem->SetGeneratorProperties(
+				glm::vec3(0.0f, 0.25f, 0.0f), // position
+				glm::vec3(-0.025, 0.3, -0.025), // Minimal velocity
+				glm::vec3(0.025, 0.05, 0.025f), // Maximal velocity
+				glm::vec3(0, 0, 0), // Gravity force 
+				glm::vec3(1.0f, 0.3f, 0.1f), // Color 
+				13.5f, // Minimum lifetime in seconds
+				45.0f, // Maximum lifetime in seconds
+				0.04f, // Rendered size
+				0.01f, // Spawn every 
+				1); // count of particles
+		}
+	} else if (glfwGetKey(window->getWindow(), GLFW_KEY_2) == GLFW_PRESS) {
+		//sparkling
+		{
+			particleSystem->SetGeneratorProperties(
+				glm::vec3(0.5f, 0.60f, 0.0f), // position
+				glm::vec3(-0.1, -0.1, -0.1), // Minimal velocity
+				glm::vec3(0.1, 0.1, 0.1f), // Maximal velocity
+				glm::vec3(0, 0, 0), // Gravity force 
+				glm::vec3(1.0f, 0.9f, 0.1f), // Color 
+				3.0f, // Minimum lifetime in seconds
+				5.0f, // Maximum lifetime in seconds
+				0.03f, // Rendered size
+				0.5f, // Spawn every 
+				10); // count of particles
+		}
+	}
+	else if (glfwGetKey(window->getWindow(), GLFW_KEY_3) == GLFW_PRESS) {
+		//water
+		{
+			particleSystem->SetGeneratorProperties(
+				glm::vec3(1.0f, 1.0f, 0.0f), // position
+				glm::vec3(-0.05, -0.2, -0.05), // Minimal velocity
+				glm::vec3(0.05, 0.0, 0.05f), // Maximal velocity
+				glm::vec3(0, -2.5, 0), // Gravity force 
+				glm::vec3(0.25f, 0.45f, 0.7f), // Color 
+				13.5f, // Minimum lifetime in seconds
+				45.0f, // Maximum lifetime in seconds
+				0.04f, // Rendered size
+				0.0001f, // Spawn every 
+				2); // count of particles
+		}
 	}
 
 	if (glfwGetMouseButton(window->getWindow(), GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS) {
