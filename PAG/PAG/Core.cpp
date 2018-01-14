@@ -220,14 +220,17 @@ Core::Core()
 	defaultShader->loadShader(GL_VERTEX_SHADER, DEFAULT_VERTEX_SHADER_PATH);
 	defaultShader->loadShader(GL_FRAGMENT_SHADER, DEFAULT_FRAGMENT_SHADER_PATH);
 	defaultShader->link();
-	defaultShader->use();
 
 
 	particlesShader = std::make_unique<Shader>();
 
-
 	particlesRenderingShader = std::make_unique<Shader>();
 
+	skyboxShader = std::make_unique<Shader>();
+
+	skyboxShader->loadShader(GL_VERTEX_SHADER, SKYBOX_VERTEX_SHADER_PATH);
+	skyboxShader->loadShader(GL_FRAGMENT_SHADER, SKYBOX_FRAGMENT_SHADER_PATH);
+	skyboxShader->link();
 
 	camera = std::make_unique<Camera>();
 	glfwGetCursorPos(window->getWindow(), &camera->lastX, &camera->lastY);

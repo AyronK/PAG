@@ -70,6 +70,15 @@
     <Filter Include="Source Files\GL\Engine">
       <UniqueIdentifier>{2a31795b-0f16-44c5-a30e-6d7b062ee33b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Shaders\default">
+      <UniqueIdentifier>{fa9a1995-0cc9-4520-a3f1-bb13aa5d6c36}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\particles">
+      <UniqueIdentifier>{d753f4c8-aa6c-4a6b-a8f7-5f01aeeecbde}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Shaders\skybox">
+      <UniqueIdentifier>{18aac1ba-a6c2-44b1-bc51-9b9743615c72}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -140,6 +149,9 @@
     </ClCompile>
     <ClCompile Include="Shader.cpp">
       <Filter>Source Files\GL\Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Skybox.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -224,28 +236,37 @@
     <ClInclude Include="Scene.hpp">
       <Filter>Header Files\GL\Scene</Filter>
     </ClInclude>
+    <ClInclude Include="Skybox.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="..\Shaders\basic.vert">
-      <Filter>Shaders</Filter>
-    </None>
     <None Include="..\Shaders\basic.frag">
-      <Filter>Shaders</Filter>
+      <Filter>Shaders\default</Filter>
+    </None>
+    <None Include="..\Shaders\basic.vert">
+      <Filter>Shaders\default</Filter>
     </None>
     <None Include="..\Shaders\particles.geom">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\Shaders\particlesRendering.geom">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\Shaders\particlesRendering.vert">
-      <Filter>Shaders</Filter>
-    </None>
-    <None Include="..\Shaders\particlesRendering.frag">
-      <Filter>Shaders</Filter>
+      <Filter>Shaders\particles</Filter>
     </None>
     <None Include="..\Shaders\particles.vert">
-      <Filter>Shaders</Filter>
+      <Filter>Shaders\particles</Filter>
+    </None>
+    <None Include="..\Shaders\particlesRendering.frag">
+      <Filter>Shaders\particles</Filter>
+    </None>
+    <None Include="..\Shaders\particlesRendering.geom">
+      <Filter>Shaders\particles</Filter>
+    </None>
+    <None Include="..\Shaders\particlesRendering.vert">
+      <Filter>Shaders\particles</Filter>
+    </None>
+    <None Include="..\Shaders\skybox.frag">
+      <Filter>Shaders\skybox</Filter>
+    </None>
+    <None Include="..\Shaders\skybox.vert">
+      <Filter>Shaders\skybox</Filter>
     </None>
   </ItemGroup>
 </Project>

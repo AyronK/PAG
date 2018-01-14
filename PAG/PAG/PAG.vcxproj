@@ -168,6 +168,7 @@
     <ClCompile Include="Node.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="Skybox.cpp" />
     <ClCompile Include="stb_image.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="TextureLoader.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="Node.hpp" />
     <ClInclude Include="Scene.hpp" />
     <ClInclude Include="Shader.hpp" />
+    <ClInclude Include="Skybox.hpp" />
     <ClInclude Include="stb_image.h" />
     <ClInclude Include="stb_rect_pack.h" />
     <ClInclude Include="stb_textedit.h" />
@@ -215,6 +217,8 @@
     <None Include="..\Shaders\particlesRendering.frag" />
     <None Include="..\Shaders\particlesRendering.geom" />
     <None Include="..\Shaders\particlesRendering.vert" />
+    <None Include="..\Shaders\skybox.frag" />
+    <None Include="..\Shaders\skybox.vert" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -2,16 +2,24 @@
 #define SCREEN_HEIGHT 1080
 #define BACKGROUND_COLOR 0.2f, 0.3f, 0.3f, 1.0f
 #define WINDOWS_NAME "WINDOW GL"
+
+//Shaders stuff
+//default shader
 #define DEFAULT_VERTEX_SHADER_PATH "../Shaders/basic.vert"
 #define DEFAULT_FRAGMENT_SHADER_PATH "../Shaders/basic.frag"
 
 
+//particles update shader
 #define PARTICLES_GEOMETRY_SHADER_PATH "../Shaders/particles.geom"
 #define PARTICLES_VERTEX_SHADER_PATH "../Shaders/particles.vert"
 
+//particles rendering shader
 #define PARTICLES_RENDERING_GEOMETRY_SHADER_PATH "../Shaders/particlesRendering.geom"
 #define PARTICLES_RENDERING_VERTEX_SHADER_PATH "../Shaders/particlesRendering.vert"
 #define PARTICLES_RENDERING_FRAGMENT_SHADER_PATH "../Shaders/particlesRendering.frag"
+//skybox shader
+#define SKYBOX_VERTEX_SHADER_PATH "../Shaders/skybox.vert"
+#define SKYBOX_FRAGMENT_SHADER_PATH "../Shaders/skybox.frag"
 
 
 //Material stuff
