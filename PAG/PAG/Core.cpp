@@ -43,22 +43,24 @@ void Core::run()
 	glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	std::vector<Model*> models;
 	Model cubes("F:/Studia/Sem V/PAG/PAG/Objects/Cubes/source/Cubes.fbx", defaultShader.get());
-	//Model nano("F:/Studia/Sem V/PAG/PAG/Objects/nanosuit/source/nanosuit.obj", shader.get());
-	//Model lambo("C:/Users/Ayron/Desktop/Studia/PAG/PAG/Objects/Lambo/source/Avent.obj", shader.get());
+	Model nano("F:/Studia/Sem V/PAG/PAG/Objects/nanosuit/source/nanosuit.obj", defaultShader.get());
+	//Model nano2("F:/Studia/Sem V/PAG/PAG/Objects/nanosuit/source/nanosuit.obj", defaultShader.get());
+	//Model lambo("F:/Studia/Sem V/PAG/PAG/Objects/Lambo/source/Avent.obj", defaultShader.get());
 	Model plane("F:/Studia/Sem V/PAG/PAG/Objects/Plane/source/plane.FBX", defaultShader.get());
 
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); wireframe
 
 	cubes.getRootNode()->getNodeTransform()->scale(glm::vec3(0.005, 0.005, 0.005));
-	//nano.getRootNode()->getNodeTransform()->translate(glm::vec3(3.0f, 0.0f, 0.0f));
-	//nano.getRootNode()->getNodeTransform()->scale(glm::vec3(0.07, 0.07, 0.07));
+	nano.getRootNode()->getNodeTransform()->translate(glm::vec3(3.0f, 5.0f, 0.0f));
+	nano.getRootNode()->getNodeTransform()->scale(glm::vec3(0.07, 0.07, 0.07));	
 	//lambo.getRootNode()->getNodeTransform()->scale(glm::vec3(0.25, 0.25, 0.25));
 	//lambo.getRootNode()->getNodeTransform()->translate(glm::vec3(-5.0f, 0.0f, 0.0f));
 	//model.getRootNode()->getNodeTransform()->translate(glm::vec3(-0.5, 0, 0));
 	//model.getRootNode()->getChild(0)->getChild(0)->getChild(0)->getChild(0)->getChild(0)->getNodeTransform()->scale(glm::vec3(10, 2, 2));
 
 	models.push_back(&cubes);
-	//models.push_back(&nano);
+	models.push_back(&nano);
+	//models.push_back(&lambo);
 	models.push_back(&plane);
 	TextureLoader texture;
 	//fire
@@ -109,7 +111,7 @@ void Core::run()
 
 	unsigned int skyboxTexture = TextureLoader::loadCubemap(std::vector<std::string>
 	{
-		"../Textures/Skybox/right.jpg",
+			"../Textures/Skybox/right.jpg",
 			"../Textures/Skybox/left.jpg",
 			"../Textures/Skybox/top.jpg",
 			"../Textures/Skybox/bottom.jpg",
@@ -118,6 +120,7 @@ void Core::run()
 	});
 
 	skyboxShader->setInt("skybox", skyboxTexture);
+	defaultShader->setInt("skybox", skyboxTexture);
 
 	while (!glfwWindowShouldClose(window->getWindow()) && game_is_running)
 	{
@@ -152,7 +155,7 @@ void Core::run()
 
 		defaultShader->setVec3("lightColor", lightColor);
 		defaultShader->setFloat("currentTime", currentTime);
-		defaultShader->setFloat("animatedIntensity", 1.1 - cos(currentTime / 2.0));
+		defaultShader->setFloat("animatedIntensity", 1.1);// -cos(currentTime / 2.0));
 
 		defaultShader->setVec3("viewPosition", camera->cameraPos);
 
@@ -176,10 +179,23 @@ void Core::run()
 
 		for each (auto model in models)
 		{
+			if (model == &nano) {
+				defaultShader->setBool("shouldReflect", true);
+				defaultShader->setBool("shouldRefract", false);
+			}
+			else {
+				defaultShader->setBool("shouldReflect", false);
+				defaultShader->setBool("shouldRefract", false);
+			}
 			model->draw(defaultShader.get());
 		}
-		ui->draw();
 
+		defaultShader->setBool("shouldReflect", false);
+		defaultShader->setBool("shouldRefract", true);
+
+		nano.getRootNode()->getNodeTransform()->translate(glm::vec3(15.0f, 0.0f, 0.0f));
+		nano.draw(defaultShader.get());
+		nano.getRootNode()->getNodeTransform()->translate(glm::vec3(-15.0f, 0.0f, 0.0f));
 
 		//fire
 		//texture.setActiveTexture(0);
@@ -196,6 +212,7 @@ void Core::run()
 		particleSystem->UpdateParticles(interval, particlesShader.get());
 		particleSystem->RenderParticles(particlesRenderingShader.get());
 
+		ui->draw();
 
 		glfwSwapBuffers(window->getWindow());
 		glfwPollEvents();
