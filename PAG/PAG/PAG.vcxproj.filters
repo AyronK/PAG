@@ -268,5 +268,11 @@
     <None Include="..\Shaders\skybox.vert">
       <Filter>Shaders\skybox</Filter>
     </None>
+    <None Include="..\Shaders\framebuffers_screen.frag">
+      <Filter>Shaders</Filter>
+    </None>
+    <None Include="..\Shaders\framebuffers_screen.vert">
+      <Filter>Shaders</Filter>
+    </None>
   </ItemGroup>
 </Project>

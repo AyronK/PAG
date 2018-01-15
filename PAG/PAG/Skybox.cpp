@@ -30,7 +30,6 @@ void Skybox::drawContent(Shader * const pShader, Scene * const scene)
 	glDrawArrays(GL_TRIANGLES, 0, 36);
 	glBindVertexArray(NULL);
 	glDepthFunc(GL_LESS); // set depth function back to default
-
 }
 
 Skybox::Skybox()
