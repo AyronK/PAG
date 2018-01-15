@@ -25,17 +25,19 @@
 #include "Skybox.hpp"
 using namespace std;
 
+
 const int FRAMES_PER_SECOND = 60;
 const int SKIP_TICKS = 1000 / FRAMES_PER_SECOND;
 const int MAX_FRAMESKIP = 10;
 bool particlesEnabled = true;
 
-bool useNightvision = true;
-DWORD next_game_tick = GetTickCount();
+bool useNightvision = false;
+DWORD next_game_tick = clock();
 int loops;
 
 void Core::run()
 {
+	TextureLoader texture;
 	int sleep_time = 0;
 
 	bool game_is_running = true;
@@ -54,7 +56,7 @@ void Core::run()
 
 	cubes.getRootNode()->getNodeTransform()->scale(glm::vec3(0.005, 0.005, 0.005));
 	nano.getRootNode()->getNodeTransform()->translate(glm::vec3(3.0f, 5.0f, 0.0f));
-	nano.getRootNode()->getNodeTransform()->scale(glm::vec3(0.07, 0.07, 0.07));	
+	nano.getRootNode()->getNodeTransform()->scale(glm::vec3(0.07, 0.07, 0.07));
 	//lambo.getRootNode()->getNodeTransform()->scale(glm::vec3(0.25, 0.25, 0.25));
 	//lambo.getRootNode()->getNodeTransform()->translate(glm::vec3(-5.0f, 0.0f, 0.0f));
 	//model.getRootNode()->getNodeTransform()->translate(glm::vec3(-0.5, 0, 0));
@@ -64,7 +66,6 @@ void Core::run()
 	models.push_back(&nano);
 	//models.push_back(&lambo);
 	models.push_back(&plane);
-	TextureLoader texture;
 
 	//sparkling - 2
 	particleSystem->SetGeneratorProperties(
@@ -84,7 +85,7 @@ void Core::run()
 
 	unsigned int skyboxTexture = TextureLoader::loadCubemap(std::vector<std::string>
 	{
-			"../Textures/Skybox/right.jpg",
+		"../Textures/Skybox/right.jpg",
 			"../Textures/Skybox/left.jpg",
 			"../Textures/Skybox/top.jpg",
 			"../Textures/Skybox/bottom.jpg",
@@ -94,7 +95,7 @@ void Core::run()
 
 	skyboxShader->setInt("skybox", skyboxTexture);
 	defaultShader->setInt("skybox", skyboxTexture);
-	
+
 	float quadVertices[] = { // vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
 							 // positions   // texCoords
 		-1.0f,  1.0f,  0.0f, 1.0f,
@@ -118,7 +119,6 @@ void Core::run()
 	glEnableVertexAttribArray(1);
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
 
-	screenShader->use();
 	// framebuffer configuration
 	// -------------------------
 	unsigned int framebuffer;
@@ -148,7 +148,7 @@ void Core::run()
 	while (!glfwWindowShouldClose(window->getWindow()) && game_is_running)
 	{
 		loops = 0;
-		while (GetTickCount() > next_game_tick && loops < MAX_FRAMESKIP) {
+		while (clock() > next_game_tick && loops < MAX_FRAMESKIP) {
 			next_game_tick += SKIP_TICKS;
 			loops++;
 		}
@@ -205,8 +205,8 @@ void Core::run()
 
 		scene->updateViewSpace(*camera);
 		defaultShader->updateScene(*scene);
-		
-		for each (auto model in models)
+
+		for (auto model : models)
 		{
 			if (model == &nano) {
 				defaultShader->setBool("shouldReflect", true);
@@ -224,11 +224,22 @@ void Core::run()
 
 		nano.getRootNode()->getNodeTransform()->translate(glm::vec3(15.0f, 0.0f, 0.0f));
 		nano.draw(defaultShader.get());
-		nano.getRootNode()->getNodeTransform()->translate(glm::vec3(-15.0f, 0.0f, 0.0f));
+
+
+		defaultShader->setBool("shouldReflect", false);
+		defaultShader->setBool("shouldRefract", false);
+
+		nano.getRootNode()->getNodeTransform()->translate(glm::vec3(15.0f, 0.0f, 0.0f));
+		nano.draw(defaultShader.get());
+		nano.getRootNode()->getNodeTransform()->translate(glm::vec3(-30.0f, 0.0f, 0.0f));
 
 		texture.setActiveTexture(0);
 
-		particleSystem->SetMatrices(&scene->getProjectionSpace(), camera->cameraPos, camera->cameraPos + camera->cameraFront, camera->cameraUp);
+		//particleSystem->SetMatrices(&scene->getProjectionSpace(), camera->cameraPos, camera->cameraPos + camera->cameraFront, camera->cameraUp); //Nie ladnie, nie bierze sie adresu tymczasowego obiektu :c
+		glm::mat4 dirtyFix = scene->getProjectionSpace();
+		particleSystem->SetMatrices(&dirtyFix, camera->cameraPos, camera->cameraPos + camera->cameraFront, camera->cameraUp);
+		//
+
 		timeval = clock();
 		float interval = float(timeval - lasttimeVel) / float(1000);
 		lasttimeVel = timeval;
@@ -249,16 +260,16 @@ void Core::run()
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // set clear color to white (not really necessery actually, since we won't be able to see behind the quad anyways)
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		screenShader->use(); 
+		screenShader->use();
 		glBindVertexArray(quadVAO);
 		glDisable(GL_DEPTH_TEST); // disable depth test so screen-space quad isn't discarded due to depth test.
 								  // clear all relevant buffers
 		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, textureColorbuffer); // use the color attachment texture as the texture of the quad plane
-		//texture.setActiveTexture(2);
-		//screenShader->setInt("noiseTex", texture.getTexture(2));
-		//screenShader->setFloat("elapsedTime", currentTime);
-		//screenShader->setBool("useNightVision", useNightvision);
+		texture.setActiveTexture(2);
+		screenShader->setInt("noiseTex", texture.getTexture(1));
+		screenShader->setFloat("elapsedTime", currentTime);
+		screenShader->setBool("useNightVision", useNightvision);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 
 
@@ -387,7 +398,7 @@ void Core::processMouse(Scene scene, std::vector<Model*> models)
 	{
 		cameraMove = !cameraMove;
 	}
-			
+
 	if (glfwGetKey(window->getWindow(), GLFW_KEY_1) == GLFW_PRESS) {
 		//fire
 		{
@@ -403,7 +414,8 @@ void Core::processMouse(Scene scene, std::vector<Model*> models)
 				0.01f, // Spawn every 
 				1); // count of particles
 		}
-	} else if (glfwGetKey(window->getWindow(), GLFW_KEY_2) == GLFW_PRESS) {
+	}
+	else if (glfwGetKey(window->getWindow(), GLFW_KEY_2) == GLFW_PRESS) {
 		//sparkling
 		{
 			particleSystem->SetGeneratorProperties(
@@ -437,9 +449,9 @@ void Core::processMouse(Scene scene, std::vector<Model*> models)
 	}
 
 	if (glfwGetMouseButton(window->getWindow(), GLFW_MOUSE_BUTTON_RIGHT) == GLFW_PRESS) {
-		for each (auto model in models)
+		for (auto model : models)
 		{
-			for each(auto node in model->getAllNodes()) {
+			for (auto node : model->getAllNodes()) {
 				node->setIsSelected(false);
 			}
 		}

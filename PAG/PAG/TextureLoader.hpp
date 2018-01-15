@@ -15,7 +15,7 @@ public:
 	unsigned int getTexture(int id);
 	TextureLoader();
 	void loadTexture(std::string name, int id);
-	static unsigned int TextureLoader::loadCubemap(std::vector<std::string> faces);
+    static unsigned int loadCubemap(std::vector<std::string> faces);
 	~TextureLoader();
 };
 

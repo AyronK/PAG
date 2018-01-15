@@ -1,4 +1,4 @@
-#version 450
+#version 410 core
 
 layout(points) in;
 layout(points) out;

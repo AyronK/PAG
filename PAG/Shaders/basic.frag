@@ -1,4 +1,4 @@
-#version 450 core
+#version 410 core
 
 in vec2 fragVertexTexture;
 //Zmienna wspó³rzêdnych tekstury z vertex shadera
@@ -59,14 +59,14 @@ void main()
 	vec3 pointLight = getPointLight(viewDirection, normals);
 	vec3 spotLight = getSpotLight(viewDirection, normals);
 
-	vec3 lights = directionalLight +pointLight + spotLight;
+	vec3 lights = directionalLight + pointLight + spotLight;
 
 	fragColor = getTexel() * vec4(lights, 1.0);
 }
 
 vec4 getTexel()
 {
-	if(shouldRefract)
+	if (shouldRefract)
 	{
 		float ratio = 1.0 / 1.05;
 		vec3 I = normalize(FragPos - viewPosition);
@@ -80,6 +80,9 @@ vec4 getTexel()
 		vec3 R = reflect(I, normalize(Normal));
 		return vec4(texture(skybox, R).rgb, 1.0);
 	}
+	/*else if (shouldUseDiffuseTexture) {
+		return texture(diffuse0, fragVertexTexture);
+	}*/
 	else {
 		return vec4(diffuseColor, 1);
 	}

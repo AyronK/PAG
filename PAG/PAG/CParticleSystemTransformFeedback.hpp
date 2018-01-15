@@ -3,6 +3,8 @@
 #include <memory>
 #include <glad/glad.h>
 
+#define UINT unsigned int
+
 class Shader;
 class CParticleSystemTransformFeedback
 {

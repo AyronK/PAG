@@ -1,18 +1,18 @@
-#version 330 core
+#version 410 core
 out vec4 FragColor;
 
 in vec2 TexCoords;
 
-//uniform bool useNightVision;
+uniform bool useNightVision;
 uniform sampler2D screenTexture;
-//uniform sampler2D noiseTex;
-//uniform float elapsedTime; // seconds for noise effect
+uniform sampler2D noiseTex;
+uniform float elapsedTime; // seconds for noise effect
 
 void main()
 {
 	//FragColor = mix(texture(screenTexture, TexCoords), texture(noiseTex, TexCoords), 0.5);
-	FragColor = texture(screenTexture, TexCoords);
-	/*if (useNightVision) {
+	//FragColor = texture(screenTexture, TexCoords);
+	if (useNightVision) {
 		vec2 uv;
 		uv.x = 0.35*sin(elapsedTime*50.0);
 		uv.y = 0.35*cos(elapsedTime*50.0);
@@ -25,9 +25,9 @@ void main()
 
 		vec3 visionColor = vec3(0, green, 0);
 
-		FragColor = vec4((sceneColor + (noise*0.2)) * visionColor, 1);
+		FragColor = vec4((sceneColor + (noise*0.2)) * visionColor, 1); //
 	}
 	else {
 		FragColor = texture(screenTexture, TexCoords);
-	}*/
+	}
 }

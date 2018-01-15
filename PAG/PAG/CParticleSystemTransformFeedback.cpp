@@ -2,7 +2,7 @@
 #include "Shader.hpp"
 #include "config.hpp"
 #include "CParticle.hpp"
-#include <GLFW\glfw3.h>
+#include <GLFW/glfw3.h>
 #include "glm/gtc/matrix_transform.hpp"
 
 CParticleSystemTransformFeedback::CParticleSystemTransformFeedback()

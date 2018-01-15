@@ -43,7 +43,7 @@ Node * MousePicker::getSelectedNode(Scene *const pScene, std::vector<Model*> mod
 
 	std::vector<Node*> allNodes;
 
-	for each (auto model in models)
+    for (auto model: models)
 	{
 		auto modelNodes = model->getAllNodes();
 		allNodes.insert(allNodes.end(), modelNodes.begin(), modelNodes.end());
