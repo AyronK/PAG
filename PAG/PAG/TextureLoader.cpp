@@ -17,7 +17,7 @@ TextureLoader::TextureLoader()
 
 	loadTexture("../Textures/particle.bmp", 0);
 	loadTexture("../Textures/water.bmp", 1);
-	loadTexture("../Textures/ja.jpg", 2);
+	loadTexture("../Textures/noise.png", 2);
 }
 
 void TextureLoader::loadTexture(std::string name, int id) {

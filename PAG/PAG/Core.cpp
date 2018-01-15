@@ -30,6 +30,7 @@ const int SKIP_TICKS = 1000 / FRAMES_PER_SECOND;
 const int MAX_FRAMESKIP = 10;
 bool particlesEnabled = true;
 
+bool useNightvision = true;
 DWORD next_game_tick = GetTickCount();
 int loops;
 
@@ -148,7 +149,7 @@ void Core::run()
 
 		scene->updateViewSpace(*camera);
 		defaultShader->updateScene(*scene);
-
+		
 		for each (auto model in models)
 		{
 			if (model == &nano) {
@@ -290,6 +291,11 @@ void Core::processMouse(Scene scene, std::vector<Model*> models)
 	if (glfwGetKey(window->getWindow(), GLFW_KEY_P) == GLFW_PRESS)
 	{
 		particlesEnabled = !particlesEnabled;
+	}
+
+	if (glfwGetKey(window->getWindow(), GLFW_KEY_N) == GLFW_PRESS)
+	{
+		useNightvision = !useNightvision;
 	}
 
 	if (glfwGetKey(window->getWindow(), GLFW_KEY_E) == GLFW_PRESS)
