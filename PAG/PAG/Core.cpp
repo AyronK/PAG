@@ -119,6 +119,8 @@ void Core::run()
 	glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 4 * sizeof(float), (void*)(2 * sizeof(float)));
 
 	screenShader->use();
+	screenShader->setInt("noiseTex", texture.getTexture(2)); 
+
 	screenShader->setInt("screenTexture", 0);
 	// framebuffer configuration
 	// -------------------------
@@ -249,6 +251,8 @@ void Core::run()
 		glClear(GL_COLOR_BUFFER_BIT);
 
 		screenShader->use();
+		screenShader->setFloat("elapsedTime", currentTime);
+		screenShader->setBool("useNightVision", useNightvision);
 		glBindVertexArray(quadVAO);
 		glDisable(GL_DEPTH_TEST); // disable depth test so screen-space quad isn't discarded due to depth test.
 								  // clear all relevant buffers
