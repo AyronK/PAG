@@ -54,7 +54,7 @@ void Core::run()
 
 	cubes.getRootNode()->getNodeTransform()->scale(glm::vec3(0.005, 0.005, 0.005));
 	nano.getRootNode()->getNodeTransform()->translate(glm::vec3(3.0f, 5.0f, 0.0f));
-	nano.getRootNode()->getNodeTransform()->scale(glm::vec3(0.07, 0.07, 0.07));
+	nano.getRootNode()->getNodeTransform()->scale(glm::vec3(0.07, 0.07, 0.07));	
 	//lambo.getRootNode()->getNodeTransform()->scale(glm::vec3(0.25, 0.25, 0.25));
 	//lambo.getRootNode()->getNodeTransform()->translate(glm::vec3(-5.0f, 0.0f, 0.0f));
 	//model.getRootNode()->getNodeTransform()->translate(glm::vec3(-0.5, 0, 0));
@@ -84,7 +84,7 @@ void Core::run()
 
 	unsigned int skyboxTexture = TextureLoader::loadCubemap(std::vector<std::string>
 	{
-		"../Textures/Skybox/right.jpg",
+			"../Textures/Skybox/right.jpg",
 			"../Textures/Skybox/left.jpg",
 			"../Textures/Skybox/top.jpg",
 			"../Textures/Skybox/bottom.jpg",
@@ -94,7 +94,7 @@ void Core::run()
 
 	skyboxShader->setInt("skybox", skyboxTexture);
 	defaultShader->setInt("skybox", skyboxTexture);
-
+	
 	float quadVertices[] = { // vertex attributes for a quad that fills the entire screen in Normalized Device Coordinates.
 							 // positions   // texCoords
 		-1.0f,  1.0f,  0.0f, 1.0f,
@@ -143,9 +143,7 @@ void Core::run()
 		cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << endl;
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
-	screenShader->setInt("screenTexture", 0);
-	texture.setActiveTexture(2);
-	screenShader->setInt("noiseTex", texture.getTexture(2));
+	screenShader->setInt("screenTexture", textureColorbuffer);
 
 	while (!glfwWindowShouldClose(window->getWindow()) && game_is_running)
 	{
@@ -207,7 +205,7 @@ void Core::run()
 
 		scene->updateViewSpace(*camera);
 		defaultShader->updateScene(*scene);
-
+		
 		for each (auto model in models)
 		{
 			if (model == &nano) {
@@ -251,14 +249,16 @@ void Core::run()
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f); // set clear color to white (not really necessery actually, since we won't be able to see behind the quad anyways)
 		glClear(GL_COLOR_BUFFER_BIT);
 
-		screenShader->use();
+		screenShader->use(); 
 		glBindVertexArray(quadVAO);
 		glDisable(GL_DEPTH_TEST); // disable depth test so screen-space quad isn't discarded due to depth test.
 								  // clear all relevant buffers
+		glActiveTexture(GL_TEXTURE0);
 		glBindTexture(GL_TEXTURE_2D, textureColorbuffer); // use the color attachment texture as the texture of the quad plane
-
-		screenShader->setFloat("elapsedTime", currentTime);
-		screenShader->setBool("useNightVision", useNightvision);
+		//texture.setActiveTexture(2);
+		//screenShader->setInt("noiseTex", texture.getTexture(2));
+		//screenShader->setFloat("elapsedTime", currentTime);
+		//screenShader->setBool("useNightVision", useNightvision);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 
 
@@ -387,7 +387,7 @@ void Core::processMouse(Scene scene, std::vector<Model*> models)
 	{
 		cameraMove = !cameraMove;
 	}
-
+			
 	if (glfwGetKey(window->getWindow(), GLFW_KEY_1) == GLFW_PRESS) {
 		//fire
 		{
@@ -403,8 +403,7 @@ void Core::processMouse(Scene scene, std::vector<Model*> models)
 				0.01f, // Spawn every 
 				1); // count of particles
 		}
-	}
-	else if (glfwGetKey(window->getWindow(), GLFW_KEY_2) == GLFW_PRESS) {
+	} else if (glfwGetKey(window->getWindow(), GLFW_KEY_2) == GLFW_PRESS) {
 		//sparkling
 		{
 			particleSystem->SetGeneratorProperties(
