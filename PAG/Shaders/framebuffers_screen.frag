@@ -10,7 +10,8 @@ uniform float elapsedTime; // seconds for noise effect
 
 void main()
 {
-	if (useNightVision) {
+	FragColor = mix(texture(screenTexture, TexCoords), texture(noiseTex, TexCoords), 0.5);
+	/*if (useNightVision) {
 		vec2 uv;
 		uv.x = 0.35*sin(elapsedTime*50.0);
 		uv.y = 0.35*cos(elapsedTime*50.0);
@@ -27,5 +28,5 @@ void main()
 	}
 	else {
 		FragColor = texture(screenTexture, TexCoords);
-	}
+	}*/
 }

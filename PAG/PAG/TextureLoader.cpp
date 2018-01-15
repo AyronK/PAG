@@ -3,7 +3,7 @@ using namespace std;
 
 void TextureLoader::setActiveTexture(int id)
 {
-	glActiveTexture(GL_TEXTURE0);
+	glActiveTexture(GL_TEXTURE0 + id);
 	glBindTexture(GL_TEXTURE_2D, textures[id]);
 }
 
