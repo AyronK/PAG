@@ -7,9 +7,26 @@ uniform bool useNightVision;
 uniform sampler2D screenTexture;
 uniform sampler2D noiseTex;
 uniform float elapsedTime; // seconds for noise effect
+uniform sampler2D hdrBuffer;
+uniform bool hdr;
+uniform float exposure;
 
 void main()
 {
+	vec3 result = vec3(1.0, 1.0, 1.0);
+    if(hdr)
+    {
+		const float gamma = 2.2;
+		vec3 hdrColor = texture(hdrBuffer, TexCoords).rgb;
+        // reinhard
+        // result = hdrColor / (hdrColor + vec3(1.0));
+        // exposure
+         result = vec3(1.0) - exp(-hdrColor * exposure);
+        // gamma correction
+        result = pow(result, vec3(1.0 / gamma));
+        //FragColor = vec4(result, 1.0);
+    }
+
 	//FragColor = mix(texture(screenTexture, TexCoords), texture(noiseTex, TexCoords), 0.5);
 	//FragColor = texture(screenTexture, TexCoords);
 	if (useNightVision) {
@@ -25,9 +42,18 @@ void main()
 
 		vec3 visionColor = vec3(0, green, 0);
 
-		FragColor = vec4((sceneColor + (noise*0.2)) * visionColor, 1); //
+		FragColor = vec4((sceneColor + (noise*0.2)) * visionColor * result, 1); //
+
 	}
 	else {
-		FragColor = texture(screenTexture, TexCoords);
+		if(hdr)
+		{
+			FragColor = vec4(result, 1.0);
+		}
+		else 
+		{
+			FragColor = texture(screenTexture, TexCoords);
+		}
 	}
+	
 }

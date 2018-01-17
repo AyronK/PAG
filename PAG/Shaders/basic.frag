@@ -59,7 +59,8 @@ void main()
 	vec3 pointLight = getPointLight(viewDirection, normals);
 	vec3 spotLight = getSpotLight(viewDirection, normals);
 
-	vec3 lights = directionalLight + pointLight + spotLight;
+	//vec3 lights = directionalLight + pointLight + spotLight;
+	vec3 lights = pointLight + spotLight;
 
 	fragColor = getTexel() * vec4(lights, 1.0);
 }

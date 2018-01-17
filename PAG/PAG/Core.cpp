@@ -46,11 +46,17 @@ void Core::run()
 
 	glfwSetInputMode(window->getWindow(), GLFW_CURSOR, GLFW_CURSOR_DISABLED);
 	std::vector<Model*> models;
-	Model cubes("F:/Studia/Sem V/PAG/PAG/Objects/Cubes/source/Cubes.fbx", defaultShader.get());
-	Model nano("F:/Studia/Sem V/PAG/PAG/Objects/nanosuit/source/nanosuit.obj", defaultShader.get());
+	//Model cubes("F:/Studia/Sem V/PAG/PAG/Objects/Cubes/source/Cubes.fbx", defaultShader.get());
+	//Model nano("F:/Studia/Sem V/PAG/PAG/Objects/nanosuit/source/nanosuit.obj", defaultShader.get());
 	//Model nano2("F:/Studia/Sem V/PAG/PAG/Objects/nanosuit/source/nanosuit.obj", defaultShader.get());
 	//Model lambo("F:/Studia/Sem V/PAG/PAG/Objects/Lambo/source/Avent.obj", defaultShader.get());
-	Model plane("F:/Studia/Sem V/PAG/PAG/Objects/Plane/source/plane.FBX", defaultShader.get());
+	//Model plane("F:/Studia/Sem V/PAG/PAG/Objects/Plane/source/plane.FBX", defaultShader.get());
+
+
+	Model cubes("C:/Users/Ayron/Desktop/Studia/PAG/PAG/Objects/Cubes/source/Cubes.fbx", defaultShader.get());
+	Model nano("C:/Users/Ayron/Desktop/Studia/PAG/PAG/Objects/nanosuit/source/nanosuit.obj", defaultShader.get());
+	Model plane("C:/Users/Ayron/Desktop/Studia/PAG/PAG/Objects/Plane/source/plane.FBX", defaultShader.get());
+
 
 	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE); wireframe
 
@@ -128,7 +134,8 @@ void Core::run()
 	unsigned int textureColorbuffer;
 	glGenTextures(1, &textureColorbuffer);
 	glBindTexture(GL_TEXTURE_2D, textureColorbuffer);
-	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	//glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGB, GL_UNSIGNED_BYTE, NULL);
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA16F, SCREEN_WIDTH, SCREEN_HEIGHT, 0, GL_RGBA, GL_FLOAT, NULL);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_2D, textureColorbuffer, 0);
@@ -136,14 +143,17 @@ void Core::run()
 	unsigned int rbo;
 	glGenRenderbuffers(1, &rbo);
 	glBindRenderbuffer(GL_RENDERBUFFER, rbo);
-	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, SCREEN_WIDTH, SCREEN_HEIGHT); // use a single renderbuffer object for both a depth AND stencil buffer.
-	glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo); // now actually attach it
-																								  // now that we actually created the framebuffer and added all attachments we want to check if it is actually complete now
+	//glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH24_STENCIL8, SCREEN_WIDTH, SCREEN_HEIGHT); // use a single renderbuffer object for both a depth AND stencil buffer.
+	glRenderbufferStorage(GL_RENDERBUFFER, GL_DEPTH_COMPONENT, SCREEN_WIDTH, SCREEN_HEIGHT);
+	//glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_RENDERBUFFER, rbo); // now actually attach it
+	 glFramebufferRenderbuffer(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_RENDERBUFFER, rbo);
+  																							  // now that we actually created the framebuffer and added all attachments we want to check if it is actually complete now
 	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) != GL_FRAMEBUFFER_COMPLETE)
 		cout << "ERROR::FRAMEBUFFER:: Framebuffer is not complete!" << endl;
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 
 	screenShader->setInt("screenTexture", textureColorbuffer);
+	screenShader->setInt("hdrBuffer", 0);
 
 	while (!glfwWindowShouldClose(window->getWindow()) && game_is_running)
 	{
@@ -270,6 +280,8 @@ void Core::run()
 		screenShader->setInt("noiseTex", texture.getTexture(1));
 		screenShader->setFloat("elapsedTime", currentTime);
 		screenShader->setBool("useNightVision", useNightvision);
+		screenShader->setInt("hdr", hdr);
+		screenShader->setFloat("exposure", exposure);
 		glDrawArrays(GL_TRIANGLES, 0, 6);
 
 
@@ -287,7 +299,7 @@ Core::Core()
 		throw runtime_error("Cannot initialize GLFW");
 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 5);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 
 	window = std::make_unique<Window>();
@@ -355,6 +367,29 @@ void Core::processInput()
 		camera->cameraPos -= glm::normalize(glm::cross(camera->cameraFront, camera->cameraUp)) * speed;
 	if (glfwGetKey(window->getWindow(), GLFW_KEY_D) == GLFW_PRESS)
 		camera->cameraPos += glm::normalize(glm::cross(camera->cameraFront, camera->cameraUp)) * speed;
+
+	if (glfwGetKey(window->getWindow(), GLFW_KEY_SPACE) == GLFW_PRESS && !hdrKeyPressed)
+	{
+		hdr = !hdr;
+		hdrKeyPressed = true;
+	}
+	if (glfwGetKey(window->getWindow(), GLFW_KEY_SPACE) == GLFW_RELEASE)
+	{
+		hdrKeyPressed = false;
+	}
+
+	if (glfwGetKey(window->getWindow(), GLFW_KEY_Q) == GLFW_PRESS)
+	{
+		if (exposure > 0.0f)
+			exposure -= 0.05f;
+		else
+			exposure = 0.0f;
+	}
+	else if (glfwGetKey(window->getWindow(), GLFW_KEY_E) == GLFW_PRESS)
+	{
+		exposure += 0.05f;
+	}
+
 }
 
 void Core::processMouse(Scene scene, std::vector<Model*> models)

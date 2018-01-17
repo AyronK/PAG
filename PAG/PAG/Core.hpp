@@ -27,6 +27,11 @@ private:
 	void processInput();
 	void processMouse(Scene scene, std::vector<Model*> models);
 
+	//HDR
+	bool hdr = true;
+	bool hdrKeyPressed = false;
+	float exposure = 1.0f;
+
 	std::unique_ptr<Window> window;
 	std::unique_ptr<Shader> defaultShader;
 	std::unique_ptr<Shader> particlesShader;
