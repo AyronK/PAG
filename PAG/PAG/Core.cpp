@@ -239,9 +239,9 @@ void Core::run()
 		defaultShader->setBool("shouldReflect", false);
 		defaultShader->setBool("shouldRefract", false);
 
-		nano.getRootNode()->getNodeTransform()->translate(glm::vec3(15.0f, 0.0f, 0.0f));
+		/*nano.getRootNode()->getNodeTransform()->translate(glm::vec3(15.0f, 0.0f, 0.0f));
 		nano.draw(defaultShader.get());
-		nano.getRootNode()->getNodeTransform()->translate(glm::vec3(-30.0f, 0.0f, 0.0f));
+		nano.getRootNode()->getNodeTransform()->translate(glm::vec3(-30.0f, 0.0f, 0.0f));*/
 
 		texture.setActiveTexture(0);
 

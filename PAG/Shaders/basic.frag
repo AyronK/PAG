@@ -59,8 +59,8 @@ void main()
 	vec3 pointLight = getPointLight(viewDirection, normals);
 	vec3 spotLight = getSpotLight(viewDirection, normals);
 
-	//vec3 lights = directionalLight + pointLight + spotLight;
-	vec3 lights = pointLight + spotLight;
+	vec3 lights = directionalLight + pointLight + spotLight;
+	//vec3 lights = pointLight + spotLight;
 
 	fragColor = getTexel() * vec4(lights, 1.0);
 }
@@ -116,7 +116,7 @@ vec3 getSpotLight(vec3 viewDirection, vec3 normals)
 
 	vec3 diffuse = mdiffuse * spotColors * vec3(0.8f) * diff * intensity * attenuation;
 	vec3 specular = countSpecular(viewDirection, lightDirection, normals) * attenuation * intensity;
-	//vec3 ambient =   mambient * spotColors * vec3(1.2f) * attenuation;
+	vec3 ambient =   mambient * spotColors * vec3(1.2f) * attenuation;
 
 	return diffuse + specular;
 }
